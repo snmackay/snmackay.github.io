@@ -67,7 +67,7 @@ body, html {
     <a href="#about" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-user"></i> ABOUT</a>
     <a href="#classes" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-th"></i> CLASSES</a>
     <a href="#contact" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-envelope"></i> CONTACT</a>
-    <a href="old.html" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-globe"></i> OLD PAGE</a>
+    <!-- <a href="" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-globe"></i></a> -->
   </div>
 
   <!-- Navbar on small screens -->
@@ -75,7 +75,7 @@ body, html {
     <a href="#about" class="w3-bar-item w3-button" onclick="toggleFunction()">ABOUT</a>
     <a href="#classes" class="w3-bar-item w3-button" onclick="toggleFunction()">Classes</a>
     <a href="#contact" class="w3-bar-item w3-button" onclick="toggleFunction()">CONTACT</a>
-    <a href="old.html" class="w3-bar-item w3-button" onclick="toggleFunction()">OLD PAGE</a>
+    <!-- <a href="" class="w3-bar-item w3-button" onclick="toggleFunction()"></a> -->
   </div>
 </div>
 
@@ -95,10 +95,17 @@ body, html {
   </div>
 </div>
 <div class="w3-content w3-container w3-padding-64">
-  <p class="w3-center w3-large"><em>I love technology</em></p>
+  <h2 class="w3-center"><em>I love technology</em></h2>
   <p><h3>I'm a Senior in The Department of Computer Science at the University at Buffalo. I specialize in data science, IT, web development, and functional programming
   and I have an interest in machine learning. I have been building computers since I was in middle school and I do custom desktop design and upkeep
-  as a side business. In the future, I plan on getting better at functional programming as ml based languages are very interesting and powerful. </h3></p>
+  as a side business. I'm very interested in the development of programming languages and I'm particularly interested in working with functional programming languages
+  like Ocaml and SML. </h3></p>
+  <p>  </p>
+  <h2 class="w3-center">WHERE I WORK</h2>
+  <h3 class="w3-center"><em>The Department of Computer Science </em></h3>
+  <h3 class="w3-center"><em>&</em></h3>
+  <h3 class="w3-center"><em>The Departmnt of Engineering Education</em></h3>
+  <h3 class="w3-center"><em>University At Buffalo</em></h3>
   <div class="w3-row">
     <div class="w3-col m6 w3-center w3-padding-large">
       <p><b><i class="fa fa-user w3-margin-right"></i>A poor quality photo of me</b></p><br>
@@ -282,11 +289,7 @@ body, html {
 
 <!-- Container (Contact Section) -->
 <div class="w3-content w3-container w3-padding-64">
-  <h3 class="w3-center">WHERE I WORK</h3>
-  <p class="w3-center"><em>The Department of Computer Science </em></p>
-  <p class="w3-center"><em>&</em></p>
-  <p class="w3-center"><em>The Departmnt of Engineering Education</em></p>
-  <p class="w3-center"><em>University At Buffalo</em></p>
+
 
 
   <div class="w3-row w3-padding-32 w3-section">
@@ -303,7 +306,7 @@ body, html {
 </div>
 
 <!-- Footer -->
-<footer class="w3-center w3-black w3-padding-64 w3-opacity w3-hover-opacity-off">
+<footer class="w3-center w3-red w3-padding-64 w3-opacity w3-hover-opacity-off">
   <a href="#home" class="w3-button w3-light-grey"><i class="fa fa-arrow-up w3-margin-right"></i>To the top</a>
 
   <p>Powered With <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-text-green">w3.css</a></p>
@@ -339,6 +342,32 @@ function toggleFunction() {
     }
 }
 </script>
+
+
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/6.3.0/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#config-web-app -->
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyBO_zIrJf6eIKIdkyruYRAg4-77tYsFQUs",
+    authDomain: "my-website-221501.firebaseapp.com",
+    databaseURL: "https://my-website-221501.firebaseio.com",
+    projectId: "my-website-221501",
+    storageBucket: "",
+    messagingSenderId: "207076482244",
+    appId: "1:207076482244:web:767e24522cf2b657"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+</script>
+
+
+
+
 
 </body>
 </html>
