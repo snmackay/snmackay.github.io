@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+<title>Module 1: Memory</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
+</style>
+
+<style type="text/css">
+  <!--
+   .tab { margin-left: 40px; }
+  -->
+  </style>
+
+<body class="w3-blue">
+
+<!-- Page Container -->
+<div class="w3-content w3-margin-top" style="max-width:1500px;">
+
+  <!-- The Grid -->
+  <div class="w3-row-padding">
+
+    
+    
+    
+    <!-- Right Column -->
+    <div class="w3-threethird">
+    <br> <br> <!--to shift it all down-->
+    <!-- Opening Section -->
+      <div class="w3-container w3-card w3-light-grey">
+        <h1 class="w3-text-blue w3-padding-16"><i class="fa fa-home fa-fw w3-margin-right w3-xxlarge w3-text-blue"></i> MODULE 1: Pointers, References, and Memory Allocation</h1>
+        <div class="w3-container">
+          <h5 class="w3-text-black w3-text-center w3-padding-0"> 
+            This module contains resources for learning about pointers and memory in computer science. 
+            The module discusses these concepts in terms of the programming language C. 
+            Many of the same concepts apply to other programming languages.
+          </h5>
+          <h5 class="w3-text-black w3-text-center w3-padding-0">
+            The module contains multiple sections including written sections distilled from a number of resources that are also linked, as well as a section of videos.
+          </h5>
+
+          <h5 class="w3-text-black w3-text-center w3-padding-0">
+            The module ends with a number of example problems to practice with. 
+          </h5>
+
+          <h5 class="w3-text-black w3-text-center w3-padding-0">
+            It is best to start with either the videos or the written sections. The written sections are in order from how memory works to points to references to pointer arithmetic.  
+          </h5>
+          
+        </div>
+      </div>
+      <br>
+    
+      <br>
+      <!--COMPUTER MEMORY-->
+      <div class="w3-container w3-card w3-light-grey">
+        <h1 class="w3-text-blue w3-padding-16"><i class="fa fa-desktop fa-fw w3-margin-right w3-xxlarge w3-text-blue"></i> Section 1: COMPUTER MEMORY</h1>
+        
+        <h5 class="w3-text-black w3-text-center w3-padding-0"> 
+            Computers much like our brains need to have the ability to store, hold, and work with information. 
+            Typically we consider people to have short and long term memories. 
+            Short term memories are things we need to hold in our brains for a short time, such as the next step in a recipe when we are cooking. 
+            Long term memories are things we store for a longer time, such as meaningful events and things we have learned. 
+            <br><br> 
+            Computers work in much the same way. 
+            In our computer we have short term memory, commonly referred to as Random Access Memory or RAM.
+            We also have long term memory or storage, typical in the form of a hard disk drive (HDD) or solid state drive (SSD).
+            On our HDD or SSD, we find the files on our computer.
+            In our RAM, we find the programs and files that are currently open or actively in use. 
+            Memory is typically referred to in terms of bits. 
+            8 bits make up a byte of memory. 
+            Typically ram in current computers are gigabytes in size, with 8 to 32 gigabytes being commonplace amounts in consumer computers.
+            In terms of programming, it is this RAM we care about the most. 
+        </h5>
+        <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fnetworkustad.com%2Fwp-content%2Fuploads%2F2019%2F05%2Fbandwidth-table.png&f=1&nofb=1&ipt=07de49dc538b81206f309b7cc8730855f071c82634d827ef7d5e3ea0d9bed1eb&ipo=images" alt="bit conversion table" style="width:800px;height:600px;">
+        <br>
+        <br>
+        <h5 class="w3-text-black w3-text-center w3-padding-0">
+            When we are programming in some languages, including C or C++, we have direct access to the RAM that our program is assigned. 
+            This assignment of memory is done by our computer and the compiler, but we need to give it directions for it to work properly.
+            Memory in a computer can be thought of as being very similar to that of houses on a street. 
+            Each section of memory has an address. 
+            This address allows us to refer to what is held at this specific location in memory and keeps memory organized much like house addresses allow us to refer to a specific address on a road.
+            These addresses refer to specifically one byte of memory. 
+            Memory addresses are represented using hexademical. The following are examples of valid memory addresses:
+            <br><br>
+            <code class="w3-text-blue">0x00000000001</code><br>
+            <code class="w3-text-blue">0x00034AEEFC2</code><br>
+            <code class="w3-text-blue">0xDEADBEEF</code><br>
+            <code class="w3-text-blue">0x3A39AFE45</code>
+
+            <br><br>
+            As we can see, these addresses all have some things in common. 
+            Because they are hexadecimal numbers, we start them with the characters <code class="w3-text-blue">0x</code>.
+            These characters tell us that the following number is represented in base 16, or hexadecimal. 
+            Because the number is hexadecimal, it is composed of the following characters: <code class="w3-text-blue">0 1 2 3 4 5 6 7 8 9 A B C D E F</code>.
+            <br><br>
+
+            The memory in our computer that we access in our programs are divided commonly into two types: the stack and the heap. 
+            The stack consists primarily of primitives such as integers, longs, and doubles. 
+            The stack behaves exactly as it sounds. 
+            On a stack, new elements (variables) are added to the top. 
+            Elements are also removed from the top of stack as we finish using them. 
+            This organizational pattern is called First-In-Last-Out or FILO. 
+            These primitives have a specific size in terms of how much memory these use.
+            For example, an integer in a modern computer is 4 bytes or 32 bits in size. 
+            Below are examples of how we might create variables that will reside on this stack. 
+        </h5>
+        <h5 class="w3-text-blue w3-text-center w3-padding-0">
+            <code> int x = 44;
+                </code>
+            <br>
+            <code> int y = 13;
+                </code>
+            <br>
+            <code> long ex = 43.98;
+                </code>
+            <br>
+            <code> double dub =188.1114;
+                </code>
+        </h5>
+        
+        <h5 class="w3-text-black w3-text-center w3-padding-0">
+            Creating variables in our code on the stack is very simple and does not require any additional steps. 
+            This is known as static memory allocation because we do not need to do anything to allocate memory for these variables. 
+            Our program compiler takes care of this step for us because it knows based on the type of our variable how much memory it needs to allocate on this stack.
+            For example, <code class="w3-text-blue"> int x = 44;</code> is easy for the compiler to figure out. 
+            It knows that the type is int, which needs 4 bytes of memory regardless of what the value is that we want to store.
+            We can even reassign this variable to a different value later and the amount of memory needed doesn't change. 
+            <br><br>
+            The heap, on the other hand, behaves quite a bit differently. 
+            We can think of the heap as being a large mountain of memory.
+            Just like before, the heap has addresses to refer to each byte of memory.
+            However, we now need to specify in our code the amount of memory we actually want to use. 
+            This is because the heap allows us to define more complicated and larger things in our code.
+            For example, strings, arrays, and Objects (C++) are placed on this heap. 
+            However, because their size is not guarunteed, we need to assign how much space on the heap we actually need for these elements.
+            
+        </h5>
+        <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Funicminds.com%2Fwp-content%2Fuploads%2F2022%2F09%2FStackvsHeap-Expalined-for-Kids.png&f=1&nofb=1&ipt=4d96076ba9648c7870a23db0ebbabdf1db2e4491b1365e01b47e21f62e28eeec&ipo=images" alt="The stack and heap" style="width:800px;height:600px;">
+        <br>
+        <br>
+        <h5 class="w3-text-black w3-text-center w3-padding-0">
+            In section 2, below, we will discuss the concept of pointers, which are something we will need to further explore the heap. 
+            In section 3, we will continue looking at this idea of the heap. 
+            <br><br>
+
+            This section has been composed from the following sources. If you want additional resources, see the following links and videos:
+            <br>
+            Relevant Links:
+            <br>
+            <a href=https://www.geeksforgeeks.org/static-and-dynamic-memory-allocation-in-c/>Basics of Memory and static memory addressing</a> <br>
+            <a href="https://www.w3schools.com/c/c_memory_management.php">W3Schools Memory in C</a>
+            <br><br>
+
+            Relevant Videos: 
+            <br>
+            <iframe width="1000" height="600" src="https://www.youtube.com/embed/xyBbocLXbNY?si=qFf9Ji71ihNPol6P" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <br><br>
+            <iframe width="1000" height="600" src="https://www.youtube.com/embed/1KVpi0VN82E?si=0Ep_ssdhyhbSULc0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </h5>
+        
+      </div>
+      <br>
+
+      <!--POINTERS-->
+      <div class="w3-container w3-card w3-light-grey">
+        <h1 class="w3-text-blue w3-padding-16"><i class="fa fa-map-marker fa-fw w3-margin-right w3-xxlarge w3-text-blue"></i> SECTION 2: POINTERS</h1>
+        
+        <h5 class="w3-text-black w3-text-center w3-padding-0"> 
+            In the previous section we began discussing memory in a computer. 
+            In this section, we saw that creating primitive variables on the stack such as ints, longs, and doubles are very simple and the space they take up is assigned statically by the compiler when our code is executed. 
+            We also saw that the heap is our other area of memory we can access in our programs. 
+            This section will explore how we can refer to things we create on this heap, pointers.
+            <br><br>
+            Pointers are as simple as they sound; a pointer is a variable created to provide a reference to an address in memory we want to access. 
+            This address then provides us access to something in memory we wish to work with more. 
+            Let us consider an example of a pointer and break down it's components.
+            <br><br>
+            <code class="w3-text-blue">|     int x = 43;
+                </code>
+                <br>
+            <code class="w3-text-blue">|     int* y = &x;
+                </code>
+            <br><br>
+            On this first line, we create a variable in the same way we normally would. 
+            In this line we assign the value of 43 to the int variable x. 
+            Now lets say we want to be able to create a pointer to x.
+            To do this we say int*.
+            The * here tells our compiler that what we are trying to create is a pointer. 
+            We then set our pointer variable y to be equal to a reference to x (&x).
+            The & here means we want to make a reference to the variable x.
+            This allows us to do two different things. 
+            It allows us to access the value that has been assigned to the variable x through the reference. 
+            It also assigns y a value of the address where our variable x has been stored. 
+            Let us continue looking at our example from before:
+            <br><br>
+            <code class="w3-text-blue">|     int x = 43;
+                </code>
+                <br>
+            <code class="w3-text-blue">|     int* y = &x;
+                </code>
+                <br>
+            <code class="w3-text-blue">|     printf("Value at y = %p \n", y);
+                </code>
+                <br>
+            <code class="w3-text-blue">|     printf("Value at x = %d \n", x);
+                </code>
+                <br>
+            <code class="w3-text-blue">|     printf("Value at &y = %d \n", &y);
+                </code>
+            <br><br>
+            This code will print the following three lines when it is printed:
+            <br><br>
+            <code class="w3-text-blue">>     Value at y = 0x3A39AFE45
+                </code>
+                <br>
+            <code class="w3-text-blue">>     Value at x = 43
+                </code>
+                <br>
+            <code class="w3-text-blue">>     Value at &y = 43
+                </code>
+            <br><br>
+            Here we see that our pointer y can be used for two things. 
+            When we state &y this means we can reference the value stored at what our pointer is pointing to.
+            When we do this, we get the value stored at the memory address our pointer is pointing to. 
+            In this case it is the value assigned to the variable x, <code class="w3-text-blue">43</code>.
+            When we state y by itself then we get the value assigned to y, which as it's a pointer, is the address in memory we're pointing to. 
+            In this case, we get the value <code class="w3-text-blue"> 0x3A39AFE45 </code> because thats the address in memory where our variable x is located.
+
+            Relevant Links:
+            <br>
+            <a href=https://www.geeksforgeeks.org/c-pointers/>Pointers in C</a> <br>
+            <a href="https://www.w3schools.com/c/c_pointers.php">W3Schools Pointers in C</a>
+            <br><br>
+
+            Relevant Videos: 
+            <br>
+            <iframe width="1000" height="600" src="https://www.youtube.com/embed/2ybLD6_2gKM?si=xqM6dMSLEjN73DcR" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> 
+            <br> <br>
+            <iframe width="1000" height="600" src="https://www.youtube.com/embed/q24-QTbKQS8?si=bk4hurpk2GvTjpEk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <br><br>
+            <iframe width="1000" height="600" src="https://www.youtube.com/embed/i49_SNt4yfk?si=2ogULNn4r9zlKHEX" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <br><br>
+            <iframe width="1000" height="600" src="https://www.youtube.com/embed/qclZUQYZTzg?si=Pm5lfYg2lm_n-2aG" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+        </h5>
+        <br>
+        
+      </div>
+      <br>
+      <!--Videos-->
+      <div class="w3-container w3-card w3-light-grey w3-padding-large">
+        <h1 class="w3-text-blue w3-padding-16"><i class="fa fa-film fa-fw w3-margin-right w3-xxlarge w3-text-blue"></i> VIDEOS</h1>
+        <h5 class="w3-text-black w3-text-center w3-padding-0"> 
+            Below are video resources with a number of different explanations for how Pointers work in memory. 
+        </h5>
+        <h5 class="w3-text-black w3-text-center w3-padding-0"> 
+            The videos are listed in order similarly to how the written sections above are organized.  
+        </h5>
+        <br>
+        
+        <br><br>
+        
+        
+ 
+      </div>
+      
+
+
+      
+
+    <!-- End Right Column -->
+    </div>
+
+  <!-- End Grid -->
+  </div>
+
+  <!-- End Page Container -->
+</div>
+
+<footer class="w3-container w3-blue w3-center w3-margin-top">
+  <p> </p>
+  <a href="/repository" class=" w3-btn w3-white w3-text-blue w3-round-large "><i class="fa fa-home"></i> BACK TO REPOSITORY</a>
+  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+</footer>
+
+</body>
+</html>
