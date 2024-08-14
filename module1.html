@@ -18,6 +18,25 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
 
 <body class="w3-blue">
 
+<!-- Navbar (sit on top) -->
+<div class="w3-top">
+  <div class="w3-bar w3-grey w3-text-white" id="myNavbar">
+    <a href="/repository" class="w3-bar-item w3-btn w3-hover-light-blue w3-hide-small"><i class="fa fa-home"></i> MODULES</a>
+    <a href="#home" class="w3-bar-item w3-btn w3-hover-light-blue w3-hide-small"><i class="fa fa-home"></i> HOME</a>
+    <a href="#code" class="w3-bar-item w3-btn w3-hover-light-blue w3-hide-small"><i class="fa fa-briefcase"></i> CODING</a>
+    <a href="#computermemory" class="w3-bar-item w3-btn w3-hover-light-blue w3-hide-small"><i class="fa fa-desktop"></i> SECTION 1: COMPUTER MEMORY</a>
+    <a href="#pointers" class="w3-bar-item w3-btn w3-hover-light-blue w3-hide-small"><i class="fa fa-map-marker"></i> SECTION 2: POINTERS</a>
+    <a href="#s2practice" class="w3-bar-item w3-btn w3-hover-light-blue w3-hide-small"><i class="fa fa-book"></i> SECTION 2: PRACTICE </a>
+  </div>
+
+<!-- Navbar on small screens -->
+  <div id="navDemo" class="w3-bar-block w3-blue w3-hide w3-hide-large w3-hide-medium">
+    <a href="/cv" class="w3-bar-item w3-button" onclick="toggleFunction()">CURRICULUM VITAE</a>
+    <a href="/blog" class="w3-bar-item w3-button" onclick="toggleFunction()">MY BLOG</a>
+    <a href="/repository" class="w3-bar-item w3-button" onclick="toggleFunction()">LEARNING REPOSITORY</a>
+  </div>
+</div>
+
 <!-- Page Container -->
 <div class="w3-content w3-margin-top" style="max-width:1500px;">
 
@@ -27,37 +46,46 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
     
     
     
-    <!-- Right Column -->
+<!-- Right Column -->
     <div class="w3-threethird">
     <br> <br> <!--to shift it all down-->
-    <!-- Opening Section -->
-      <div class="w3-container w3-card w3-light-grey">
+    
+<!-- Opening Section -->
+      <div id="home" class="w3-container w3-card w3-light-grey">
         <h1 class="w3-text-blue w3-padding-16"><i class="fa fa-home fa-fw w3-margin-right w3-xxlarge w3-text-blue"></i> MODULE 1: Pointers, References, and Memory Allocation</h1>
         <div class="w3-container">
           <h5 class="w3-text-black w3-text-center w3-padding-0"> 
             This module contains resources for learning about pointers and memory in computer science. 
             The module discusses these concepts in terms of the programming language C. 
             Many of the same concepts apply to other programming languages.
-          </h5>
-          <h5 class="w3-text-black w3-text-center w3-padding-0">
-            The module contains multiple sections including written sections distilled from a number of resources that are also linked, as well as a section of videos.
-          </h5>
+            <br><br>
+            The module contains multiple sections beginning with a discussion of how memory works in C.
+            <br><br>
+            It is best to start with Section 1. Before section 1 is an embedded instance of OnlineGDB, an editing environment that allows you to write and compile C code online.
 
-          <h5 class="w3-text-black w3-text-center w3-padding-0">
-            The module ends with a number of example problems to practice with. 
           </h5>
-
-          <h5 class="w3-text-black w3-text-center w3-padding-0">
-            It is best to start with either the videos or the written sections. The written sections are in order from how memory works to points to references to pointer arithmetic.  
-          </h5>
+          <br>
+          
           
         </div>
       </div>
       <br>
-    
-      <br>
-      <!--COMPUTER MEMORY-->
-      <div class="w3-container w3-card w3-light-grey">
+
+<!== Code Environment -->
+      <div id="code" class="w3-threethird">
+        <div id="home" class="w3-container w3-card w3-light-grey">
+            <h1 class="w3-text-blue w3-padding-16"><i class="fa fa-briefcase fa-fw w3-margin-right w3-xxlarge w3-text-blue"></i> C CODING Environment</h1>
+            <div class="w3-container">
+                <iframe width="1420" height="1500" id="editor" src="https://www.onlinegdb.com/online_c_compiler"></iframe>
+            </div>
+        </div>
+      </div>
+
+      <br><br>
+
+
+<!--Section 1: COMPUTER MEMORY-->
+      <div id = "computermemory" class="w3-container w3-card w3-light-grey">
         <h1 class="w3-text-blue w3-padding-16"><i class="fa fa-desktop fa-fw w3-margin-right w3-xxlarge w3-text-blue"></i> Section 1: COMPUTER MEMORY</h1>
         
         <h5 class="w3-text-black w3-text-center w3-padding-0"> 
@@ -146,7 +174,8 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
         <br>
         <h5 class="w3-text-black w3-text-center w3-padding-0">
             In section 2, below, we will discuss the concept of pointers, which are something we will need to further explore the heap. 
-            In section 3, we will continue looking at this idea of the heap. 
+            In section 3, we will explore more advanced uses of pointers and references beyond their basic usage.
+            In section 4, we will continue looking at this idea of the heap. 
             <br><br>
 
             This section has been composed from the following sources. If you want additional resources, see the following links and videos:
@@ -167,8 +196,8 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
       </div>
       <br>
 
-      <!--POINTERS-->
-      <div class="w3-container w3-card w3-light-grey">
+<!--Section 2: POINTERS-->
+      <div id="pointers" class="w3-container w3-card w3-light-grey">
         <h1 class="w3-text-blue w3-padding-16"><i class="fa fa-map-marker fa-fw w3-margin-right w3-xxlarge w3-text-blue"></i> SECTION 2: POINTERS</h1>
         
         <h5 class="w3-text-black w3-text-center w3-padding-0"> 
@@ -177,15 +206,32 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
             We also saw that the heap is our other area of memory we can access in our programs. 
             This section will explore how we can refer to things we create on this heap, pointers.
             <br><br>
+            First, lets take a slight detour and consider the other side of this coin: references. 
+            References are specifically an address in memory. 
+            They are the physical location of a value in memory. 
+            For example, consider the following code: 
+            <br><br>
+            <code class="w3-text-blue">
+                |     int x = 43; <br>
+                |     printf("%p \n",&x);
+            </code>
+            <br><br>
+            If we run this code, we'll find that the printf statement will print a value that looks like a memory address.
+            If you are confused by the printf statement, the following is a video explaining printf in C. 
+            <br><br>
+            <iframe width="1000" height="600" src="https://www.youtube.com/embed/yBLApvS7fcY?si=dFWGJwdR48zCgZih" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <br><br>
+            What is printed here is actually just the memory address where our variable x is being stored on the stack. 
+            The <code class="w3-text-blue">&</code> symobol means we want to access the location of the variable x.
+            We'll use this knowledge now to create a pointer.
             Pointers are as simple as they sound; a pointer is a variable created to provide a reference to an address in memory we want to access. 
             This address then provides us access to something in memory we wish to work with more. 
             Let us consider an example of a pointer and break down it's components.
             <br><br>
-            <code class="w3-text-blue">|     int x = 43;
-                </code>
-                <br>
-            <code class="w3-text-blue">|     int* y = &x;
-                </code>
+            <code class="w3-text-blue">
+                |     int x = 43; <br>
+                |     int* y = &x;
+            </code>
             <br><br>
             On this first line, we create a variable in the same way we normally would. 
             In this line we assign the value of 43 to the int variable x. 
@@ -198,39 +244,39 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
             It allows us to access the value that has been assigned to the variable x through the reference. 
             It also assigns y a value of the address where our variable x has been stored. 
             Let us continue looking at our example from before:
+
             <br><br>
-            <code class="w3-text-blue">|     int x = 43;
-                </code>
-                <br>
-            <code class="w3-text-blue">|     int* y = &x;
-                </code>
-                <br>
-            <code class="w3-text-blue">|     printf("Value at y = %p \n", y);
-                </code>
-                <br>
-            <code class="w3-text-blue">|     printf("Value at x = %d \n", x);
-                </code>
-                <br>
-            <code class="w3-text-blue">|     printf("Value at &y = %d \n", &y);
-                </code>
+
+            <code class="w3-text-blue">
+            |     int x = 43; <br>
+            |     int* y = &x; <br>
+            |     printf("Value at y = %p \n", y); <br>
+            |     printf("Value at x = %d \n", x); <br>
+            |     printf("Value at &y = %d \n", *y);
+            </code>
+
             <br><br>
+
             This code will print the following three lines when it is printed:
             <br><br>
-            <code class="w3-text-blue">>     Value at y = 0x3A39AFE45
-                </code>
-                <br>
-            <code class="w3-text-blue">>     Value at x = 43
-                </code>
-                <br>
-            <code class="w3-text-blue">>     Value at &y = 43
-                </code>
+            <code class="w3-text-blue">
+            >     Value at y = 0x3A39AFE45 <br>
+            >     Value at x = 43 <br>
+            >     Value at *y = 43
+            </code>
             <br><br>
             Here we see that our pointer y can be used for two things. 
-            When we state &y this means we can reference the value stored at what our pointer is pointing to.
+            When we state *y this means we can access the VALUE that our pointer is pointing to.
             When we do this, we get the value stored at the memory address our pointer is pointing to. 
             In this case it is the value assigned to the variable x, <code class="w3-text-blue">43</code>.
             When we state y by itself then we get the value assigned to y, which as it's a pointer, is the address in memory we're pointing to. 
             In this case, we get the value <code class="w3-text-blue"> 0x3A39AFE45 </code> because thats the address in memory where our variable x is located.
+            <br> <br>
+            And thats the basics for pointers and references.
+            In section 3 we'll explore this concept further and look at some more complex examples. 
+            This section contains some example questions below it. 
+            For these try and work on them yourself, then view the hidden answers by clicking on them. 
+            <br><br> 
 
             Relevant Links:
             <br>
@@ -240,19 +286,71 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
 
             Relevant Videos: 
             <br>
-            <iframe width="1000" height="600" src="https://www.youtube.com/embed/2ybLD6_2gKM?si=xqM6dMSLEjN73DcR" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> 
+            
+            <iframe width="1450" height="800" src="https://www.youtube.com/embed/q24-QTbKQS8?si=bk4hurpk2GvTjpEk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <br><br>
+            <iframe width="1450" height="800" src="https://www.youtube.com/embed/i49_SNt4yfk?si=2ogULNn4r9zlKHEX" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <br><br>
+            <iframe width="1450" height="800" src="https://www.youtube.com/embed/qclZUQYZTzg?si=Pm5lfYg2lm_n-2aG" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <br><br>
+            <iframe width="1450" height="800" src="https://www.youtube.com/embed/47IS8VtAM9E?si=7FIf0rbRTKL7yr3R" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <br><br> 
+            <iframe width="1450" height="800" src="https://www.youtube.com/embed/DplxIq0mc_Y?si=tJCQ49qhH7cPgG1k" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             <br> <br>
-            <iframe width="1000" height="600" src="https://www.youtube.com/embed/q24-QTbKQS8?si=bk4hurpk2GvTjpEk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-            <br><br>
-            <iframe width="1000" height="600" src="https://www.youtube.com/embed/i49_SNt4yfk?si=2ogULNn4r9zlKHEX" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-            <br><br>
-            <iframe width="1000" height="600" src="https://www.youtube.com/embed/qclZUQYZTzg?si=Pm5lfYg2lm_n-2aG" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <iframe width="1450" height="800" src="https://www.youtube.com/embed/2ybLD6_2gKM?si=xqM6dMSLEjN73DcR" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> 
+            <br>
 
         </h5>
         <br>
         
       </div>
       <br>
+
+<!--Section 2 Practice Problems-->
+      <div id= s2practice class="w3-container w3-card w3-light-grey w3-padding-large">
+        <h1 class="w3-text-blue w3-padding-16"><i class="fa fa-map-marker fa-fw w3-margin-right w3-xxlarge w3-text-blue"></i> SECTION 2: PRACTICE</h1>
+        <h5 class="w3-text-black w3-text-center w3-padding-0"> 
+            <b class="w3-text-blue w3-text-theme=bold">Question 1:</b>
+            Given the following code snippet what will be printed when this is executed?<br><br>
+            <code class="w3-text-blue"> 
+                int datum = 300; <br>
+                int* ptr = &datum; <br>
+                int ptrval = *ptr; <br> <br>
+                printf("%d \n",datum); <br>
+                printf("%p \n",ptr); <br>
+                printf("%d \n",*ptr); <br>
+                printf("%d \n",ptrval); <br>
+
+                </code>
+                <br>
+            <details class="w3-text-blue">
+                <summary class="w3-text-black">Answer</summary>
+                300 <br>
+                0xAEC43532 (the address of datum) <br>
+                300 <br>
+                300 <br>
+
+            </details>
+           
+            <details class="w3-text-black">
+                <summary>Explanation</summary>
+                Our first print statement here is quite straightforward. 
+                It simply prints the value associated with our variable datum. <br>
+                Our second print statement here will print the address that our pointer is pointing to. <br>
+                Our third print statement here requests the value that our pointer variable ptr is pointing to, so the value of datum, or 300. <br>
+                Our fourth print statement works similarly to our third, except instead of accessing the value we are pointing to using ptr, we have a new variable ptrval that has been set rqul to the value that ptr is pointing at.
+            </details>
+
+        </h5>
+        <br>
+        
+        
+        
+        
+ 
+      </div>
+      <br>
+
       <!--Videos-->
       <div class="w3-container w3-card w3-light-grey w3-padding-large">
         <h1 class="w3-text-blue w3-padding-16"><i class="fa fa-film fa-fw w3-margin-right w3-xxlarge w3-text-blue"></i> VIDEOS</h1>
@@ -287,6 +385,8 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
   <p> </p>
   <a href="/repository" class=" w3-btn w3-white w3-text-blue w3-round-large "><i class="fa fa-home"></i> BACK TO REPOSITORY</a>
   <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+  <p>The code environment on this page is brought to you by <a href="onlinegdb.com">OnlineGDB.com</a></p>
+
 </footer>
 
 </body>
