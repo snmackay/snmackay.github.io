@@ -39,13 +39,19 @@
     <a href="#pointers" class="w3-bar-item w3-btn w3-hover-blue w3-hide-small"><i class="fa fa-asterisk"></i> 2: POINTERS</a>
     <a href="#s2practice" class="w3-bar-item w3-btn w3-hover-blue w3-hide-small"><i class="fa fa-asterisk"></i> 2: PRACTICE </a>
     <a href="#advanced" class="w3-bar-item w3-btn w3-hover-blue w3-hide-small"><i class="fa fa-asterisk"></i> 3: ADVANCED POINTERS </a>
+    <a href="#heap" class="w3-bar-item w3-btn w3-hover-blue w3-hide-small"><i class="fa fa-asterisk"></i> 4: HEAP ALLOCATION </a>
   </div>
 
 <!-- Navbar on small screens -->
   <div id="navDemo" class="w3-bar-block w3-blue w3-hide w3-hide-large w3-hide-medium">
-    <a href="/cv" class="w3-bar-item w3-button" onclick="toggleFunction()">CURRICULUM VITAE</a>
-    <a href="/blog" class="w3-bar-item w3-button" onclick="toggleFunction()">MY BLOG</a>
-    <a href="/repository" class="w3-bar-item w3-button" onclick="toggleFunction()">LEARNING REPOSITORY</a>
+    <a href="/repository" class="w3-bar-item w3-button" onclick="toggleFunction()">MODULES</a>
+    <a href="#home" class="w3-bar-item w3-button" onclick="toggleFunction()">HOME</a>
+    <a href="#code" class="w3-bar-item w3-button" onclick="toggleFunction()">CODING</a>
+    <a href="#computermemory" class="w3-bar-item w3-button" onclick="toggleFunction()">1: COMPUTER MEMORY</a>
+    <a href="#pointers" class="w3-bar-item w3-button" onclick="toggleFunction()">2: POINTERS</a>
+    <a href="#s2practice" class="w3-bar-item w3-button" onclick="toggleFunction()">2: PRACTICE</a>
+    <a href="#advanced" class="w3-bar-item w3-button" onclick="toggleFunction()">3: ADVANCED POINTERS</a>
+    <a href="#heap" class="w3-bar-item w3-button" onclick="toggleFunction()">4: HEAP ALLOCATION</a>
   </div>
 </div>
 
@@ -55,8 +61,6 @@
   <!-- The Center Column -->
   <div class="w3-row-padding">
 
-    
-    
     
 <!-- Column -->
     <div class="w3-threethird">
@@ -361,7 +365,125 @@
       <div id="advanced" class="w3-container w3-card w3-light-grey w3-padding-large">
         <h1 class="w3-text-blue w3-padding-16"><i class="fa fa-asterisk fa-fw w3-margin-right w3-xxlarge w3-text-blue"></i> SECTION 3: ADVANCED POINTER CONCEPTS</h1>
         <h5 class="w3-text-black w3-text-center w3-padding-0">
-            Relevant Links:<br>
+            In our last section we discussed the basic uses of pointers and references!
+            Now we're going to look at some more advanced uses of pointers. 
+            In the next section, we'll explore using these pointers for dynamic memory allocation. 
+            <br> <br>
+            This section will consider three specific concepts: double pointers, void pointers, and pointer math.
+            <br><br>
+            </h5>
+            <h2 class="w3-text-blue w3-text-center w3-padding-0">3.1: Double Pointers </h2>
+            <h5 class="w3-text-black w3-text-center w3-padding-0">
+            Consider the following section of code.
+            <pre><code class="language-c">
+              int main(){
+                int val = 5;
+                int *pval = &val;
+                int **d_pval = &pval;
+                printf("Value of val = %d\n", val);
+                printf("Value of val using single pointer = %d\n", *pval);
+                printf("Value of var using double pointer = %d\n", **d_pval);
+
+                return 0;
+              }
+
+              >Value of val = 5
+              >Value of val using a single pointer = 5
+              >Value of val using a double pointer = 5
+
+            </code></pre>
+            As we can see in this code we are defining three different variables. 
+            val is a simple integer with value 5. 
+            pval is a simple pointer much like what we've seen in section 2. 
+            d_pval is a pointer that we have defined to point to our first pointer.
+            This is a pointer to a pointer or a double pointer.
+            Let's consider another example, this time in terms of what's happening in memory.
+            As we can see in the image below we have var which is a variable with value 10.
+            ptr1 is a regular pointer. 
+            Its value is the memory address (location) of our variable var. 
+            ptr2 is a double pointer. 
+            Its value is the memory address (location) of our pointer ptr1. 
+            <br><br>
+            <img src="https://media.geeksforgeeks.org/wp-content/uploads/20230412184414/double-pointers-in-c.webp" alt="bit conversion table" style="width:800px;height:600px;"> 
+            <br><br>
+            </h5>
+
+            <h2 class="w3-text-blue w3-text-center w3-padding-0">3.2: Void Pointers </h2>
+
+            <h5 class="w3-text-black w3-text-center w3-padding-0">
+              So far with pointers we have defined pointers as having the same datatype as the data we are pointing to. 
+              Void pointers are a type of pointer that can point to any type of data and has no associated data type.
+              Consider the following block of code:
+              <pre><code class="language-c">
+                int main(){
+                  int a = 10;
+                  char b = 'x';
+ 
+                  // void pointer holds address of int 'a'
+                  void *p = &a;
+                  // void pointer reassigned to hold address of char 'b'
+                  p = &b;
+                  }  
+              </code></pre>
+
+              In this code, we define two variables a and b, with a being an int and b being a char.
+              We also have defined our void pointer, named p. 
+              At first, we see that p has been assigned a reference to our variable a. 
+              However, we can seamlessly reassign p to a reference to our variable b, despite the fact that a and b are different types of data.
+              This is great because we can access and reassign our pointer any time we want to anything we want. 
+              Getting access to the address we are pointing to is easy.
+              However, getting access to the value that we are pointing at is tricky. 
+              If we were to run the code below we would receive an error from the C compiler.
+              Relevant Links:<br>
+              <pre><code>
+                printf("%d", *p);
+              </code></pre>
+              This is because C needs to know the type of the data we are referring to when we dereference the pointer to get the value we are pointing to.
+              Instead, when we need access to the value we are pointing to we need to use the following code wherein we specify the type we are referring to when we dereference the pointer. 
+              <pre><code>
+                printf("%d",*(int*)ptr);
+              </code></pre>
+              <br><br>
+            </h5>
+
+            <h2 class="w3-text-blue w3-text-center w3-padding-0">3.2: Pointer Arithmetic </h2>
+
+            <h5 class="w3-text-black w3-text-center w3-padding-0">
+              So far we have seen how to define double pointers and how to create void pointers. 
+              One other concept that we often need to do is what is known as pointer arithmetic.
+              Pointers simply reference a specific address in memory as we have established. 
+              Sometimes we want to reference a different address in memory than what we initially had referenced. 
+              Sometimes we can do this simply by reassigning the pointer to a new address manually. 
+              However, other times we cannot. 
+              Take for example the following code: 
+              <pre><code>
+                int main(){
+                  int arr[2] = {34,56};
+                  void* parr = &arr;
+
+                  printf("%d",*(int*)parr);
+
+                  parr = parr+sizeof(int);
+                  printf("%d",*(int*)parr);
+
+                  return 0;
+                }
+              </code></pre>
+              In this example, we see that inside of our function, we first define an array containing two integers, 34 and 56. 
+              When we define a pointer to this array, we use a void pointer once more. 
+              The void pointer starts out pointing to the 0th index of the array. 
+              We can see this when we run the code and receive the following outputs. 
+              <pre><code>
+                >34
+                >56
+              </code></pre>
+              The first print statement prints out 34 because our pointer initially references the address of the 0th index of our array. 
+              Then we modify our pointer by adding the size of an integer. 
+              This shifts the pointer to point to the next address in memory or the next element in the array. 
+              We can do this for arrays of any other type. We can also use this to shift by larger amounts or structs. 
+              We can even use this to iterate over arrays or other data structures. 
+              We will see some of this in section 4 where we explore Malloc and heap memory allocation. 
+              <br><br>
             <a href="https://www.mycplus.com/tutorials/c-programming-tutorials/double-pointer-to-pointer-in-c/">Double Pointers Examples</a> <br>
             <a href="https://dev.to/noah11012/double-pointers-in-cc-2n96">Double Pointers Examples</a>
 
@@ -384,22 +506,141 @@
       <br>
 
 <!--Section 4 Dynamic Memory Allocation-->
-      <div class="w3-container w3-card w3-light-grey w3-padding-large">
+      <div id="heap" class="w3-container w3-card w3-light-grey w3-padding-large">
         <h1 class="w3-text-blue w3-padding-16"><i class="fa fa-asterisk fa-fw w3-margin-right w3-xxlarge w3-text-blue"></i> SECTION 4: DYNAMIC MEMORY ALLOCATION</h1>
-        <h5 class="w3-text-black w3-text-center w3-padding-0"> 
+        <h5 class="w3-text-black w3-text-center w3-padding-0">
+          Previously, we have looked at pointers, references, how to use them, and how stack memory allocation works. 
+          Thus far, all of the memory we have allocated has been on the stack.  
+          This includes variables and larger elements such as arrays which we looked at in the previous section with pointer math.
+          The heap is our other area of memory in our computer. 
+          The heap can be considered to be a larger, unordered section of memory that needs to be managed manually. 
+          To store stuff on the heap we need to utilise a memory allocator. 
+          C happens to have an excellent built in memory allocator called Malloc which we will be considering today.
+          Malloc allows us to simply specify the size of memory on the heap we want to allocate and the memory will be allocated for us. 
+          We don't need to do anything else.
+          However, this means that we need to have some idea of how much memory we are going to need prior to allocating it. 
+          Malloc is a function within C that we can call that takes as a parameter the size in bytes that we want to allocate. 
+          Let us consider the following code involving integers and allocating an integer array for 100 integers to the heap.
+          <pre><code>
+            int main(){
+              int* p = (int*) malloc(400);
+
+              return 0;
+            }
+          </code></pre>
+          Here we have define a pointer utilising malloc to allocate some memory on our heap.
+          Specifically we have allocated 400 bytes. 
+          Since an integer is 4 bytes this is room for an array of 100 integers. 
+          If we wanted to allocate a different number of integers or just speficy the number of integers we could instead do:
+          <pre><code>
+            int main(){
+              int* p = (int*) malloc(200*sizeof(int));
+
+              return 0;
+            }
+          </code></pre> 
+          This code should work to allocate a section of memory.
+          However, sometimes it is possible we will have run out of memory on the heap that we can allocate. 
+          When this happens our pointer will fail to be allocated. 
+          We can check this with the following:
+          <pre><code>
+            int main(){
+              int* p = (int*) malloc(200*sizeof(int));
+              if (p == NULL) {
+                printf("memory failed to allocate. \n");
+              }
+
+              return 0;
+            }
+          </code></pre>
+          If our memory has been allocated correctly, we can now populate the array and access the array elements using our pointer and pointer arithmetic like we saw in the last section.
+          For example, lets set each of the elements in an array of size 200 to be equal to the numbers 1-200 in order. 
+          <pre><code>
+            int main(){
+              int i;
+              int* p = (int*) malloc(200*sizeof(int));
+              if (p == NULL) {
+                printf("memory failed to allocate. \n");
+              }
+              else{
+                for(i = 0; i < 200; i++){
+                  p[i]=i+1;
+                }
+              }
+              //print the elements
+              for(i=0; i< 200; i++){
+                printf("%d, ",p[i]);
+              }
+
+              return 0;
+            }
+          </code></pre>
+          In this code block we have allocated 800 bytes for 200 integers, populated the memory, and printed out the results to our terminal.
+          When we execute this code, we will receive the numbers 1 to 200 printed out. 
+          <br><br>
+          Just like how we need to allocate memory we need to also free that memory up. 
+          We need to do this before we finish our code. 
+          Else we experience what is known as a memory leak. 
+          A memory leak just means that we have allocated memory that we can no longer access.
+          Because of this the memory is taken up but we have no way of accessing it or freeing it. 
+          To avoid this happening, we need to use something called free(). 
+          free() simply allows us to dynamically de-allocate memory. 
+          Consider the following code, which is very similar to our code before but now contains a free() call. 
+          <pre><code>
+            int main(){
+              int i;
+              int* p = (int*) malloc(200*sizeof(int));
+              if (p == NULL) {
+                printf("memory failed to allocate. \n");
+              }
+              else{
+                for(i = 0; i < 200; i++){
+                  p[i]=i+1;
+                }
+              }
+              //print the elements
+              for(i=0; i< 200; i++){
+                printf("%d, ",p[i]);
+              }
+
+              //dynamically deallocate memory
+              free(p);
+              p=NULL;
+              return 0;
+            }
+          </code></pre>
+          Here the code is almost the same until the last two steps.
+          The first step is calling free() a function built into C. 
+          free() takes in our pointer and frees the memory that has been allocated using the pointer. 
+          Secondly, we set our pointer to be equal to NULL. 
+          This means that we cannot try and access the memory after it has been deallocated which can be done and should be avoided. 
+          This can cause severe issues including potential security issues. 
+          <br><br>
+          Congrats! We have reached the end of Module 1 for now! 
+          More content will be added in the future but this is the basics of memory allocation both static and dynamic. 
+          <br><br>
+
             Below are video resources with a number of different explanations for how Pointers work in memory. 
         </h5>
         <h5 class="w3-text-black w3-text-center w3-padding-0"> 
             The videos are listed in order similarly to how the written sections above are organized.  
         </h5>
+        <iframe width="1000" height="600" src="https://www.youtube.com/embed/ryyCnpS3eOc?si=Jo0DhdImjNkSk6JF" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <br><br>
+        <iframe width="1000" height="600" src="https://www.youtube.com/embed/wDUiDd3KmAA?si=8fTVq9S9aBe8ywJs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <br><br>
+        <iframe width="1000" height="600" src="https://www.youtube.com/embed/udfbq4M2Kfc?si=fbWUci3iklelEZ0l" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <br><br>
+        <iframe width="1000" height="600" src="https://www.youtube.com/embed/5OJRqkYbK-4?si=p8xBimzxw6S10SXw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <br><br>
+        <iframe width="1000" height="600" src="https://www.youtube.com/embed/OiynRs3iKzI?si=5fbfkrGLaUXP738k" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
         <br>
  
       </div>
       <br>
         
         <br><br>
-        
-        
  
     </div>
 
