@@ -58,7 +58,7 @@
     
 <!-- Opening Section -->
       <div id="home" class="w3-container w3-card w3-light-grey">
-        <h1 class="w3-text-blue w3-padding-16"><i class="fa fa-home fa-fw w3-margin-right w3-xxlarge w3-text-blue"></i> MODULE 2: C DATA STRUCTURES</h1>
+        <h1 class="w3-text-blue w3-padding-16"><i class="fa fa-home fa-fw w3-margin-right w3-xxlarge w3-text-blue"></i> MODULE 2: DATA STRUCTURES</h1>
         <div class="w3-container">
           <h5 class="w3-text-black w3-text-center w3-padding-0"> 
             This module contains resources for learning about data structures in the C programming language. 
@@ -90,11 +90,253 @@
       <br><br>
 
 
-<!--Section 1: COMPUTER MEMORY-->
+<!--Section 1: Stacks and Queues-->
       <div id = "computermemory" class="w3-container w3-card w3-light-grey">
         <h1 class="w3-text-blue w3-padding-16"><i class="fa fa-desktop fa-fw w3-margin-right w3-xxlarge w3-text-blue"></i> Section 1: Stacks and Queues</h1>
         
         <h5 class="w3-text-black w3-text-center w3-padding-0"> 
+          Two of the basic data structures you will encounter are stacks and queues. 
+          First, we will consider stacks. 
+          To consider stacks, lets first think of a real world example. 
+          Consider the image below: <br>
+          <img src="https://www.startpage.com/av/proxy-image?piurl=https%3A%2F%2Fimg.freepik.com%2Ffree-vector%2Fhand-drawn-flat-design-stack-books-illustration_23-2149329902.jpg&sp=1725387757Tccdff901f0c3e856817dffc71d8a3482c4db473311613c932aec8d160fe64472" alt="stack of books" style="width:800px;height:600px;">
+          <br>
+          Stacks in computer science are very similar to a stack of books in terms of their properties. 
+          With a stack of books, when you add a new book you add it to the top of the pile typically. 
+          Adding a book in the middle or bottom of a pile is tricky. 
+          You often have to shift off the existing books down to where you want to add the book. 
+          <br><br>
+          In computer science stacks are a data structure with similar properties. 
+          Elements on a stack are added to the "top" or the end of the stack. 
+          We can only access the last-added element. 
+          If we want to access an element in the middle of our stack, we need to "pop" off all of the elements above it. 
+          Because of this, stacks have the property of "last-in first-out". 
+          This means that the last element added to a stack is the only element we can access at any given time. 
+          <br><br>
+          Lets consider how to implement a stack in code. We'll consider this in C. 
+          Consider what it is that we need to implement a stack.
+          First, we need a means of adding an element to the stack.
+          This is typically referred to as a push operation. 
+          Then we need to be able to remove an element from our stack. 
+          This is typically called a pop operation. 
+          Thirdly, we want to be able to see the most recently added element without removing this element. 
+          This is typically referred to as peak. 
+          <br><br>
+          Consider the following code:
+
+          <pre><code language=C>
+            #include stdio.h
+            #include stdlib.h
+              
+              int top = -1, inp_array[SIZE];
+              void push();
+              void pop();
+              void peek();
+              
+              int main(){
+                  int choice;
+              
+                  while (1==1){
+                      printf("Interact with your stack:\n");
+                      printf("1.Push the element\n2.Pop the element\n3.Peek\n4.End\n\n");
+                      printf("Enter the choice: ");
+                      scanf("%d", &choice);
+              
+                      switch (choice){
+                      case 1:
+                          push();
+                          break;
+                      case 2:
+                          pop();
+                          break;
+                      case 3:
+                          peek();
+                          break;
+                      case 4:
+                          exit(0);
+              
+                      default:
+                          printf("\nInvalid choice!!");
+                      }
+                  }
+              }
+              
+              void push(){
+                  int x;
+              
+                  if (top == SIZE - 1){
+                      printf("\nOverflow!!");
+                  }
+                  else{
+                      printf("\nEnter the element to be added onto the stack: ");
+                      scanf("%d", &x);
+                      top = top + 1;
+                      inp_array[top] = x;
+                  }
+              }
+              
+              void pop(){
+                  if (top == -1){
+                      printf("\nUnderflow!!");
+                  }
+                  else{
+                      printf("\nPopped element: %d", inp_array[top]);
+                      top = top - 1;
+                  }
+              }
+              
+              void peek(){
+                  if (top == -1){
+                      printf("\nUnderflow!!");
+                  }
+                  else{
+                      printf("\nElements present in the stack: \n");
+                      for (int i = top; i >= 0; --i)
+                          printf("%d\n", inp_array[i]);
+                  }
+              }
+
+          </code></pre>
+          In this code we are doing several things. 
+          First we define our array in memory which we'll use to hold our stack. 
+          We also define our main function. 
+          Here it simply allows us to interface with our stack via our terminal rather than just in code. 
+          Finally we have defined three functions. 
+          void push() checks to see if we have room in the memory we allocated for our stack to add an element then adds the element.
+          void pop() checks to see if there is an existing element on the stack then removes the "top" one if there are one or more elements. 
+          void peek() checks to see if there is an existing element on the stack then look at the "top" one if there are one or more elements.
+          <br><br>
+          Queues exist as a similar data structure to stacks but they are in reverse. 
+          While Stacks operate as a Last In First Out system where you can only access the last element added, queues give you access to old only the oldest element (the one added the longest ago).
+          We can think of a queue like we can think of a line of people waiting at a bank. 
+          People join the line (queue) but will not be called up until they have been waiting in the line the longest of anyone left. 
+          Queues are very similar. 
+          Elements are added to the back and accessed from the front of the queue. 
+          <br><br>
+          Lets consider how to make a queue. 
+          Queue's will have most of the same properties of a stack. 
+          However, we need to remove the oldest elements instead of the newest. 
+          Thus, the queue will be Fist In First Out (FIFO).
+          We still need a data store. 
+          We also need a means of pushing elements, popping elements, and peeking to see what the next element is. 
+          Let us consider the following code:
+          <pre><code>
+            #include stdio.h
+              # define SIZE 100
+              void enqueue();
+              void dequeue();
+              void show();
+              int inp_arr[SIZE];
+              int Rear = - 1;
+              int Front = - 1;
+              main()
+              {
+                  int ch;
+                  while (1)
+                  {
+                      printf("1.Enqueue Operation\n");
+                      printf("2.Dequeue Operation\n");
+                      printf("3.Display the Queue\n");
+                      printf("4.Exit\n");
+                      printf("Enter your choice of operations : ");
+                      scanf("%d", &ch);
+                      switch (ch)
+                      {
+                          case 1:
+                          enqueue();
+                          break;
+                          case 2:
+                          dequeue();
+                          break;
+                          case 3:
+                          show();
+                          break;
+                          case 4:
+                          exit(0);
+                          default:
+                          printf("Incorrect choice \n");
+                      } 
+                  } 
+              } 
+               
+              void enqueue()
+              {
+                  int insert_item;
+                  if (Rear == SIZE - 1)
+                     printf("Overflow \n");
+                  else
+                  {
+                      if (Front == - 1)
+                    
+                      Front = 0;
+                      printf("Element to be inserted in the Queue\n : ");
+                      scanf("%d", &insert_item);
+                      Rear = Rear + 1;
+                      inp_arr[Rear] = insert_item;
+                  }
+              } 
+               
+              void dequeue()
+              {
+                  if (Front == - 1 || Front > Rear)
+                  {
+                      printf("Underflow \n");
+                      return ;
+                  }
+                  else
+                  {
+                      printf("Element deleted from the Queue: %d\n", inp_arr[Front]);
+                      Front = Front + 1;
+                  }
+              } 
+               
+              void show()
+              {
+                  
+                  if (Front == - 1)
+                      printf("Empty Queue \n");
+                  else
+                  {
+                      printf("Queue: \n");
+                      for (int i = Front; i <= Rear; i++)
+                          printf("%d ", inp_arr[i]);
+                      printf("\n");
+                  }
+              }
+          </code></pre>
+          In this example, we have defined a queue in C much the same as we have defined a stack in C previously. 
+          However, this time we have done a couple of things differently. 
+          Notice that we create our array of memory in C in much the same way. 
+          However, we need access to the back of the queue and the front this time. 
+          This is because we need to be able to push or enqueue to the back of the queue and we need to pop or dequeue from the front of the queue. 
+          This means that we need two pointers, one to the front of the array of memory and one to the back. 
+          Next we need to have the same functions as we had before but they need to behave a little differently. 
+          enqueue() can be thought of as being the same as push(). 
+          enqueue() takes a new element being passed to this code from the terminal and adds it to the back of the queue. 
+          dequeue() takes the oldest element (the one at the front of the queue) and removes or pops it off the queue. 
+          show() behaves similarly to how peek would behave with a stack. 
+          show() lets us see the next element that we would pop without having to remove it first. 
+          <br><br>
+          Thats stacks and queues! 
+          Consider looking at the youtube links and other resources posted below. 
+          Also try implementing this stack and queue yourself in C or whatever language you would like using the programming environment above. 
+          <br><br>
+
+
+          Youtube Links: <br>
+          <iframe width="1000" height="600" src="https://www.youtube.com/embed/KInG04mAjO0?si=qQSfrd_qDDK8zIK6" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <br><br>
+          <iframe width="1000" height="600" src="https://www.youtube.com/embed/A4sRhuGkRb0?si=2o2KDtOWZm6dMMFc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <br><br>
+          <iframe width="1000" height="600" src="https://www.youtube.com/embed/FcIubL92gaI?si=3OlW66Ls_wSiKEXR" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <br><br>
+          <iframe width="1000" height="600" src="https://www.youtube.com/embed/D6gu-_tmEpQ?si=D1TDP6veipn2HKD2" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <br><br>
+          <iframe width="1000" height="600" src="https://www.youtube.com/embed/nqXaPZi99JI?si=XVcqj62tLDR5vHql" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+
+
+
             
         </h5>
         
