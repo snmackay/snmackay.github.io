@@ -34,6 +34,9 @@
   <div class="w3-bar w3-grey w3-text-white" id="myNavbar">
     <a href="/repository" class="w3-bar-item w3-btn w3-hover-blue w3-hide-small"><i class="fa fa-home"></i> MODULES</a>
     <a href="#home" class="w3-bar-item w3-btn w3-hover-blue w3-hide-small"><i class="fa fa-home"></i> HOME</a>
+    <a href="#code" class="w3-bar-item w3-btn w3-hover-blue w3-hide-small"><i class="fa fa-home"></i> CODING ENVIRONMENT</a>
+    <a href="#array" class="w3-bar-item w3-btn w3-hover-blue w3-hide-small"><i class="fa fa-home"></i> ARRAYS</a>
+    <a href="#stack" class="w3-bar-item w3-btn w3-hover-blue w3-hide-small"><i class="fa fa-home"></i> STACKS/QUEUES</a>
     
   </div>
 
@@ -41,6 +44,10 @@
   <div id="navDemo" class="w3-bar-block w3-blue w3-hide w3-hide-large w3-hide-medium">
     <a href="/repository" class="w3-bar-item w3-button" onclick="toggleFunction()">MODULES</a>
     <a href="#home" class="w3-bar-item w3-button" onclick="toggleFunction()">HOME</a>
+    <a href="#code" class="w3-bar-item w3-button" onclick="toggleFunction()">CODING ENVIRONMENT</a>
+    <a href="#array" class="w3-bar-item w3-button" onclick="toggleFunction()">ARRAYS</a>
+    <a href="#stack" class="w3-bar-item w3-button" onclick="toggleFunction()">STACKS/QUEUES</a>
+
     
   </div>
 </div>
@@ -65,7 +72,7 @@
             While other languages have different data structures in terms of their implementation, the concepts stay mostly the same. 
             Many of the same concepts apply to other programming languages.
             <br><br>
-            The module contains multiple sections beginning with a discussion of stacks and queues.
+            The module contains multiple sections beginning with arrays before moving onto a discussion of stacks and queues.
             <br><br>
             It is best to start with Section 1. Before section 1 is an embedded instance of OnlineGDB, an editing environment that allows you to write and compile C code online.
 
@@ -89,10 +96,117 @@
 
       <br><br>
 
+<!--Section 1: Arrays-->
+      <div id="array" class="w3-container w3-card w3-light-grey">
+        <h1 class="w3-text-blue w3-padding-16"> Section 1: Arrays</h1>
+        <h5 class="w3-text-black w3-text-center w3-padding-0">
+          One of the most simple data structures that we have for representing and storing information is that of an array. 
+          Arrays can be visualised like a shelf. 
+          On this shelf is a row of objects (could be books, pots, figurines, trophies, dishes, whatever else one puts on a shelf). 
+          We can access any of these objects just by knowing where on the shelf they are. 
+          We can take away one of these objects or we can replace an object with another one. 
+          We can also just look at it. 
+          In code, arrays are very similar. 
+          They are a single contiguous section of space where we can store information of a type we have specified. 
+          An integer array for example can store a number of integers.
+          Lets consider the following code wherein we define an array:
+          <pre><code language=C>
+            int nums[] = {20,14,35,45,22,66};
+            printf("%d",nums[1]);
 
-<!--Section 1: Stacks and Queues-->
-      <div id = "computermemory" class="w3-container w3-card w3-light-grey">
-        <h1 class="w3-text-blue w3-padding-16"><i class="fa fa-desktop fa-fw w3-margin-right w3-xxlarge w3-text-blue"></i> Section 1: Stacks and Queues</h1>
+            >prints out 14
+          </code></pre>
+          Considering this code we can notice several things. 
+          In this case we have created an array that contains 6 numbers. 
+          The first element of the array, 20, is stored at an index. 
+          This first index is 0. 
+          Thus, we say that arrays in C (and many other languages) are zero indexed in that the indexes of their elements starts at 0.
+          We see that when creating this array we first start by specifying the type of the array we are aiming to create. 
+          This type denotes what the datatype of the elements contained inside of the array will be. 
+          We then name the array and put [] to denote to C that what we are creating is an array. 
+          Finally we set it equal to an expression that denotes the elements inside of the array. 
+          In this case, we have defined the array without explicitly specifying a size. 
+          However, because we have made the array containing 6 elements that is the number of elements or indexes the array has. 
+          If we want to add more elements to the array then we would have to allocate a new array and move over the existing elements. 
+          <br><br>
+          In the example above, we have created the array with our elements all in one line. 
+          However, sometimes we want to allocate an array and not populate it immediately. 
+          We can do this in one of two ways: 
+          <pre><code language=C>
+            int nums[]={0,0,0,0,0,0};
+            nums[0]=45;
+            int nums2[6];
+            nums2[0]=45;
+          </code></pre>
+          Here we see that we can allocate the array in one of two ways. 
+          The first way is the same as what we had done already. 
+          Once we have added elements to our array we can always change them out for other elements after the fact. 
+          The second array we create, however, is a little different. 
+          For this one we specify a size of the array within the square brackets. 
+          In this case we have said 6, which means our array will have 6 slots for integers. 
+          We could set this to whatever size we want for this. 
+          However, we need to decide this ahead of time in C once more. 
+          In other languages we do not have this limitation necessarily.
+          <br><br>
+          Thus far we have created our arrays on the stack. 
+          For more information regarding the difference between the stack and the heap, see module 1 of this repository. 
+          We also have the ability to make our arrays on the heap. 
+          This allows us to allocate much larger arrays that can contain larger amounts of information. 
+          To do so we need to do the same thing as we have done thus far but we need to make a pointer to access this data.
+          For more information about pointers see module 1 of this repository. 
+          Consider the following code:
+          <pre><code language=C>
+            int main(){
+              int i;
+              int* p = (int*) malloc(200*sizeof(int));
+              if (p == NULL) {
+                printf("memory failed to allocate. \n");
+              }
+              else{
+                for(i = 0; i < 200; i++){
+                  p[i]=i+1;
+                }
+              }
+              //print the elements
+              for(i=0; i< 200; i++){
+                printf("%d, ",p[i]);
+              }
+
+              //dynamically deallocate memory
+              free(p);
+              p=NULL;
+              return 0;
+            }
+          </code></pre>
+          What we have done here is quite a bit more advanced. 
+          In this case, we have inside of our function main allocated an integer array. 
+          In this case we are using malloc to allocate a range of memory with room for 200 integers. 
+          We then check to see if the memory has been allocated by checking to see if the pointer is equal to NULL or note. 
+          If the memory has been allocated properly we can then populate this array. 
+          Once more we refer to memory in the array in much the same way as we have previously. 
+          We can refer to a specific index of our array using our pointer and the square brackets with our index specified in the brackets.
+          <br><br>
+          Useful Videos: <br>
+          <iframe width="1000" height="600" src="https://www.youtube.com/embed/eE9MnoS0lc0?si=KvA85Gh0Ieh-xGD-" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <br><br>
+          <iframe width="1000" height="600" src="https://www.youtube.com/embed/MOeGnamlUP4?si=LuaHFoCkX-ePlEKg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <br><br>
+          <iframe width="1000" height="600" src="https://www.youtube.com/embed/kdgq-OwsOs8?si=AOx19Z2eTYiHY8yR" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <br><br>
+          <iframe width="1000" height="600" src="https://www.youtube.com/embed/Vh4krbTnTAA?si=O0x73SYG5WxSE6NG" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <br><br>
+          <iframe width="1000" height="600" src="https://www.youtube.com/embed/u8I31l8Pwc4?si=ouf_KSkq4WCOW9o2" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <br><br>
+
+
+
+
+        </h5>
+      </div><br><br>
+
+<!--Section 2: Stacks and Queues-->
+      <div id = "stack" class="w3-container w3-card w3-light-grey">
+        <h1 class="w3-text-blue w3-padding-16"> Section 2: Stacks and Queues</h1>
         
         <h5 class="w3-text-black w3-text-center w3-padding-0"> 
           Two of the basic data structures you will encounter are stacks and queues. 
