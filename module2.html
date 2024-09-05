@@ -39,6 +39,7 @@
     <a href="#linked" class="w3-bar-item w3-btn w3-hover-blue w3-hide-small">LINKED LISTS</a>
     <a href="#stack" class="w3-bar-item w3-btn w3-hover-blue w3-hide-small">STACKS/QUEUES</a>
     <a href="#deque" class="w3-bar-item w3-btn w3-hover-blue w3-hide-small">DEQUES</a>
+    <a href="#tree" class="w3-bar-item w3-btn w3-hover-blue w3-hide-small">TREES</a>
     
   </div>
 
@@ -51,6 +52,7 @@
     <a href="linked" class="w3-bar-item w3-button" onclick="toggleFunction()">LINKED LISTS</a>
     <a href="#stack" class="w3-bar-item w3-button" onclick="toggleFunction()">STACKS/QUEUES</a>
     <a href="#deque" class="w3-bar-item w3-button" onclick="toggleFunction()">DEQUES</a>
+    <a href="#tree" class="w3-bar-item w3-button" onclick="toggleFunction()">TREES</a>
 
     
   </div>
@@ -733,10 +735,95 @@
       </h5>
       </div>
       <br>
-
-
       <br>
-        
+      <!--Section 5: Trees-->
+      <div id = "deque" class="w3-container w3-card w3-light-grey">
+        <h1 class="w3-text-blue w3-padding-16"> Section 5: Trees</h1>
+        <h5 class="w3-text-black w3-text-center w3-padding-0"> 
+          Thus far we have looked at some basic data structures that let us represent and store information in our programs. 
+          Now we are going to look at a more advanced data structure that is incredibly common. 
+          This section discusses the tree data structure in general. 
+          Links below will lead you to many of the different variations on trees that exist, as trees represent a family of a multitude of different data structures. 
+          This section will theoretically introduce trees and how they work. 
+          For specific tree implementations, see the links provided. 
+          <br><br>
+          Trees are a type of data structure that are, as the name suggests, modelled after trees in nature. 
+          Trees in nature have a base that branches into a series of branches that extend up from this base. 
+          At the end of the branches we find leaves. 
+          Trees in computer science are very similar. 
+          Consider the following image of a tree data structure: <br><br>
+          <img src="https://learnloner.com/wp-content/uploads/2023/04/10.png" alt="tree data structure" style="width:800px;height:600px;"> <br><br>
+          In this image we see a basic tree data structure. 
+          At the top of the image, we see a singular node. 
+          This node is referred to as the root node. 
+          Just like in a linked list, trees are comprised of these nodes that are connected together via references to the other nodes. 
+          Below this root, we see that there are two nodes connected to the root node. 
+          These nodes are referred to as the root's children. 
+          These children also have children all the way down to the bottom nodes. 
+          These bottom nodes that do not have children are typically referred to as leaves. 
+          Each node that do not have child nodes attached to them are leaves regardless of their location on the tree. 
+          In this example image, we see that each node is attached to at most 1 parent node and 2 children nodes. 
+          This is what's known as a binary tree. 
+          It is called a binary tree because it has at most bi (2) child nodes attached to each parent node. 
+          Not all trees are binary; some may have three child nodes per parent node, some may not have a specific maximum number of nodes. 
+          How many child nodes and the structure of the tree depends on how you choose to define it. 
+          In essence we can see that this is similar to a linked list, but it has a range more connections. 
+          Rather than having a previous and next value like a doubly linked list, a node on a tree has a potential parent node and potential child nodes.
+          <br><br>
+          With a tree, we say that the tree begins with the root (at the top of the image above). 
+          Hanging off this root node, are connections to all of the other nodes on the tree.
+          Each node has a subtree of nodes connected to it below it (its children and their children). 
+          This is referred to as a subtree of our overall tree.
+          Each node in the tree tracks it's parent node as a connection as well as it's children. 
+          The root node has no parent, so it's parent connection would be set to NULL. 
+          Leaf nodes do not have any child nodes as they are the bottom of the tree. 
+          Thus, their children connections would be set to NULL. 
+          <br><br>
+          This serves as simply a short summary of tree data structures as there exist a varied number of implementations of trees. 
+          However, all trees follow this general structure. 
+          Below are links to a variety of resources and videos for different styles of tree data structures. 
+          <br><br>
+          <b>Regular Trees:</b> <br>
+          <a href="https://www.geeksforgeeks.org/introduction-to-tree-data-structure/">Geeks for Geeks Introduction to Trees</a><br>
+          <a href="https://www.w3schools.com/dsa/dsa_theory_trees.php">W3Schools Trees</a>
+          <br><br>
+          <iframe width="1000" height="600" src="https://www.youtube.com/embed/1-l_UOFi1Xw?si=_gucntoBvfK2ce_M" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <br><br>
+          <iframe width="1000" height="600" src="https://www.youtube.com/embed/Etpc_-br5rI?si=XKKV2jCabjYlIcuj" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <br><br>
+          <iframe width="1000" height="600" src="https://www.youtube.com/embed/UHxtjVsOTHc?si=0F2y68XKPFwE8ffp" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <br><br>
+          <iframe width="1000" height="600" src="https://www.youtube.com/embed/UbhlOk7vjVY?si=Oc0mzQbXBafVwKYc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <br><br>
+          <b>Binary Search Trees:</b> <br>
+          <iframe width="1000" height="600" src="https://www.youtube.com/embed/b_NjndniOqY?si=QlBnhZUSJNbGP115" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <br><br>
+          <iframe width="1000" height="600" src="https://www.youtube.com/embed/mtvbVLK5xDQ?si=XlDV7Ro8eNnq0OSQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <br><br>
+          <iframe width="1000" height="600" src="https://www.youtube.com/embed/fDKIpRe8GW4?si=pa91nxdLSV8vWzYq" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <br><br>
+          <iframe width="1000" height="600" src="https://www.youtube.com/embed/Gt2yBZAhsGM?si=wPB03JjyvImJ4iap" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <br><br>
+          <b>Red-Black Trees:</b> <br>
+          <iframe width="1000" height="600" src="https://www.youtube.com/embed/qvZGUFHWChY?si=QiEEiUTh7D9avo7U" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <br><br>
+          <iframe width="1000" height="600" src="https://www.youtube.com/embed/aPqz3jyl8ak?si=vcFrp-e6k_zJNtYb" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <br><br>
+          <iframe width="1000" height="600" src="https://www.youtube.com/embed/t-oiZnplv7g?si=hAAx1nJE29acFH6F" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <br><br>
+          <iframe width="1000" height="600" src="https://www.youtube.com/embed/5IBxA-bZZH8?si=RRqsBx2x0RMqp7c1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <br><br>
+          <iframe width="1000" height="600" src="https://www.youtube.com/embed/JwgeECkckRo?si=2G_1mod5pIqZmIdi" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <br><br>
+          <b>B-Trees:</b><br>
+          <iframe width="1000" height="600" src="https://www.youtube.com/embed/K1a2Bk8NrYQ?si=1hBYtL6IHe-bI8nc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <br><br>
+          <iframe width="1000" height="600" src="https://www.youtube.com/embed/FgWbADOG44s?si=D7PoPlYQyDTjAi2J" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <br><br>
+
+
+        </h5>
+      </div>
         <br><br>
  
     </div>
