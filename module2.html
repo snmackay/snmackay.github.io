@@ -34,9 +34,11 @@
   <div class="w3-bar w3-grey w3-text-white" id="myNavbar">
     <a href="/repository" class="w3-bar-item w3-btn w3-hover-blue w3-hide-small"><i class="fa fa-home"></i> MODULES</a>
     <a href="#home" class="w3-bar-item w3-btn w3-hover-blue w3-hide-small"><i class="fa fa-home"></i> HOME</a>
-    <a href="#code" class="w3-bar-item w3-btn w3-hover-blue w3-hide-small"><i class="fa fa-home"></i> CODING ENVIRONMENT</a>
-    <a href="#array" class="w3-bar-item w3-btn w3-hover-blue w3-hide-small"><i class="fa fa-home"></i> ARRAYS</a>
-    <a href="#stack" class="w3-bar-item w3-btn w3-hover-blue w3-hide-small"><i class="fa fa-home"></i> STACKS/QUEUES</a>
+    <a href="#code" class="w3-bar-item w3-btn w3-hover-blue w3-hide-small">CODING ENVIRONMENT</a>
+    <a href="#array" class="w3-bar-item w3-btn w3-hover-blue w3-hide-small">ARRAYS</a>
+    <a href="#linked" class="w3-bar-item w3-btn w3-hover-blue w3-hide-small">LINKED LISTS</a>
+    <a href="#stack" class="w3-bar-item w3-btn w3-hover-blue w3-hide-small">STACKS/QUEUES</a>
+    <a href="#deque" class="w3-bar-item w3-btn w3-hover-blue w3-hide-small">DEQUES</a>
     
   </div>
 
@@ -46,7 +48,9 @@
     <a href="#home" class="w3-bar-item w3-button" onclick="toggleFunction()">HOME</a>
     <a href="#code" class="w3-bar-item w3-button" onclick="toggleFunction()">CODING ENVIRONMENT</a>
     <a href="#array" class="w3-bar-item w3-button" onclick="toggleFunction()">ARRAYS</a>
+    <a href="linked" class="w3-bar-item w3-button" onclick="toggleFunction()">LINKED LISTS</a>
     <a href="#stack" class="w3-bar-item w3-button" onclick="toggleFunction()">STACKS/QUEUES</a>
+    <a href="#deque" class="w3-bar-item w3-button" onclick="toggleFunction()">DEQUES</a>
 
     
   </div>
@@ -72,7 +76,7 @@
             While other languages have different data structures in terms of their implementation, the concepts stay mostly the same. 
             Many of the same concepts apply to other programming languages.
             <br><br>
-            The module contains multiple sections beginning with arrays before moving onto a discussion of stacks and queues.
+            The module contains multiple sections beginning with arrays before moving onto a discussion of linked lists then stacks and queues.
             <br><br>
             It is best to start with Section 1. Before section 1 is an embedded instance of OnlineGDB, an editing environment that allows you to write and compile C code online.
 
@@ -98,7 +102,7 @@
 
 <!--Section 1: Arrays-->
       <div id="array" class="w3-container w3-card w3-light-grey">
-        <h1 class="w3-text-blue w3-padding-16"> Section 1: Arrays</h1>
+        <h1 class="w3-text-blue w3-padding-16"><b> Section 1: Arrays</b></h1>
         <h5 class="w3-text-black w3-text-center w3-padding-0">
           One of the most simple data structures that we have for representing and storing information is that of an array. 
           Arrays can be visualised like a shelf. 
@@ -186,7 +190,7 @@
           Once more we refer to memory in the array in much the same way as we have previously. 
           We can refer to a specific index of our array using our pointer and the square brackets with our index specified in the brackets.
           <br><br>
-          Useful Videos: <br>
+          <b>Useful Videos:</b> <br>
           <iframe width="1000" height="600" src="https://www.youtube.com/embed/eE9MnoS0lc0?si=KvA85Gh0Ieh-xGD-" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
           <br><br>
           <iframe width="1000" height="600" src="https://www.youtube.com/embed/MOeGnamlUP4?si=LuaHFoCkX-ePlEKg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
@@ -204,9 +208,143 @@
         </h5>
       </div><br><br>
 
-<!--Section 2: Stacks and Queues-->
+<!--Section 2: Linked-Lists -->
+      <div id="linked" class="w3-container w3-card w3-light-grey">
+        <h1 class="w3-text-blue w3-padding-16"><b>Section 2: Linked Lists</b></h1>
+        <h5 class="w3-text-black w3-text-center w3-padding-0">
+          In this section we will discuss a second data structure commonly used in programming. 
+          This data structure, known as a linked list, consists of nodes that are chained together. 
+          Think of a linked list as being similar to a row of posts in the ground with ropes tied between the posts. 
+          Each of the posts are connected to at most two other posts, the one behind and the one in front of them in the line. 
+          A linked list data structure is very similar. 
+          It consists of nodes that are attached to their neighbour nodes. 
+          <br><br>
+          There are typically two types of linked lists. 
+          Singly linked lists are the simpler of the two types of linked lists. 
+          In a singly linked list, each node knows about the next node in the list. 
+          In a singly linked list, however, nodes do not have any knowledge of the node linked BEFORE the current node.
+          This means that if you're working with a singly linked list and you need to have knowledge of what node came before this is something you will not have. 
+          In a doubly linked list, each node has knowledge of it's previous node and it's next node. 
+          Consider the following image illustrating singly vs doubly linked lists: 
+          <img src="https://media.geeksforgeeks.org/wp-content/cdn-uploads/gq/2013/03/Linkedlist.png" alt="a singly linked list" style="width:800px;height:200px"><br><br>
+          <img src="https://media.geeksforgeeks.org/wp-content/cdn-uploads/gq/2014/03/DLL1.png" alt="doubly linked list" style="width:800px;height:200px">
+          <br>
+          In the top image, we see a singly linked list. 
+          In this case, each node has a link (arrow) to the next node in the "chain".
+          We can see that once a node has been "visited" and we move onto the next node in the "chain" we cannot go back to the previous node. 
+          This is a limitation of singly linked lists that doubly linked lists solve. 
+          Doubly linked lists do use a bit more memory. 
+          They need to maintain knowledge about the previous node as well as the next node. 
+          This way, we can traverse a doubly linked list in either direction either forwards or backwards. 
+          Both singly and doubly linked lists have their own benefits. 
+          Singly linked lists are more efficient in terms of the resources required to implement them. 
+          Singly linked lists only need to maintain half as many links between nodes, meaning that they take up less memory. 
+          Doubly linked lists, however, allow for far easier access to each of the nodes, and typically doubly linked lists are the better of the two to implement unless you have very limited resources. 
+          <br><br>
+          Now, let us consider how to implement linked lists in C. 
+          Other programming languages will implement them in similar, though generally simpler ways. 
+          The first step we will need is to define a struct in C for our nodes. 
+          This allows us to easily create and add new nodes to our linked list. 
+          <pre><code language=C>
+            //define our struct for our nodes
+            typedef struct node {
+              int value;
+              struct node*next;
+            }node_t;
+
+            //create our first node. 
+            node_t * head = NULL;
+            head = (node_t *) malloc(sizeof(node_t));
+            if (head == NULL) {
+              return 1;
+            }
+
+            head->value = 42;
+            head->next = NULL;
+          </code></pre>
+          In this code we have first made a struct that allows us to create as many nodes as we need. 
+          The struct defines a value property for each node as well as has a recursive step that lets us define the node as having a next property. 
+          This lets us link the node to the next node in the linked list. 
+          Once we have defined this struct, we can start work on defining our first node. 
+          This node is typically called the head and represents the front of our linked list. 
+          When traversing a linked list, we start at this head typically and move to the next node all the way down to the tail of the list.
+          In this case, we are defining simply a singly linked list. 
+          Thus, we define the node as having a next value, which for the first node added we set to NULL since we dont have any more nodes. 
+          We also give our node a value using the value property we defined in the struct. 
+          Now lets say we want to add another node. We can do so very simply by changing the ->next property:
+          <pre><code language =C>
+            //create the list as before and specify the head.
+            node_t * head = NULL;
+            head = (node_t *) malloc(sizeof(node_t));
+            if (head==NULL) {
+              return 1;
+            }
+
+            //specify the head's value 
+            head->value = 42;
+            //add a new node onto the linked list.
+            head->next = (node_t *) malloc(sizeof(node_t));
+            head->next->value = 43;
+            //make sure to set the value after this new node to NULL
+            head->next->next = NULL;
+          </code></pre>
+          Here we have defined our nodes in much the same way as we had previously. 
+          We make our initial list then add our first node to the list. 
+          Then we change the next property of our initial node to be equal to a new node and we allocate the memory for it in much the same way as we did for the previous one. 
+          Then we can set the value of the next node as well as set the next node after it to NULL. 
+          We can do this as many times as we would like, adding as many nodes as we see fit. 
+          <br><br>
+          Now, lets consider how to traverse a linked list such as the one we have made so far. 
+          Before we look at this, its important to note which type of list it is that we have made thus far. 
+          This is a singly linked list not a doubly linked list. 
+          For it to be a doubly linked list, we would need to modify the code to have a previous as well as a next value for each of the nodes. 
+          For the first node in the linked list, the previous value would be set to NULL. 
+          For the purposes of this example, we will continue to consider a singly linked list. 
+          <pre><code language = C>
+            void print_linked_list(node_t * head) {
+              node_t * position = head;
+          
+              while (position != NULL) {
+                  printf("%d\n", position->val);
+                  position = position->next;
+              }
+            }
+          </code></pre>
+          In this code, we have defined a function called print_linked_list. 
+          This function takes in a pointer to the head of a linked list. 
+          The first step of traversing this linked list is creating a new pointer that we'll refer to as our iterator. 
+          This iterator allows us to access each of the elements of the linked list one at a time in order from the head to the tail. 
+          It is important that we do create this pointer instead of using our head and shifting it.
+          Were we to reassign the value of our head pointer this would mean we have lost access to the head of our list. 
+          Inside of our while loop, we first print then reassign our iterator pointer. 
+          This allows us to move along the linked list from the first value in the list to the last value in order using ->next. 
+
+
+          <br><br>
+          <b>Useful Links:</b> Here are some useful links to resources explaining more about linked lists that were used in the development of this repository. <br>
+          <a href = https://www.learn-c.org/en/Linked_lists>Learn-C.org linked lists</a> <br>
+          <a href = https://www.geeksforgeeks.org/difference-between-singly-linked-list-and-doubly-linked-list/>Singly vs. Doubly Linked Lists</a> <br><br>
+          <b>Useful Videos:</b><br>
+          <iframe width="1000" height="600" src="https://www.youtube.com/embed/N6dOwBde7-M?si=APAPG2qQgGy-_A5V" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <br><br>
+          <iframe width="1000" height="600" src="https://www.youtube.com/embed/njTh_OwMljA?si=4y6vbVcyI2Tl9P59" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <br><br>
+          <iframe width="1000" height="600" src="https://www.youtube.com/embed/F8AbOfQwl1c?si=1FRQTOFjs7JMkC9h" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <br><br>
+          <iframe width="1000" height="600" src="https://www.youtube.com/embed/HDSszyCM7Tk?si=1OmAza_xnDtheI5c" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <br><br>
+          <iframe width="1000" height="600" src="https://www.youtube.com/embed/dti0F7w3yOQ?si=llKnJPzHpMntAfIt" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <br><br>
+          <iframe width="1000" height="600" src="https://www.youtube.com/embed/7Fz7JSvlr9g?si=s7-eORcSenCxuZx3" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+
+
+        </h5>
+      </div><br><br>
+
+<!--Section 3: Stacks and Queues-->
       <div id = "stack" class="w3-container w3-card w3-light-grey">
-        <h1 class="w3-text-blue w3-padding-16"> Section 2: Stacks and Queues</h1>
+        <h1 class="w3-text-blue w3-padding-16"> Section 3: Stacks and Queues</h1>
         
         <h5 class="w3-text-black w3-text-center w3-padding-0"> 
           Two of the basic data structures you will encounter are stacks and queues. 
@@ -447,13 +585,152 @@
           <iframe width="1000" height="600" src="https://www.youtube.com/embed/D6gu-_tmEpQ?si=D1TDP6veipn2HKD2" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
           <br><br>
           <iframe width="1000" height="600" src="https://www.youtube.com/embed/nqXaPZi99JI?si=XVcqj62tLDR5vHql" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-
-
-
-
-            
+  
         </h5>
         
+      </div>
+      <br><br>
+      <!--Section 4: Deques-->
+      <div id = "deque" class="w3-container w3-card w3-light-grey">
+        <h1 class="w3-text-blue w3-padding-16"> Section 4: Doubly-Ended Queues (Deques)</h1>
+        <h5 class="w3-text-black w3-text-center w3-padding-0"> 
+          In the previous section, we considered stacks and queues, which can be seen as the opposite of eachother. 
+          With a stack, we add elements and take them off the "top" much like we do a stack of books or magazines. 
+          With a queue, we add elements to the back and pop them off the front, much like a line at a bank teller. 
+          There exists a variation on stacks and queues that combines the two previous data structures. 
+          This combined data structure is known as a deque or doubly-ended queue. 
+          Unlike a stack or queue we can add elements and remove elements from either the front or the back of the deque at will. 
+          We, thus, maintain knowledge of both ends of our deque, hence doubly-ended queue. 
+          <br><br>
+          We can think of a deque as being similar to a tube that contains a bunch of marbles. 
+          Both ends of the tube are open. 
+          From each end we can add another marble to the tube, or pull out the marble that is closest to the end of the tube. 
+          We can do this from either end of the tube, but we do not have the ability to access one of the marbles in the middle of the tube. 
+          To do this, we would still need to remove marbles and place them elsewhere until we reach the marble we're looking for.
+          To see this more clearly, consider the following diagram: <br>
+          <img src="https://media.geeksforgeeks.org/wp-content/uploads/20240522173105/Deque-Representatio.png" alt="doubly-ended queue" style="width:800px;height:300px;">
+          <br><br>
+          Now, lets consider how we can implement a dequeue in C. 
+          Consider the following code block:
+          <pre><code language=C>
+            #include <stdio.h>
+            #include <stdlib.h>
+              
+            int maximum =10;  // Define maximum size of the deque
+              
+              int deque[maximum]; //implement using an array
+              int front = -1;
+              int back = -1;
+              
+              // Check if the deque is full
+              int full() {
+                  return ((front == 0 && back == maximum - 1) || (front == back + 1));
+              }
+              
+              // See if the deque is empty
+              int empty() {
+                  return (front == -1);
+              }
+              
+              // Insert element at front of deque
+              void addFront(int key) {
+                  if (isFull()) { //check to see if we have room left in the deque
+                      printf("Deque is full.\n");
+                      return;
+                  }
+              
+                  if (front == -1) {  // If deque is initially empty
+                      front = 0;
+                      back = 0;
+                  } else if (front == 0) {
+                      front = maximum - 1;  // wrap around
+                  } else {
+                      front = front - 1;
+                  }
+              
+                  deque[front] = key;
+                  printf("Inserted %d at the front.\n", key);
+              }
+              
+              // Insert element at back of deque
+              void insertBack(int key) {
+                  if (isFull()) {
+                      printf("Deque is full.\n");
+                      return;
+                  }
+              
+                  if (back == -1) {  // If deque is initially empty
+                      front = 0;
+                      back = 0;
+                  } else if (back == maximum - 1) {
+                      back = 0;  // wrap around
+                  } else {
+                      back = back + 1;
+                  }
+              
+                  deque[back] = key;
+                  printf("Inserted %d at the back.\n", key);
+              }
+              
+              // Delete an element from the front of the deque
+              void deleteFront() {
+                  if (isEmpty()) {
+                      printf("Error, deque is empty.\n");
+                      return;
+                  }
+              
+                  int removed = deque[front];
+              
+                  if (front == back) {  // Deque has only one element
+                      front = -1;
+                      back = -1;
+                  } else if (front == maximum - 1) {
+                      front = 0;  // wrap around
+                  } else {
+                      front = front + 1;
+                  }
+              
+                  printf("Deleted %d from the front.\n", removed);
+              }
+              
+              // Delete an element from the back of the deque
+              void deleteBack() {
+                  if (isEmpty()) {
+                      printf("Deque is empty.\n");
+                      return;
+                  }
+              
+                  int removed = deque[back];
+              
+                  if (front == back) {  // Deque has only one element
+                      front = -1;
+                      back = -1;
+                  } else if (back == 0) {
+                      back = maximum - 1;  // wrap around
+                  } else {
+                      back = back - 1;
+                  }
+              
+                  printf("Deleted %d from the rear.\n", removed);
+              }
+          </code></pre>
+          In this code block, we have done a number of things. 
+          First, we create our array in memory with a maximum size. 
+          This allows us to check and see if we have run out of space. 
+          We also create variables that are our front and back indices for the array. 
+          We could do this on the heap using pointers as well if we need to allocate a larger deque or a deque for a non primitive type. 
+          We then declare multiple functions for adding elements as well as removing elements from the front and the back of the deque. 
+          We could also define functions that would be used for implementing peeking at the front or the back of the deque as well if we want to see the element without removing it. 
+          <br><br>
+          <b>Useful Links:</b><br>
+          <a href="https://www.geeksforgeeks.org/c-implementation-double-ended-queue/">Guide on Doubly Linked Lists in C</a> <br>
+          <br>
+          <b>Youtube Videos:</b> <br>
+          <iframe width="1000" height="600" src="https://www.youtube.com/embed/6XENFGIgEjU?si=gsrM0utD94ST33_L" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <br><br>
+          In Python: <br>
+          <iframe width="1000" height="600" src="https://www.youtube.com/embed/34SNQHapJYE?si=oZ6XGm7-mJ7vh-R7" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </h5>
       </div>
       <br>
 
