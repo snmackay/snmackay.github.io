@@ -788,9 +788,9 @@
           However, all trees follow this general structure. 
           Below is the implementation of a basic binary tree. 
           <pre><code language=C>
-            #include <stdio.h>
-            #include <stdlib.h>
-            #include <string.h>
+            #include stdio.h
+            #include stdlib.h
+            #include string.h
               
             /* A tree node. Holds pointers to left and right sub-trees, and some data (a string).
              */
@@ -874,11 +874,26 @@
                   return 0;
               }
           </code></pre>
+          The code for implementing a tree listed here contains a number of components.
+          First, we define a node type using a struct at the top of the code. 
+          Next we have our main piece of functionality. 
+          This is our insert function. 
+          This function checks to see if a string being inserted into the tree already exists. 
+          If it does, we ignore it. 
+          This is a design choice. In some forms of trees, we could have duplicate values. 
+          For the purposes of this example tree structure we do not allow for duplicates. 
+          If the element we want to insert is not a duplicate, we then insert it either to the left or the right of the current node. 
+          This allows us to balance the tree and make sure that it grows evenly. 
+          <br><br>
+          This has just been a relatively quick introduction to trees.
           Below are links to a variety of resources and videos for different styles of tree data structures. 
           <br><br>
           <b>Regular Trees:</b> <br>
           <a href="https://www.geeksforgeeks.org/introduction-to-tree-data-structure/">Geeks for Geeks Introduction to Trees</a><br>
           <a href="https://www.w3schools.com/dsa/dsa_theory_trees.php">W3Schools Trees</a>
+          <br><br>
+          <b>Red-Black Trees:</b> <br>
+          <a href="https://brilliant.org/wiki/red-black-tree/">Brilliant.org red-black trees</a><br>
           <br><br>
           <iframe width="1000" height="600" src="https://www.youtube.com/embed/1-l_UOFi1Xw?si=_gucntoBvfK2ce_M" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
           <br><br>
@@ -922,6 +937,61 @@
       <div id = "graph" class="w3-container w3-card w3-light-grey">
         <h1 class="w3-text-blue w3-padding-16"> Section 6: Graphs</h1>
         <h5 class="w3-text-black w3-text-center w3-padding-0"> 
+            In this section, we will discuss the last of our primary forms of data structures most commonly encountered, graphs. 
+            Graphs are very similar to trees in terms of their components. 
+            A graph consists of nodes connected together with edges or connections.
+            However, unlike with a tree, a graph does not have a specific node that acts as a root. 
+            Nor are there explicitly leaf nodes.
+            We can take any node as being a "root" temporarily and consider the other nodes connecting to it like it is a tree.
+            However, it will not take the form of a tree precisely. 
+            Consider the following image of a graph: <br><br>
+            <img src="https://web.cecs.pdx.edu/~sheard/course/Cs163/Graphics/graph7.png" alt="graph data structure" style="width:800px;height:400px;"> <br><br>
+
+            The following section is organised into three parts, first discussing the basics of graphs. 
+            The second portion discusses graph traversals. 
+            Graph traversals refers to when you want to look around a graph and see what is there. 
+            For example, lets say you have a graph with nodes that contains values and you want to see if a specific value already exists on the graph.
+            You can do this using a graph traversal algorithm such as Breadth First Search (BFS) or Depth First Search (DFS).
+            The final section discusses finding the shortest path across a graph (shortest way of travelling between any two nodes). 
+            <br><br>
+            <b>Graph Basics</b>
+            <br>
+            <iframe width="1000" height="600" src="https://www.youtube.com/embed/-VgHk7UMPP4?si=8uzS5MBF8xzjF4cj" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <br><br>
+            <iframe width="1000" height="600" src="https://www.youtube.com/embed/LFKZLXVO-Dg?si=6fZCg_FdEau7zwu4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <br><br>
+            <b>Breadth First Search (BFS) and Depth First Search (DFS)</b>
+            <br>
+            <iframe width="1000" height="600" src="https://www.youtube.com/embed/zaBhtODEL0w?si=5diCumyfl5QF7SIq" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <br><br>
+            <iframe width="1000" height="600" src="https://www.youtube.com/embed/pcKY4hjDrxk?si=teKOzjL81CLEU0Pe" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <br><br>
+            <iframe width="1000" height="600" src="https://www.youtube.com/embed/oDqjPvD54Ss?si=Y93jEwcke_XaHSvJ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <br><br>
+            <iframe width="1000" height="600" src="https://www.youtube.com/embed/xlVX7dXLS64?si=zCtp7WaiXXgaTLkG" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <br><br>
+            <iframe width="1000" height="600" src="https://www.youtube.com/embed/7Cox-J7onXw?si=yKYeCEpVDGe29Fjz" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <br><br>
+            <iframe width="1000" height="600" src="https://www.youtube.com/embed/7fujbpJ0LB4?si=GF1wNP1gEHriGuB0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <br><br>
+            <iframe width="1000" height="600" src="https://www.youtube.com/embed/by93qH4ACxo?si=rgmaFIWrzRWh7zwX" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <br><br>
+            <b>Shortest Path on a Graph:</b>
+            <br>
+            <iframe width="1000" height="600" src="https://www.youtube.com/embed/_lHSawdgXpI?si=iHWsO7R_8MdgVHe8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <br><br>
+            <iframe width="1000" height="600" src="https://www.youtube.com/embed/bZkzH5x0SKU?si=_rs9VdGx-Yj7vujs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <br><br>
+            <iframe width="1000" height="600" src="https://www.youtube.com/embed/zNEX9-4eZu8?si=FOLDp0RtAOulSB_T" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <br><br>
+            <iframe width="1000" height="600" src="https://www.youtube.com/embed/pSqmAO-m7Lk?si=Ln1xM9bBOazRVsLy" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <br><br>
+            <iframe width="1000" height="600" src="https://www.youtube.com/embed/obWXjtg0L64?si=SzCjkMRtO2tdDYjL" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <br><br>
+            <iframe width="1000" height="600" src="https://www.youtube.com/embed/lyw4FaxrwHg?si=1pmzOQCQaf-AaO3k" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <br>
+
+            <br>
 
         </h5>
       
