@@ -34,6 +34,11 @@
   <div class="w3-bar w3-grey w3-text-white" id="myNavbar">
     <a href="/repository" class="w3-bar-item w3-btn w3-hover-blue w3-hide-small"><i class="fa fa-home"></i> MODULES</a>
     <a href="#home" class="w3-bar-item w3-btn w3-hover-blue w3-hide-small"><i class="fa fa-home"></i> HOME</a>
+    <a href="#types" class="w3-bar-item w3-btn w3-hover-blue w3-hide-small"><i class="fa fa-home"></i> PROOF TYPES</a>
+    <a href="#syntax" class="w3-bar-item w3-btn w3-hover-blue w3-hide-small"><i class="fa fa-home"></i> PROOF SYNTAX</a>
+    <a href="#direct" class="w3-bar-item w3-btn w3-hover-blue w3-hide-small"><i class="fa fa-home"></i> DIRECT PROOFS</a>
+    <a href="#contradiction" class="w3-bar-item w3-btn w3-hover-blue w3-hide-small"><i class="fa fa-home"></i> PROOF BY CONTRADICTION</a>
+    <a href="#induction" class="w3-bar-item w3-btn w3-hover-blue w3-hide-small"><i class="fa fa-home"></i> PROOF BY INDUCTION</a>
     
   </div>
 
@@ -120,7 +125,7 @@
       <br>
       <br>
       <!--Section 2: Proof Syntax-->
-      <div id = "computermemory" class="w3-container w3-card w3-light-grey">
+      <div id = "syntax" class="w3-container w3-card w3-light-grey">
         <h1 class="w3-text-blue w3-padding-16"><i class="fa fa-desktop fa-fw w3-margin-right w3-xxlarge w3-text-blue"></i> Section 2: Syntax and Set Theory</h1>
         
         <h5 class="w3-text-black w3-text-center w3-padding-0"> 
@@ -190,7 +195,7 @@
         <br><br>
 
       <!--Section 3: Direct Proofs-->
-      <div id = "computermemory" class="w3-container w3-card w3-light-grey">
+      <div id = "direct" class="w3-container w3-card w3-light-grey">
         <h1 class="w3-text-blue w3-padding-16"><i class="fa fa-desktop fa-fw w3-margin-right w3-xxlarge w3-text-blue"></i> Section 3: Direct Proofs</h1>
         <h5 class="w3-text-black w3-text-center w3-padding-0"> 
           In section 2, we discussed much of the symbolism and the basics of how we set up proofs. 
@@ -221,7 +226,102 @@
         </div>
         <br><br>
         
+        <!--Section 4: Proof by Contradiction-->
+      <div id = "contradiction" class="w3-container w3-card w3-light-grey">
+        <h1 class="w3-text-blue w3-padding-16"><i class="fa fa-desktop fa-fw w3-margin-right w3-xxlarge w3-text-blue"></i> Section 4: Proof by Contradiction</h1>
+        <h5 class="w3-text-black w3-text-center w3-padding-0"> 
+          In this section, we will discuss the second common form of mathematical proof that is used in computer science. 
+          This is what is known as proof by contradiction. 
+          The goal behind proof by contradiction is generally to prove a statement as being false. 
+          <br><br>
+          For example, lets take the statement: "All sorting algorithms have a runtime no lower than O(n squared)".
+          We can set up a proof by contradiction to disprove this statement relatively trivially. 
+          Lets first restate this in mathematical terms:
+          <pre><code>There exists the set of all well-defined known sorting algorithms, 
+where &forall; algorithms in this set, the runtime is never lower asymptotically than O(n squared).</code></pre>
+          This statement, we take to be the subject of what we are trying to disprove. 
+          Our goal with this proof is simple: we need to find a sorting algorithm that has a runtime that is not O(n squared).
+          One example should come to mind relatively quickly: Merge sort. 
+          We know that merge sort has a runtime of O(n log(n)).
+          We also know that there exists well-formed proofs that we can refer to as justification for this runtime. 
+          We can use these existing proofs for the runtime of merge sort as a lemma in our proof by contradiction. 
+          Thus, we can say that there exists a sorting algorithm that has a runtime of O (n log(n)).
+          We now need to show that O(n log(n)) is less than O (n squared).
+          Once we have accomplished this, we have shown that there exists a sorting algorithm that disproves our original statement. 
+          Thus the statement we are trying to disprove is indeed incorrect and has been disproven.
+          We can set up the full proof as follows:
+          <br> <br>
+          - There exists the set of all known well-defined sorting algorithms, where &forall; algorithms in this set, the runtime is never lower asymptotically than O(n squared).<br>
+          - We accept that there exists a range of known and defined sorting algorithms, and that Merge Sort &isin; the set of all sorting algorithms.<br>
+          - We accept that Merge Sort has been proven as a correct sorting algorithm. <br>
+          - We also accept that Merge Sort has been proven as having a runtime of O(n log(n)). <br>
+          -O (n log(n)) is asymptotically faster than O (n squared). <br>
+          -Therefore we see that our statement that &forall; algorithms in the set of sorting algorithms the runtime is never lower than O (n squared) is false by proof by contradiction. <br><br>
+          
+          It is worth noting that this is a relatively simple example.
+          It is also worth noting that for this proof to be complete, we would need an inductive portion to this proof for it to be fully complete, as we need to show that n logn grows more slowly than n squared.
+          If you would like more examples, consider the videos and articles linked below. <br><br>
+
+          Links: <br>
+          <a href="https://www.math-cs.gordon.edu/courses/mat231/notes/proof-contradiction.pdf">Gordon.edu introduction to Proof by Contradiction.</a><br>
+          <a href="https://www2.edc.org/makingmath/mathtools/contradiction/contradiction.asp">Proof by Contradiction edc.org</a><br>
+          <a href="https://brilliant.org/wiki/contradiction/">Brilliant.org proof by contradiction.</a>
+          <br><br>
+
+          Videos: <br>
+          <iframe width="1000" height="600" src="https://www.youtube.com/embed/huGWXh4l1M0?si=1mOf-wg9z1jYXx3-" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><br>
+          <iframe width="1000" height="600" src="https://www.youtube.com/embed/sRDwsfNDXak?si=jdOzgY01_MmIoHrp" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><br>
+          <iframe width="1000" height="600" src="https://www.youtube.com/embed/CpW0ZJ7i0oc?si=rAVZElKGAi9-0Ozv" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><br>
+          <iframe width="1000" height="600" src="https://www.youtube.com/embed/qZ736F8ljYU?si=g3AUmXtA9W2kYyYc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><br>
+          <iframe width="1000" height="600" src="https://www.youtube.com/embed/a4BlnDjeK4Y?si=dCR-ajqdEu4CErEO" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><br>
+          <iframe width="1000" height="600" src="https://www.youtube.com/embed/b-kFWP9a2tw?si=BRxK2Ob0Y_64GN8x" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><br>
+
+
+          </h5>
+          </div>
+
         <br><br>
+      <!--Section 5: Proof by Induction-->
+      <div id = "induction" class="w3-container w3-card w3-light-grey">
+        <h1 class="w3-text-blue w3-padding-16"><i class="fa fa-desktop fa-fw w3-margin-right w3-xxlarge w3-text-blue"></i> Section 5: Proof by Induction</h1>
+        <h5 class="w3-text-black w3-text-center w3-padding-0">
+          In the two previous sections we discussed two of the simpler forms of proofs utilized in computer science. 
+          Proof by induction is the third and the most common of the forms of proofs used in computer science, and is what we will be discussing in this section.
+          <br><br>
+          Proof by induction can be thought of as being very similar to recursion. 
+          In recursion, we accept that we have an base case and a recursive case. 
+          In induction, we have a base case, or a case we want to prove where our input is 1. 
+          For example, lets say we are proving an algorithm's runtime is correct.
+          We would first prove that what we claim our algorithm's runtime is holds true for a case where our input value is 1. 
+          Next, we want to prove that our algorithm is correct for the n case. 
+          In the n case, n represents an arbitrary input value. 
+          For example, if we are looking to prove the runtime of an algorithm, n would be our arbitrary n case where n is some value >1. 
+          Once we have proven that it holds true for any arbitrary n value, the inductive step aims to prove that this pattern will continue indefinitely. 
+          This is known as the inductive step or n+1 step. 
+          <br><br>
+          As with our other proof sections, there are a lot of different examples of inductive proofs. 
+          Thus, consider the links and videos that have been provided below. 
+          <br><br>
+          Links:<br>
+          <a href="https://www.mathcentre.ac.uk/resources/uploaded/mathcentre-proof.pdf">Mathcentre.ac.uk Proof by Induction</a><br>
+          <a href="https://math.libretexts.org/Courses/Mount_Royal_University/Mathematical_Reasoning/3%3A_Number_Patterns/3.1%3A_Proof_by_Induction">LibreTexts Proof by Induction</a><br>
+          <a href="https://calcworkshop.com/proofs/proof-by-induction/">CalcWorkshop Proof by Induction</a><br>
+          <a href="https://everythingcomputerscience.com/discrete_mathematics/Proof_by_Induction.html">Everythingcomputerscience.com proof by induction</a>
+          <a href="https://www.cs.ucdavis.edu/~franklin/ecs20/2012/fall/induction_handout.pdf">UC Davis Proof by Induction</a>
+
+          <br><br>
+          Videos: <br>
+          <iframe width="1000" height="600" src="https://www.youtube.com/embed/wblW_M_HVQ8?si=v9ofEvKe0uTm2jqU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><br>
+          <iframe width="1000" height="600" src="https://www.youtube.com/embed/tHNVX3e9zd0?si=1U8C19CEwdS9aMyy" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><br>
+          <iframe width="1000" height="600" src="https://www.youtube.com/embed/GdM_iA1Zek4?si=t0n43uI32FHHTFQG" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><br>
+          <iframe width="1000" height="600" src="https://www.youtube.com/embed/Tm2PJPvAULs?si=TOMw0x9OewaQ7wWa" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><br>
+          <iframe width="1000" height="600" src="https://www.youtube.com/embed/0VIIRBLH1WI?si=IEiwBqcOwTw7Wqdc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><br>
+          <iframe width="1000" height="600" src="https://www.youtube.com/embed/vmFQM5_cN84?si=sBdDJMkBg_hIOEZ0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><br>
+          <iframe width="1000" height="600" src="https://www.youtube.com/embed/tgDBrAUW9QU?si=q2KsYy5B4FUiv3Xd" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><br>
+          <iframe width="1000" height="600" src="https://www.youtube.com/embed/fSxRr_Q-DN8?si=Dh82UYoKQltp9hf2" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+          </h5>
+          </div> 
  
     </div>
 
