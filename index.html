@@ -1,129 +1,362 @@
 <!DOCTYPE html>
 <html>
-<title>Hi!</title>
+<title>Sean's Home Page</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
-
-body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", Lato;}
-body, html {
-    height: 100%;
-    width: 100%;
-    
-    line-height: 1.8;
-}
-
-/* Create a Parallax Effect */
-.bgimg-1, .bgimg-2, .bgimg-3 {
-    background-attachment: fixed;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-
-/* First image (Logo. Full height) */
-.bgimg-1 {
-    background-image: url('images/lateral.jpg');
-    min-height: 87%;
-    min-width: 80%;
-}
-
-/* Second image (Portfolio) */
-.bgimg-2 {
-    background-image: url('images/mountain.jpg');
-    min-height: 400px;
-}
-
-/* Third image (Contact) */
-.bgimg-3 {
-    background-image: url('images/Background2.jpg');
-    min-height: 400px;
-}
-
-a {
-  color: black;
-
-}
-
-.w3-wide {letter-spacing: 10px;}
-.w3-hover-opacity {cursor: pointer;}
-
-/* Turn off parallax scrolling for tablets and phones */
-@media only screen and (max-device-width: 1600px) {
-    .bgimg-1, .bgimg-2, .bgimg-3 {
-        background-attachment: scroll;
-        min-height: 400px;
-    }
-}
-
+html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
 </style>
-<body>
 
-<!-- Navbar (sit on top) -->
-<div class="w3-top">
-  <div class="w3-bar w3-blue w3-text-white" id="myNavbar">
-    <a href="/cv" class="w3-bar-item w3-btn w3-hover-light-blue w3-hide-small"><i class="fa fa-user"></i> CURRICULUM VITAE</a>
-    <a href="/repository" class="w3-bar-item w3-btn w3-hover-light-blue w3-hide-small"><i class="fa fa-book"></i> LEARNING REPOSITORY</a>
+<style type="text/css">
+  <!--
+   .tab { margin-left: 40px; }
+  -->
+  </style>
+
+<body class="w3-pale-blue">
+
+<!-- Page Container -->
+<div class="w3-content w3-margin-top" style="max-width:1400px;">
+
+  <!-- The Grid -->
+  <div class="w3-row-padding">
+
+    <!-- Left Column -->
+    <div class="w3-third">
+
+		<!-- Name and Info card -->
+		<div class="w3-pale-yellow w3-text-black w3-card-4">
+			<div class="w3-display-container">
+				<img src="images/me23.JPG" style="width:100%" alt="Picture of me">
+				<div class="w3-display-bottom w3-container w3-text-indigo">
+					<h2><b>Dr. Sean Mackay, Ph.D.</b></h2>
+				</div>
+			</div>
+			<div class="w3-container">
+				<p><i class="fa fa-briefcase fa-fw w3-margin-right w3-large w3-text-indigo"></i>Instructor</p>
+				<p><i class=""></i>       Department of Computer Science and Engineering</p>
+				<p><i class=""></i>       University at Buffalo</p>
+				<p><i class="fa fa-home fa-fw w3-margin-right w3-large w3-text-indigo"></i>Buffalo, NY</p>
+				<p><i class="fa fa-id-badge fa-fw w3-margin-right w3-large w3-text-indigo"></i>ORCID: 0000-0002-0358-7594</p>
+				<a href="https://scholar.google.com/citations?user=7nOUmeoAAAAJ&hl=en"><i class="fa fa-book fa-fw w3-margin-right w3-large w3-text-indigo"></i>Google Scholar</a>
+			</div>
+		<br>
+		</div> 
+		<br>
+		
+		<!--Links to Other Projects -->
+		<div class="w3-pale-yellow w3-text-black w3-card-4 ">
+			<h2 class="w3-text-indigo w3-padding-16"><b><i class="fa fa-wifi fa-fw w3-margin-right w3-margin-left w3-text-indigo"></i>Links</b></h2>
+			<a href="/repository"><i class="fa fa-book fa-fw w3-margin-right w3-margin-left w3-large w3-text-indigo"></i>Learning Resource Repository</a>
+			<br><br>
+		</div>
+		
+		<!--Research areas card -->
+		<div class="w3-pale-yellow w3-text-black w3-card-4 ">
+			<h2 class="w3-text-indigo w3-padding-16"><b><i class="fa fa-asterisk fa-fw w3-margin-right w3-margin-left w3-text-indigo"></i>Research Areas</b></h2>
+			<p class="w3-margin-left">Computing Education Research</p>
+			<div class="w3-pale-yellow w3-round-xlarge w3-small w3-margin-left w3-margin-right">
+				<div class="w3-container w3-center w3-round-xlarge w3-indigo" style="height:24px;width:100%"></div>
+			</div>
+			<p class="w3-margin-left">Second and Third Year Student Issues</p>
+			<div class="w3-pale-yellow w3-round-xlarge w3-small w3-margin-left w3-margin-right">
+				<div class="w3-container w3-center w3-round-xlarge w3-indigo" style="height:24px;width:90%">
+					<div class="w3-center w3-text-white"></div>
+				</div>
+			</div>
+			<p class="w3-margin-left">Threshold Concepts </p>
+			<div class="w3-pale-yellow w3-round-xlarge w3-small w3-margin-left w3-margin-right">
+				<div class="w3-container w3-center w3-round-xlarge w3-indigo" style="height:24px;width:80%"></div>
+			</div>
+			<p class="w3-margin-left">Programming Languages</p>
+			<div class="w3-pale-yellow w3-round-xlarge w3-small w3-margin-left w3-margin-right">
+				<div class="w3-container w3-center w3-round-xlarge w3-indigo" style="height:24px;width:70%"></div>
+			</div>
+			<br>
+        </div>
+
+          
+          <br>
+    
+    </div><!-- End Left Column -->
+    
+    
+    
+    <!-- Right Column -->
+    <div class="w3-twothird ">
+    
+    <!-- About Me -->
+      <div class="w3-container w3-card w3-pale-yellow">
+        <h2 class="w3-text-indigo w3-padding-16"><i class="fa fa-user fa-fw w3-margin-right w3-xxlarge w3-text-indigo"></i>About Me</h2>
+        <div class="w3-container">
+          <h6 class="w3-text-black w3-padding-0"> I'm pleased to say that I will be joining the faculty of the University of 
+		  Oklahoma in the fall of 2025 as an Assistant Professor of Computer Science. My technical background is in computer science, and I have
+		  a bachelors in computer science from the University at Buffalo from 2020. I have also recently completed my Ph.D. in Engineering Education
+		  from the University at Buffalo as well. 
+          <br><br>
+		  My research now focuses on studying the difficulties that students during their second and 
+		  third years face when it comes to the content they are expected to learn. As educators, we can have the most impact on students' 
+		  success by impacting their learning experiences in our classrooms: by working with this traditionally understudied population to 
+		  better understand what hurdles exist during these years, I aim to work towards building a path towards developing interventions 
+		  to supporting these students through these difficult years. 
+		  <br><br>
+		  My other research interests going forward involve the use of generative AI models
+		  in providing scalable supports for students learning computer science concepts.
+          </h6>
+        </div>
+        
+        
+        
+        
+      </div>
+      <br>
+    
+      <!--Work Experience Section -->
+      <div class="w3-container w3-card w3-pale-yellow w3-margin-bottom">
+        <h2 class="w3-text-indigo w3-padding-16"><i class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge w3-text-indigo"></i>Work Experience</h2>
+        
+		<div class="w3-container">
+          <h5><b>Assistant Professor / The University of Oklahoma</b></h5>
+          <h6 class="w3-text-indigo"><i class="fa fa-calendar fa-fw w3-margin-right"></i>August 2025 - <span class="w3-tag w3-indigo w3-round">Current</span></h6>
+          <p>Assistant Professor in the School of Computer Science in the Gallogly College of Engineering.</p>
+          <br>
+        </div>
+		
+		<div class="w3-container">
+          <h5><b>Summer Adjunct Professor / University at Buffalo</b></h5>
+          <h6 class="w3-text-indigo"><i class="fa fa-calendar fa-fw w3-margin-right"></i>June 2021 - <span class="w3-tag w3-indigo w3-round">Current</span></h6>
+          <p>Summer adjunct professor for Intro to Computer Science 1 (CSE 115).</p>
+          <br>
+        </div>
+		
+		<div class="w3-container">
+          <h5><b>CSE 115 Instructor / University at Buffalo</b></h5>
+          <h6 class="w3-text-indigo"><i class="fa fa-calendar fa-fw w3-margin-right"></i>August 2024 - December 2024</span></h6>
+          <p>Serving as one of the faculty members for CSE 115 for Fall 2024.</p>
+          <br>
+        </div>
+		
+        
+        <div class="w3-container">
+          <h5><b>Graduate Research Assistant / University at Buffalo</b></h5>
+          <h6 class="w3-text-indigo"><i class="fa fa-calendar fa-fw w3-margin-right"></i>June 2020 - July 2025</span></h6>
+          <p>Research Assistant for Dr. Adrienne Decker on several projects including my dissertation.</p>
+          <br>
+        </div>
+        <div class="w3-container">
+          <h5><b>Software Development & IT Consultant</b></h5>
+          <h6 class="w3-text-indigo"><i class="fa fa-calendar fa-fw w3-margin-right"></i>May 2015 - June 2025</span></h6>
+          <p>Working with clients on managing their technology infrastructure and in-house software requirements.</p>
+          <br>
+        </div>
+		
+        <div class="w3-container">
+          <h5><b>Graduate Teaching Assistant / University at Buffalo</b></h5>
+          <h6 class="w3-text-indigo"><i class="fa fa-calendar fa-fw w3-margin-right"></i>August 2020 - December 2020</h6>
+          <p>Graduate teaching assistant in the School of Engineering and Applied Sciences for EAS 230 (introduction to Matlab.)</p>
+          <br>
+        </div>
+		
+        <div class="w3-container">
+          <h5><b>Undergraduate Research Assistant / University at Buffalo</b></h5>
+          <h6 class="w3-text-indigo"><i class="fa fa-calendar fa-fw w3-margin-right"></i>May 2018 - June 2020</h6>
+          <p>Research Assistant in the Computer Science department with Dr. Sridhar from June 2018 - December 2018</p>
+          <p>Research Assistant with Dr. Adrienne Decker from June 2019 - June 2020</p>
+          <br>
+        </div>
+		
+        <div class="w3-container">
+          <h5><b>Undergraduate Teaching Assistant / University at Buffalo</b></h5>
+          <h6 class="w3-text-indigo"><i class="fa fa-calendar fa-fw w3-margin-right"></i>Feb 2018 - July 2020</h6>
+          <p>Teaching assistant for a wide array of computer science courses. </p>
+          <ul>
+            <li>CSE 113: Introduction to Programming For Nonmajors</li>
+            <li>CSE 115: Introduction to Computer Science 1</li>
+            <li>CSE 250: Data Structures</li>
+            <li>CSE 331: Algorithms Design and Analysis</li>
+            <li>CSE 442: Software Engineering</li>
+            <li>CSE 305: Programming Languages</li>
+          </ul>
+          <br>
+        </div>
+
+      </div>
+      
+      
+      <!-- My Education -->
+      <div class="w3-container w3-card w3-pale-yellow">
+        <h2 class="w3-text-indigo w3-padding-16"><i class="fa fa-graduation-cap fa-fw w3-margin-right w3-xxlarge w3-text-indigo"></i>My Education</h2>
+        <div class="w3-container">
+          <h5 "><b>University at Buffalo</b></h5>
+          <h6 class="w3-text-indigo"><i class="fa fa-graduation-cap fa-fw w3-margin-right"></i>2020 - 2025</span></h6>
+          <p class="tab">PhD, Engineering Education </p>
+          <p class="tab">Title: Identifying and Supporting Hurdles in the Upper-Division Undergraduate Computer Science Curriculum</p>
+          <p class="tab">Dissertation Advisor: Dr. Adrienne Decker</p>
+		  <p class="tab">Committee Members: Dr. Corey Schimpf, Dr. Jessica Swenson</p>
+          <p class="tab">4.0 GPA</p>
+          <hr>
+        </div>
+        <div class="w3-container">
+          <h5 "><b>University at Buffalo</b></h5>
+          <h6 class="w3-text-indigo"><i class="fa fa-graduation-cap fa-fw w3-margin-right"></i>2016 - 2020</h6>
+          <p class="tab">Bachelors of Science in Computer Science</p>
+          <p class="tab">3.7 GPA, Magna Cum Laude </p>
+          <hr>
+        </div>
+        
+        
+      </div>
+      <br>
+      <!--My list of publications-->
+      <div class="w3-container w3-card w3-pale-yellow">
+        <h2 class="w3-text-indigo w3-padding-16"><i class="fa fa-book fa-fw w3-margin-right w3-xxlarge w3-text-indigo"></i>My Publications</h2>
+        
+        <div class="w3-container">
+          <h5 "><b>FIE 2024</b></h5>
+          <a href=""><i class="fa fa-paperclip fa-fw w3-margin-right"></i>Using Chat-GPT to Create Multiple Choice CS Exams</a>
+          <p class="tab">Type: Accepted Work-In-Progress Paper</p>
+          <p class="tab">Authors: Karol Lejmbach, Sean Mackay</p>
+        </div> 
+
+        <div class="w3-container">
+          <h5 "><b>FIE 2024</b></h5>
+          <a href=""><i class="fa fa-paperclip fa-fw w3-margin-right"></i>Two Sides of the Same Coin: Differing Approaches to Generative AI in Two Computer Science Classrooms</a>
+          <p class="tab">Type: Accepted Full Paper</p>
+          <p class="tab">Authors: Sean Mackay, Kurt Eiselt, Adrienne Decker</p>
+        </div> 
+
+        <div class="w3-container">
+          <h5 "><b>FIE 2024</b></h5>
+          <a href="" class="w3-text-indigo"><i class="fa fa-paperclip fa-fw w3-margin-right"></i>Interview Iterations and Improvements for Identifying Intermediate Computer Science Threshold Concepts</a>
+          <p class="tab">Type: Accepted Work-In-Progress Paper</p>
+          <p class="tab">Authors: Sean Mackay, Brian McSkimming, Adrienne Decker</p>
+        </div> 
+
+        <div class="w3-container">
+          <h5 "><b>SIGCSE 2024</b></h5>
+          <a href="https://dl.acm.org/doi/10.1145/3626253.3635501" class="w3-text-indigo"><i class="fa fa-paperclip fa-fw w3-margin-right"></i>Computer Science Curriculum Trends</a>
+          <p class="tab">Type: Poster</p>
+          <p class="tab">Authors: Sean Mackay, Adrienne Decker</p>
+        </div> 
+
+        <div class="w3-container">
+          <h5 "><b>ICER 2023</b></h5>
+          <a href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=Nxb-wloAAAAJ&authuser=1&citation_for_view=Nxb-wloAAAAJ:8O4vDxvErlEC" class="w3-text-indigo"><i class="fa fa-paperclip fa-fw w3-margin-right"></i>Investigating Troublesome Knowledge in Middle-Year Computer Science Courses to Support Retention</a>
+          <p class="tab">Type: Doctoral Consortium Publication</p>
+          <p class="tab">Authors: Sean Mackay, Adrienne Decker</p>
+        </div>
+
+        <div class="w3-container">
+          <h5 "><b>FIE 2023</b></h5>
+          <a href="https://confcats-siteplex.s3.us-east-1.amazonaws.com/fie23/FIE_2023_Program_V16_9fbe7d5554.pdf" class="w3-text-indigo"><i class="fa fa-paperclip fa-fw w3-margin-right"></i>Identification of Threshold Concepts for Intermediate Computer Science Students</a>
+          <p class="tab">Type: Work In Progress Paper</p>
+          <p class="tab">Authors: Brian McSkimming, Sean Mackay, Adrienne Decker</p>
+        </div> 
+
+        <div class="w3-container">
+          <h5 "><b>SIGCSE 2023</b></h5>
+          <a href="https://tinyurl.com/2aw33mhx" class="w3-text-indigo"><i class="fa fa-paperclip fa-fw w3-margin-right"></i>Factors Influencing Academic Integrity Violations</a>
+          <p class="tab">Type: Poster</p>
+          <p class="tab">Authors: Sean Mackay</p>
+        </div>
+
+        <div class="w3-container">
+          <h5 "><b>SIGCSE 2022</b></h5>
+          <a href="https://tinyurl.com/2zpwt2f6" class="w3-text-indigo"><i class="fa fa-paperclip fa-fw w3-margin-right"></i>What Does Literature Tell Us About Recursion?</a>
+          <p class="tab">Type: ACM Student Research Competition Poster</p>
+          <p class="tab">Authors: Sean Mackay</p>
+        </div>
+
+        <div class="w3-container">
+          <h5 "><b>FIE 2022</b></h5>
+          <a href="https://tinyurl.com/2p9jn8eu" class="w3-text-indigo"><i class="fa fa-paperclip fa-fw w3-margin-right"></i>Investigating the Connection Between Sense of Belonging and Academic Dishonesty</a>
+          <p class="tab">Type: Conference Work in Progress Paper</p>
+          <p class="tab">Authors: Sean Mackay, Jessica Swenson</p>
+        </div>
+
+        <div class="w3-container">
+          <h5 "><b>FIE 2021</b></h5>
+          <a href="https://tinyurl.com/5dpc7c4t" class="w3-text-indigo"><i class="fa fa-paperclip fa-fw w3-margin-right"></i>Investigating the usage of Likert-style items within Computer Science Education Research Instruments</a>
+          <p class="tab">Type: Conference Paper</p>
+          <p class="tab">Authors: Brian McSkimming, Sean Mackay, Adrienne Decker</p>
+        </div>
+
+        <div class="w3-container">
+          <h5 "><b>FIE 2020</b></h5>
+          <a href="https://tinyurl.com/ycx7kpae" class="w3-text-indigo"><i class="fa fa-paperclip fa-fw w3-margin-right"></i>Updating our Understanding of the Impact of Pre-College Computing Experiences on University Students</a>
+          <p class="tab">Type: Conference Paper</p>
+          <p class="tab">Authors: Sean Mackay, Adrienne Decker</p>
+        </div>
+        
+      </div>
+      <br>
+
+      <!--My list of conferences-->
+      <div class="w3-container w3-card w3-pale-yellow">
+        <h2 class="w3-text-indigo w3-padding-16"><i class="fa fa-book fa-fw w3-margin-right w3-xxlarge w3-text-indigo"></i>Conferences Attended</h2>
+        
+
+        <div class="w3-container">
+			<h5 "><b>SIGCSE 2025</b></h5>
+			<p class="w3-text-indigo"><i class="fa fa-map-marker fa-fw w3-margin-right"></i>Pittsburgh, PA</p>
+		</div>
+		
+        <div class="w3-container">
+			<h5 "><b>FIE 2024</b></h5>
+			<p class="w3-text-indigo"><i class="fa fa-map-marker fa-fw w3-margin-right"></i>Washington, DC</p>
+		</div>
+
+        <div class="w3-container">
+          <h5 "><b>SIGCSE 2024</b></h5>
+          <p class="w3-text-indigo"><i class="fa fa-map-marker fa-fw w3-margin-right"></i>Portland, Oregon</p>
+        </div>  
+		
+		<div class="w3-container">
+          <h5 "><b>ICER 2023</b></h5>
+          <p class="w3-text-indigo"><i class="fa fa-map-marker fa-fw w3-margin-right"></i>Chicago, Illinois</p>
+        </div> 
+		
+		<div class="w3-container">
+          <h5 "><b>SIGCSE 2023</b></h5>
+          <p class="w3-text-indigo"><i class="fa fa-map-marker fa-fw w3-margin-right"></i>Toronto, Canada</p>
+        </div>
+		
+		<div class="w3-container">
+          <h5 "><b>SIGCSE 2022</b></h5>
+          <p class="w3-text-indigo"><i class="fa fa-map-marker fa-fw w3-margin-right"></i>Providence, Rhode Island</p>
+        </div>
+		
+		<div class="w3-container">
+          <h5 "><b>SIGCSE 2020</b></h5>
+          <p class="w3-text-indigo"><i class="fa fa-map-marker fa-fw w3-margin-right"></i>Portland, Oregon</p>
+        </div>
+
+		<div class="w3-container">
+          <h5 "><b>ICER 2019</b></h5>
+          <p class="w3-text-indigo"><i class="fa fa-map-marker fa-fw w3-margin-right"></i>Toronto, Canada</p>
+        </div>		
+        
+      </div>
+
+      
+
+    <!-- End Right Column -->
+    </div>
+
+  <!-- End Grid -->
   </div>
 
-  <!-- Navbar on small screens -->
-  <div id="navDemo" class="w3-bar-block w3-blue w3-hide w3-hide-large w3-hide-medium">
-    <a href="/cv" class="w3-bar-item w3-button" onclick="toggleFunction()">CURRICULUM VITAE</a>
-    <a href="/repository" class="w3-bar-item w3-button" onclick="toggleFunction()">LEARNING REPOSITORY</a>
-  </div>
+  <!-- End Page Container -->
 </div>
 
-<!-- First Parallax Image with Logo Text -->
-<div class="bgimg-1 w3-display-container w3-opacity-min" id="home">
-  <div class="w3-display-middle" style="white-space:nowrap;">
-    <span class="w3-center w3-padding-large w3-text-white w3-xlarge w3-wide w3-animate-opacity"<span class="w3-hide-small"> <span>SEAN MACKAY</span>
-  </div>
-</div>
-
-<!-- Container (About Section) -->
-
-
-
-<footer class="w3-container w3-blue w3-center w3-margin-top">
-  <p>Image by <a href="https://unsplash.com/@adrienolichon">Adrien Olichon</a></p>
-  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+<footer class="w3-container w3-indigo w3-center w3-margin-top">
+  <p> </p>
+  <a href="/index" class=" w3-btn w3-pale-yellow w3-text-indigo w3-round-large "><i class="fa fa-home"></i> HOME</a>
+  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css version 5.0</a></p>
 </footer>
-</body>
-
-<script>
-// Modal Image Gallery
-function onClick(element) {
-  document.getElementById("img01").src = element.src;
-  document.getElementById("modal01").style.display = "block";
-  var captionText = document.getElementById("caption");
-  captionText.innerHTML = element.alt;
-}
-
-// Change style of navbar on scroll
-window.onscroll = function() {myFunction()};
-function myFunction() {
-    var navbar = document.getElementById("myNavbar");
-    if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-        navbar.className = "w3-bar" + " w3-card" + " w3-animate-top" + " w3-white";
-    } else {
-        navbar.className = navbar.className.replace(" w3-card w3-animate-top w3-white", "");
-    }
-}
-
-// Used to toggle the menu on small screens when clicking on the menu button
-function toggleFunction() {
-    var x = document.getElementById("navDemo");
-    if (x.className.indexOf("w3-show") == -1) {
-        x.className += " w3-show";
-    } else {
-        x.className = x.className.replace(" w3-show", "");
-    }
-}
-</script>
-
 
 </body>
 </html>
