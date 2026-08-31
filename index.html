@@ -7,152 +7,479 @@
   <meta name="description" content="Dr. Sean Mackay, Assistant Professor, School of Computer Science, University of Oklahoma.">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
 
-  <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,500&family=Roboto:wght@300;400;500;700&display=swap">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
   <style>
-    html, body, h1, h2, h3, h4, h5, h6 {
+    :root {
+      --blue: #2e4c6d;
+      --blue-deep: #1b3350;
+      --bg: #171512;
+      --bg-soft: #201d19;
+      --paper: #f6f1e6;
+      --paper-stripe: #e6ebf0;
+      --ink: #241f1a;
+      --ink-soft: #6d6355;
+      --rule: #ddcfae;
+      --rule-soft: rgba(221, 207, 174, 0.18);
+      --radius: 8px;
+      --shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+      --max-width: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      background-image:
+        radial-gradient(circle at 12% 8%, rgba(46, 76, 109, 0.10), transparent 45%),
+        radial-gradient(circle at 88% 92%, rgba(46, 76, 109, 0.08), transparent 40%);
+      color: var(--paper);
       font-family: "Roboto", sans-serif;
+      font-weight: 300;
+      line-height: 1.55;
     }
 
-    .tab {
-      margin-left: 40px;
+    h1, h2, h3, h4, h5, h6 {
+      font-family: "Lora", serif;
+      font-weight: 600;
+      margin: 0;
+      color: var(--ink);
     }
 
-    table, th, td {
-      border: 1px solid black;
-      border-collapse: collapse;
+    a { color: var(--blue-deep); }
+    a:hover { color: var(--blue); }
+
+    :focus-visible {
+      outline: 2px solid var(--blue);
+      outline-offset: 2px;
     }
 
-    th, td {
-      padding: 5px;
+    .wrap {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 56px 24px 40px;
+    }
+
+    /* ---- Masthead ---- */
+    .masthead {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+      padding-bottom: 28px;
+      margin-bottom: 40px;
+      border-bottom: 1px solid var(--rule-soft);
+    }
+    .masthead .kicker {
+      font-family: "Lora", serif;
+      font-style: italic;
+      font-size: 0.95rem;
+      color: rgba(246, 241, 230, 0.55);
+    }
+    .masthead nav a {
+      color: rgba(246, 241, 230, 0.75);
+      text-decoration: none;
+      font-size: 0.92rem;
+      margin-left: 22px;
+      border-bottom: 1px solid transparent;
+      padding-bottom: 2px;
+    }
+    .masthead nav a:hover {
+      color: var(--paper);
+      border-bottom-color: var(--blue);
+    }
+
+    /* ---- Layout ---- */
+    .layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 28px;
+      align-items: start;
+    }
+
+    aside { position: sticky; top: 24px; display: flex; flex-direction: column; gap: 20px; }
+
+    .sheet {
+      background: var(--paper);
+      color: var(--ink);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 26px 26px 28px;
+    }
+
+    /* ---- Profile card ---- */
+    .profile-photo {
+      width: 148px;
+      height: 148px;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+      margin: 0 auto 18px;
+      border: 3px solid var(--blue);
+      box-shadow: 0 0 0 5px var(--paper), 0 0 0 6px var(--rule);
+    }
+    .profile h1 {
+      font-size: 1.35rem;
+      text-align: center;
+      line-height: 1.25;
+    }
+    .profile .role {
+      text-align: center;
+      color: var(--ink-soft);
+      font-size: 0.9rem;
+      margin-top: 8px;
+      line-height: 1.5;
+    }
+    .profile-contact {
+      margin-top: 20px;
+      padding-top: 18px;
+      border-top: 1px solid var(--rule);
+      font-size: 0.88rem;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+    .profile-contact a, .profile-contact span {
+      color: var(--ink);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+    .profile-contact a:hover { color: var(--blue); }
+    .profile-contact i { width: 16px; color: var(--blue); text-align: center; }
+
+    /* ---- Sidebar section headers ---- */
+    .sheet h2.sub {
+      font-size: 0.78rem;
+      letter-spacing: 0.02em;
+      color: var(--blue-deep);
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .link-list { display: flex; flex-direction: column; gap: 11px; }
+    .link-list a {
+      text-decoration: none;
+      color: var(--ink);
+      font-size: 0.94rem;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+    .link-list a:hover { color: var(--blue); }
+    .link-list i { color: var(--blue); width: 16px; text-align: center; }
+
+    .research-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+    .research-list li {
+      font-size: 0.9rem;
+      padding-left: 16px;
+      position: relative;
+    }
+    .research-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.5em;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--blue);
+    }
+
+    /* ---- Main content ---- */
+    main { display: flex; flex-direction: column; gap: 24px; }
+
+    section.sheet h2.section-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.3rem;
+      padding-bottom: 14px;
+      margin-bottom: 20px;
+      border-bottom: 2px solid var(--blue);
+    }
+    section.sheet h2.section-title i { color: var(--blue); font-size: 1.05rem; }
+
+    .lede {
+      font-family: "Lora", serif;
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: var(--ink);
+      max-width: 62ch;
+    }
+    .lede + .lede { margin-top: 14px; }
+
+    /* ---- Education / generic entries ---- */
+    .entry { padding: 14px 0; border-bottom: 1px solid var(--rule); }
+    .entry:last-child { border-bottom: none; padding-bottom: 0; }
+    .entry:first-child { padding-top: 0; }
+    .entry-title { font-size: 1.02rem; }
+    .entry-meta {
+      font-size: 0.86rem;
+      color: var(--ink-soft);
+      margin-top: 3px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .entry-meta i { color: var(--blue); }
+    .entry-details { margin-top: 10px; display: flex; flex-direction: column; gap: 4px; }
+    .entry-details p {
+      margin: 0;
+      padding-left: 18px;
+      font-size: 0.92rem;
+      color: var(--ink);
+    }
+
+    /* ---- Table ---- */
+    .table-scroll { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+    thead th {
+      text-align: left;
+      font-family: "Lora", serif;
+      font-weight: 600;
+      color: var(--blue-deep);
+      padding: 10px 12px;
+      border-bottom: 2px solid var(--blue);
+      white-space: nowrap;
+    }
+    tbody td { padding: 9px 12px; border-bottom: 1px solid var(--rule); }
+    tbody tr:nth-child(even) { background: var(--paper-stripe); }
+    tbody tr:hover { background: rgba(46, 76, 109, 0.08); }
+
+    /* ---- Publications ---- */
+    .pub { padding: 16px 0; border-bottom: 1px solid var(--rule); }
+    .pub:first-child { padding-top: 0; }
+    .pub:last-child { border-bottom: none; padding-bottom: 0; }
+    .pub-venue {
+      font-family: "Lora", serif;
+      font-style: italic;
+      font-size: 0.85rem;
+      color: var(--blue-deep);
+      margin-bottom: 4px;
+    }
+    .pub-title {
+      font-size: 1rem;
+      text-decoration: none;
+      color: var(--ink);
+      display: inline-flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+    .pub-title i { color: var(--blue); font-size: 0.85rem; }
+    .pub-title:hover { color: var(--blue); }
+    .pub-meta { margin-top: 6px; font-size: 0.85rem; color: var(--ink-soft); }
+    .pub-meta div + div { margin-top: 2px; }
+
+    /* ---- Conferences ---- */
+    .conf-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 4px 24px;
+    }
+    .conf-item { padding: 12px 0; border-bottom: 1px solid var(--rule); }
+    .conf-name { font-size: 0.96rem; }
+    .conf-loc {
+      margin-top: 3px;
+      font-size: 0.84rem;
+      color: var(--ink-soft);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .conf-loc i { color: var(--blue); }
+
+    /* ---- Timeline (work experience) ---- */
+    .timeline { position: relative; padding-left: 26px; }
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 5px;
+      top: 6px;
+      bottom: 6px;
+      width: 1.5px;
+      background: var(--rule);
+    }
+    .tl-item { position: relative; padding-bottom: 24px; }
+    .tl-item:last-child { padding-bottom: 0; }
+    .tl-item::before {
+      content: "";
+      position: absolute;
+      left: -26px;
+      top: 5px;
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: var(--paper);
+      border: 2.5px solid var(--blue);
+    }
+    .tl-role { font-size: 1rem; }
+    .tl-org { color: var(--blue-deep); font-weight: 500; }
+    .tl-date {
+      font-size: 0.83rem;
+      color: var(--ink-soft);
+      margin-top: 2px;
+    }
+    .tl-date .current {
+      background: var(--blue);
+      color: var(--paper);
+      padding: 1px 8px;
+      border-radius: 10px;
+      font-size: 0.76rem;
+      margin-left: 4px;
+    }
+    .tl-desc { margin-top: 6px; font-size: 0.92rem; color: var(--ink); }
+    .tl-desc ul { margin: 6px 0 0; padding-left: 20px; }
+    .tl-desc li { margin-bottom: 3px; }
+
+    /* ---- Grants ---- */
+    .grant { padding: 14px 0; border-bottom: 1px solid var(--rule); }
+    .grant:last-child { border-bottom: none; padding-bottom: 0; }
+    .grant:first-child { padding-top: 0; }
+    .grant-title { font-size: 1rem; margin-bottom: 8px; }
+    .grant-facts {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 4px 20px;
+      font-size: 0.88rem;
+    }
+    .grant-facts dt { color: var(--ink-soft); display: inline; }
+    .grant-facts dd { display: inline; margin: 0 0 0 4px; }
+    .grant-facts div { padding: 2px 0; }
+
+    /* ---- Footer ---- */
+    footer {
+      text-align: center;
+      padding: 40px 24px 20px;
+      color: rgba(246, 241, 230, 0.45);
+      font-size: 0.85rem;
+    }
+    footer a { color: rgba(246, 241, 230, 0.7); }
+    .home-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--paper);
+      text-decoration: none;
+      border: 1px solid var(--rule-soft);
+      padding: 8px 18px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+      font-size: 0.88rem;
+    }
+    .home-btn:hover { border-color: var(--blue); color: var(--paper); background: rgba(46,76,109,0.15); }
+
+    @media (max-width: 860px) {
+      .layout { grid-template-columns: 1fr; }
+      aside { position: static; }
+      .masthead { flex-direction: column; align-items: flex-start; gap: 10px; }
+      .masthead nav a { margin-left: 0; margin-right: 18px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
     }
   </style>
 </head>
+<body>
 
-<body class="w3-asphalt">
+<div class="wrap">
 
-<!-- Page Container -->
-<div class="w3-content w3-margin-top" style="max-width:1800px;">
+  <div class="masthead">
+    <span class="kicker">One of the sites of all time</span>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#teaching">Teaching</a>
+      <a href="#publications">Publications</a>
+      <a href="#experience">Experience</a>
+    </nav>
+  </div>
 
-  <!-- The Grid -->
-  <div class="w3-row-padding">
+  <div class="layout">
 
-    <!-- Left Column -->
-    <div class="w3-third">
-
-		<!-- Name and Info card -->
-		<div class="w3-khaki w3-text-black w3-card-4">
-			<div class="w3-display-container">
-				<img src="images/me25.jpg" style="width:100%" alt="Portrait of Dr. Sean Mackay">
-				<div class="w3-display-bottom w3-container w3-text-black">
-					<h2><b>Dr. Sean Mackay, Ph.D.</b></h2>
-				</div>
-			</div>
-			<div class="w3-container">
-				<h5>Assistant Professor</h5>
-				<h5>School of Computer Science</h5>
-        <h5>Gallogly College of Engineering</h5>
-				<h5>The University of Oklahoma</h5>
-        <br>
-				<p><i class="fa fa-home fa-fw w3-margin-right w3-large w3-text-black"></i>Norman, Oklahoma</p>
-				<p><i class="fa fa-id-badge fa-fw w3-margin-right w3-large w3-text-black"></i>ORCID: 0000-0002-0358-7594</p>
-        <p><i class="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-black"></i> snmackay at ou dot edu</p>
-				<a href="https://scholar.google.com/citations?user=7nOUmeoAAAAJ&hl=en"><i class="fa fa-book fa-fw w3-margin-right w3-large w3-text-black"></i>Google Scholar</a>
-			</div>
-		<br>
-		</div> 
-		<br>
-		
-		<!--Links to Other Projects -->
-		<div class="w3-khaki w3-text-black w3-card-4 ">
-			<h2 class="w3-text-black w3-padding-16"><b><i class="fa fa-wifi fa-fw w3-margin-right w3-margin-left w3-text-black"></i>Links</b></h2>
-			<a href="/pages/repository.html"><i class="fa fa-book fa-fw w3-margin-right w3-margin-left w3-large w3-text-black"></i><b>Course Materials</b></a><br><br>
-			<a href="/pages/blog.html"><i class="fa fa-book fa-fw w3-margin-right w3-margin-left w3-large w3-text-black"></i><b>Blog-ish</b></a>
-			<br><br>
-		</div>
-		<br>
-		
-		<!--Research areas card -->
-		<div class="w3-khaki w3-text-black w3-card-4 ">
-			<h2 class="w3-text-black w3-padding-16"><b><i class="fa fa-asterisk fa-fw w3-margin-right w3-margin-left w3-text-black"></i>Research Areas</b></h2>
-			<p class="w3-margin-left">Computing Education Research</p>
-			<div class="w3-khaki w3-round-xlarge w3-small w3-margin-left w3-margin-right">
-				<div class="w3-container w3-center w3-round-xlarge w3-black" style="height:24px;width:100%" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-			</div>
-			<p class="w3-margin-left">Second and Third Year Student Issues</p>
-			<div class="w3-khaki w3-round-xlarge w3-small w3-margin-left w3-margin-right">
-				<div class="w3-container w3-center w3-round-xlarge w3-black" style="height:24px;width:90%" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
-			</div>
-			<p class="w3-margin-left">Human-Computer Interaction, User-Focused Design </p>
-			<div class="w3-khaki w3-round-xlarge w3-small w3-margin-left w3-margin-right">
-				<div class="w3-container w3-center w3-round-xlarge w3-black" style="height:24px;width:80%" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-			</div>
-			<p class="w3-margin-left">Programming Languages</p>
-			<div class="w3-khaki w3-round-xlarge w3-small w3-margin-left w3-margin-right">
-				<div class="w3-container w3-center w3-round-xlarge w3-black" style="height:24px;width:70%" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
-			</div>
-      <p class="w3-margin-left">Open-Source Software Development</p>
-			<div class="w3-khaki w3-round-xlarge w3-small w3-margin-left w3-margin-right">
-				<div class="w3-container w3-center w3-round-xlarge w3-black" style="height:24px;width:90%" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
-			</div>
-			<br>
-        </div>
-
-          
-          <br>
-    
-    </div><!-- End Left Column -->
-    
-    
-    
-    <!-- Right Column -->
-    <div class="w3-twothird ">
-    
-    <!-- About Me -->
-      <div class="w3-container w3-card w3-sand">
-        <h2 class="w3-text-black w3-padding-16"><i class="fa fa-user fa-fw w3-margin-right w3-xxlarge w3-text-black"></i>About Me</h2>
-        <div class="w3-container">
-          <h6 class="w3-text-black w3-padding-16"> I am an assistant professor of computer science at the University of Oklahoma in the Gallogly College of Engineering.
-              <br><br>
-		        My research covers a broad range of student issues across computing education, as well as across other disciplines. 
-            Some of my ongoing research involves first-year student issues, integrating AI technology in non-CS educational contexts, 
-            and studying populations of students as they progress through undergraduate CS. 
-		        My other research interests going forward involve the use of generative AI models in providing scalable supports for students learning computer science concepts.
-          </h6>
+    <aside>
+      <div class="sheet profile">
+        <img class="profile-photo" src="images/me25.jpg" alt="Portrait of Dr. Sean Mackay">
+        <h1>Dr. Sean Mackay, Ph.D.</h1>
+        <p class="role">
+          Assistant Professor<br>
+          School of Computer Science<br>
+          Gallogly College of Engineering<br>
+          The University of Oklahoma
+        </p>
+        <div class="profile-contact">
+          <span><i class="fa fa-home fa-fw"></i>Norman, Oklahoma</span>
+          <span><i class="fa fa-id-badge fa-fw"></i>ORCID: 0000-0002-0358-7594</span>
+          <span><i class="fa fa-envelope fa-fw"></i>snmackay at ou dot edu</span>
+          <a href="https://scholar.google.com/citations?user=7nOUmeoAAAAJ&hl=en"><i class="fa fa-book fa-fw"></i>Google Scholar</a>
         </div>
       </div>
-      <br>
 
-      <!-- My Education -->
-      <div class="w3-container w3-card w3-sand">
-        <h2 class="w3-text-black w3-padding-16"><i class="fa fa-graduation-cap fa-fw w3-margin-right w3-xxlarge w3-text-black"></i>Education</h2>
-        <div class="w3-container">
-          <h5><b>University at Buffalo</b></h5>
-          <h6 class="w3-text-black"><i class="fa fa-graduation-cap fa-fw w3-margin-right"></i>2020 - 2025</h6>
-          <p class="tab">PhD, Engineering Education </p>
-          <p class="tab">Title: Identifying and Supporting Hurdles in the Upper-Division Undergraduate Computer Science Curriculum</p>
-          <p class="tab">Dissertation Advisor: Dr. Adrienne Decker</p>
-		      <p class="tab">Committee Members: Dr. Corey Schimpf, Dr. Jessica Swenson</p>
-          <p class="tab">4.0 GPA</p>
-          <br>
-          <h5><b>University at Buffalo</b></h5>
-          <h6 class="w3-text-black"><i class="fa fa-graduation-cap fa-fw w3-margin-right"></i>2016 - 2020</h6>
-          <p class="tab">Bachelors of Science in Computer Science</p>
-          <p class="tab">3.7 GPA, Magna Cum Laude </p>
-          <br>
+      <div class="sheet">
+        <h2 class="sub">Links</h2>
+        <div class="link-list">
+          <a href="/pages/repository.html"><i class="fa fa-book fa-fw"></i>Course Materials</a>
+          <a href="/pages/blog.html"><i class="fa fa-pencil fa-fw"></i>Blog-ish</a>
         </div>
       </div>
-      <br>
 
-      <!--Teaching Section -->
-      <div class="w3-container w3-card w3-sand w3-margin-bottom">
-        <h2 class="w3-text-black w3-padding-16"><i class="fa fa-paperclip fa-fw w3-margin-right w3-xxlarge w3-text-black"></i>Teaching</h2>
-        <div class="w3-container"> 
-          <!--Formatted table of teaching-->
+      <div class="sheet">
+        <h2 class="sub">Research Areas</h2>
+        <ul class="research-list">
+          <li>Computing Education Research</li>
+          <li>Second and Third Year Student Issues</li>
+          <li>Human-Computer Interaction, User-Focused Design</li>
+          <li>Programming Languages</li>
+          <li>Open-Source Software Development</li>
+        </ul>
+      </div>
+    </aside>
+
+    <main>
+
+      <section class="sheet" id="about">
+        <h2 class="section-title"><i class="fa fa-user"></i>About Me</h2>
+        <p class="lede">I am an assistant professor of computer science at the University of Oklahoma in the Gallogly College of Engineering.</p>
+        <p class="lede">My research covers a broad range of student issues across computing education, as well as across other disciplines. Some of my ongoing research involves first-year student issues, integrating AI technology in non-CS educational contexts, and studying populations of students as they progress through undergraduate CS. My other research interests going forward involve the use of generative AI models in providing scalable supports for students learning computer science concepts.</p>
+      </section>
+
+      <section class="sheet" id="education">
+        <h2 class="section-title"><i class="fa fa-graduation-cap"></i>Education</h2>
+
+        <div class="entry">
+          <div class="entry-title"><b>University at Buffalo</b></div>
+          <div class="entry-meta"><i class="fa fa-graduation-cap fa-fw"></i>2020 - 2025</div>
+          <div class="entry-details">
+            <p>PhD, Engineering Education</p>
+            <p>Title: Identifying and Supporting Hurdles in the Upper-Division Undergraduate Computer Science Curriculum</p>
+            <p>Dissertation Advisor: Dr. Adrienne Decker</p>
+            <p>Committee Members: Dr. Corey Schimpf, Dr. Jessica Swenson</p>
+            <p>4.0 GPA</p>
+          </div>
+        </div>
+
+        <div class="entry">
+          <div class="entry-title"><b>University at Buffalo</b></div>
+          <div class="entry-meta"><i class="fa fa-graduation-cap fa-fw"></i>2016 - 2020</div>
+          <div class="entry-details">
+            <p>Bachelors of Science in Computer Science</p>
+            <p>3.7 GPA, Magna Cum Laude</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="sheet" id="teaching">
+        <h2 class="section-title"><i class="fa fa-paperclip"></i>Teaching</h2>
+        <div class="table-scroll">
           <table>
             <thead>
               <tr>
@@ -160,415 +487,264 @@
                 <th>Term</th>
                 <th>Course Code</th>
                 <th>Course Name</th>
-                <th>Number of Students</th>
+                <th>Students</th>
               </tr>
             </thead>
             <tbody>
-              <!-- OU -->
-              <tr>
-                <td>University of Oklahoma</td>
-                <td>SP26</td>
-                <td>CS 1323</td>
-                <td>Intro to Programming in Java - 3 Credit</td>
-                <td>TBD</td>
-              </tr>
-              <tr>
-                <td>University of Oklahoma</td>
-                <td>SP26</td>
-                <td>CS 3323</td>
-                <td>Principles of Programming Languages</td>
-                <td>TBD</td>
-              </tr>
-              <tr>
-                <td>University of Oklahoma</td>
-                <td>SP26</td>
-                <td>CS 3823</td>
-                <td>Theory of Computation</td>
-                <td>TBD</td>
-              </tr>
-              <tr>
-                <td>University of Oklahoma</td>
-                <td>FA26</td>
-                <td>CS 1323</td>
-                <td>Intro to Programming in Java - 3 Credit</td>
-                <td>31</td>
-              </tr>
-              <tr>
-                <td>University of Oklahoma</td>
-                <td>FA26</td>
-                <td>CS 3323</td>
-                <td>Principles of Programming Languages</td>
-                <td>44</td>
-              </tr>
-              <tr>
-                <td>University of Oklahoma</td>
-                <td>FA26</td>
-                <td>CS 3823</td>
-                <td>Theory of Computation</td>
-                <td>100</td>
-              </tr>
-              <tr>
-                <td>University of Oklahoma</td>
-                <td>SP26</td>
-                <td>CS 1321</td>
-                <td>Intro to Programming in Java - 1 Credit</td>
-                <td>8</td>
-              </tr>
-              <tr>
-                <td>University of Oklahoma</td>
-                <td>SP26</td>
-                <td>CS 1323</td>
-                <td>Intro to Programming in Java - 3 Credit</td>
-                <td>49</td>
-              </tr>
-              <tr>
-                <td>University of Oklahoma</td>
-                <td>SP26</td>
-                <td>CS 3323</td>
-                <td>Principle of Programming Languages</td>
-                <td>81</td>
-              </tr>
-              <tr>
-                <td>University of Oklahoma</td>
-                <td>FA25</td>
-                <td>CS 1321</td>
-                <td>Intro to Programming in Java - 1 Credit</td>
-                <td>17</td>
-              </tr>
-              <tr>
-                <td>University of Oklahoma</td>
-                <td>FA25</td>
-                <td>CS 1323</td>
-                <td>Intro to Programming in Java - 3 Credit</td>
-                <td>33</td>
-              </tr>
-              <tr>
-                <td>University of Oklahoma</td>
-                <td>FA25</td>
-                <td>CS 3323</td>
-                <td>Principle of Programming Languages</td>
-                <td>63</td>
-              </tr>
-              <!-- UB -->
-              <tr>
-                <td>University at Buffalo</td>
-                <td>SU25</td>
-                <td>CSE 115</td>
-                <td>Intro to Computer Science 1</td>
-                <td>34</td>
-              </tr>
-              <tr>
-                <td>University at Buffalo</td>
-                <td>FA24</td>
-                <td>CSE 115</td>
-                <td>Intro to Computer Science 1</td>
-                <td>81</td>
-              </tr>
-              <tr>
-                <td>University at Buffalo</td>
-                <td>SU24</td>
-                <td>CSE 115</td>
-                <td>Intro to Computer Science 1</td>
-                <td>43</td>
-              </tr>
-              <tr>
-                <td>University at Buffalo</td>
-                <td>SU23</td>
-                <td>CSE 115</td>
-                <td>Intro to Computer Science 1</td>
-                <td>59</td>
-              </tr>
-              <tr>
-                <td>University at Buffalo</td>
-                <td>SU22</td>
-                <td>CSE 115</td>
-                <td>Intro to Computer Science 1</td>
-                <td>45</td>
-              </tr>
-              <tr>
-                <td>University at Buffalo</td>
-                <td>SU21</td>
-                <td>CSE 115</td>
-                <td>Intro to Computer Science 1</td>
-                <td>28</td>
-              </tr>
+              <tr><td>University of Oklahoma</td><td>SP26</td><td>CS 1323</td><td>Intro to Programming in Java - 3 Credit</td><td>TBD</td></tr>
+              <tr><td>University of Oklahoma</td><td>SP26</td><td>CS 3323</td><td>Principles of Programming Languages</td><td>TBD</td></tr>
+              <tr><td>University of Oklahoma</td><td>SP26</td><td>CS 3823</td><td>Theory of Computation</td><td>TBD</td></tr>
+              <tr><td>University of Oklahoma</td><td>FA26</td><td>CS 1323</td><td>Intro to Programming in Java - 3 Credit</td><td>31</td></tr>
+              <tr><td>University of Oklahoma</td><td>FA26</td><td>CS 3323</td><td>Principles of Programming Languages</td><td>44</td></tr>
+              <tr><td>University of Oklahoma</td><td>FA26</td><td>CS 3823</td><td>Theory of Computation</td><td>100</td></tr>
+              <tr><td>University of Oklahoma</td><td>SP26</td><td>CS 1321</td><td>Intro to Programming in Java - 1 Credit</td><td>8</td></tr>
+              <tr><td>University of Oklahoma</td><td>SP26</td><td>CS 1323</td><td>Intro to Programming in Java - 3 Credit</td><td>49</td></tr>
+              <tr><td>University of Oklahoma</td><td>SP26</td><td>CS 3323</td><td>Principle of Programming Languages</td><td>81</td></tr>
+              <tr><td>University of Oklahoma</td><td>FA25</td><td>CS 1321</td><td>Intro to Programming in Java - 1 Credit</td><td>17</td></tr>
+              <tr><td>University of Oklahoma</td><td>FA25</td><td>CS 1323</td><td>Intro to Programming in Java - 3 Credit</td><td>33</td></tr>
+              <tr><td>University of Oklahoma</td><td>FA25</td><td>CS 3323</td><td>Principle of Programming Languages</td><td>63</td></tr>
+              <tr><td>University at Buffalo</td><td>SU25</td><td>CSE 115</td><td>Intro to Computer Science 1</td><td>34</td></tr>
+              <tr><td>University at Buffalo</td><td>FA24</td><td>CSE 115</td><td>Intro to Computer Science 1</td><td>81</td></tr>
+              <tr><td>University at Buffalo</td><td>SU24</td><td>CSE 115</td><td>Intro to Computer Science 1</td><td>43</td></tr>
+              <tr><td>University at Buffalo</td><td>SU23</td><td>CSE 115</td><td>Intro to Computer Science 1</td><td>59</td></tr>
+              <tr><td>University at Buffalo</td><td>SU22</td><td>CSE 115</td><td>Intro to Computer Science 1</td><td>45</td></tr>
+              <tr><td>University at Buffalo</td><td>SU21</td><td>CSE 115</td><td>Intro to Computer Science 1</td><td>28</td></tr>
             </tbody>
           </table>
-          <br>
         </div>
-      </div>
-      
-      <!--Service Work-->
-      <div class="w3-container w3-card w3-sand">
-        <h2 class="w3-text-black w3-padding-16"><i class="fa fa-graduation-cap fa-fw w3-margin-right w3-xxlarge w3-text-black"></i>Service Work</h2>
-        <div class="w3-container">
-          <h5><b>Faculty Advisor, Game Developers Association</b></h5>
-          <p class="tab">Primary faculty advisor for the Game Developers Association registered student organisation in OU Computer Science.</p>
-          <p class="tab">August 2025-Present</p>
-        </div>
-        <div class="w3-container">
-          <h5><b>Faculty Co-Advisor, Hacklahoma</b></h5>
-          <p class="tab">Faculty co-advisor for Hacklahoma, the University of Oklahoma's MLH hackathon.</p>
-          <p class="tab">August 2025-Present</p>
-        </div>
-        <div class="w3-container">
-          <h5><b>Faculty Co-Advisor, Interview Preparation Club</b></h5>
-          <p class="tab">Faculty co-advisor for the OU CS Interview Preparation Club.</p>
-          <p class="tab">August 2025-Present</p>
-        </div>
-        <div class="w3-container">
-          <h5><b>OU CS Undergraduate Studies Committee Member</b></h5>
-          <p class="tab">August 2025-Present</p>
-        </div>
-        <div class="w3-container">
-          <h5><b>OU CS ABET Committee Member</b></h5>
-          <p class="tab">August 2025-Present</p>
-        </div>
-        <div class="w3-container">
-          <h5><b>OU CS Undergraduate Honours Student Coordinator</b></h5>
-          <p class="tab">August 2025-Present</p>
-        </div>
-        <div class="w3-container">
-          <h5><b>Reviewer, ACM SIGCSE Technical Symposium on Computer Science Education</b></h5>
-          <p class="tab">2020-Present</p>
-        </div>
-        <div class="w3-container">
-          <h5><b>Reviewer, IEEE FIE (Frontiers in Education) Conference</b></h5>
-          <p class="tab">2021-Present</p>
-        </div>
-        <div class="w3-container">
-          <h5><b>OU CS Community Outreach Committee Member</b></h5>
-          <p class="tab">August 2025-August 2026</p>
-        </div>
-        <div class="w3-container">
-          <h5><b>OU School of Computer Science AI Summer Camp Faculty Co-Lead</b></h5>
-          <p class="tab">Summer 2026</p>
-        </div>
-        <div class="w3-container">
-          <h5><b>The University at Buffalo SEAS Graduate Handbook Development Committee Member</b></h5>
-          <p class="tab">2024</p>
-        </div>
-      </div>
-      <br>
-      
-      <!--My list of grant proposals-->
-      <div class="w3-container w3-card w3-sand">
-        <h2 class="w3-text-black w3-padding-16"><i class="fa fa-book fa-fw w3-margin-right w3-xxlarge w3-text-black"></i>Grants</h2>
-        <div class="w3-container">
-          <h5><b>WINAI Challenge Gates Foundation Grant </b></h5>
-          <p> Potential Funding: $5,000,000</p>
-          <p> Funding to Dr. Mackay: ~$350,000</p>
-          <p> OU Norman PI: Dr. Ze Shi Li</p>
-          <p> OU Norman Co-PI: Dr. Sean Mackay</p>
-          <p> Status: Finalist, Not Funded</p>
-          <p> Submitted: January, 2026</p>
-          
-          <h5><b>Spencer Grant Initial Submission </b></h5>
-          <p> Potential Funding: $400,000</p>
-          <p> PI: Dr. Ze Shi Li</p>
-          <p> Co-PI: Dr. Sean Mackay</p>
-          <p> Status: Final Round, Not Funded</p>
-          <p> Submitted: November, 2025</p>
-          
-        </div>
-      </div>  
-    
-      <br>
-      <!--My list of publications-->
-      <div class="w3-container w3-card w3-sand">
-        <h2 class="w3-text-black w3-padding-16"><i class="fa fa-book fa-fw w3-margin-right w3-xxlarge w3-text-black"></i>Publications</h2>
-        <div class="w3-container">
-          <h5><b>FIE 2026</b></h5>
-          <a href=""><i class="fa fa-paperclip fa-fw w3-margin-right"></i>A Beginner's API: Revising the Java API to Support Introductory Programming Students 	</a>
-          <p class="tab">Type: Accepted Work-In-Progress Paper</p>
-          <p class="tab">Authors: Ethan Gulley, Sean Mackay, Deborah Trytten</p>
-        </div> 
-        <div class="w3-container">
-          <h5><b>FIE 2024</b></h5>
-          <a href=""><i class="fa fa-paperclip fa-fw w3-margin-right"></i>Using Chat-GPT to Create Multiple Choice CS Exams</a>
-          <p class="tab">Type: Work-In-Progress Paper</p>
-          <p class="tab">Authors: Karol Lejmbach, Sean Mackay</p>
-        </div> 
-        <div class="w3-container">
-          <h5><b>FIE 2024</b></h5>
-          <a href=""><i class="fa fa-paperclip fa-fw w3-margin-right"></i>Two Sides of the Same Coin: Differing Approaches to Generative AI in Two Computer Science Classrooms</a>
-          <p class="tab">Type: Full Paper</p>
-          <p class="tab">Authors: Sean Mackay, Kurt Eiselt, Adrienne Decker</p>
-        </div> 
-        <div class="w3-container">
-          <h5><b>FIE 2024</b></h5>
-          <a href="" class="w3-text-black"><i class="fa fa-paperclip fa-fw w3-margin-right"></i>Interview Iterations and Improvements for Identifying Intermediate Computer Science Threshold Concepts</a>
-          <p class="tab">Type: Work-In-Progress Paper</p>
-          <p class="tab">Authors: Sean Mackay, Brian McSkimming, Adrienne Decker</p>
-        </div> 
-        <div class="w3-container">
-          <h5><b>SIGCSE 2024</b></h5>
-          <a href="https://dl.acm.org/doi/10.1145/3626253.3635501" class="w3-text-black"><i class="fa fa-paperclip fa-fw w3-margin-right"></i>Computer Science Curriculum Trends</a>
-          <p class="tab">Type: Poster</p>
-          <p class="tab">Authors: Sean Mackay, Adrienne Decker</p>
-        </div> 
-        <div class="w3-container">
-          <h5><b>ICER 2023</b></h5>
-          <a href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=Nxb-wloAAAAJ&authuser=1&citation_for_view=Nxb-wloAAAAJ:8O4vDxvErlEC" class="w3-text-black"><i class="fa fa-paperclip fa-fw w3-margin-right"></i>Investigating Troublesome Knowledge in Middle-Year Computer Science Courses to Support Retention</a>
-          <p class="tab">Type: Doctoral Consortium Publication</p>
-          <p class="tab">Authors: Sean Mackay, Adrienne Decker</p>
-        </div>
-        <div class="w3-container">
-          <h5><b>FIE 2023</b></h5>
-          <a href="https://confcats-siteplex.s3.us-east-1.amazonaws.com/fie23/FIE_2023_Program_V16_9fbe7d5554.pdf" class="w3-text-black"><i class="fa fa-paperclip fa-fw w3-margin-right"></i>Identification of Threshold Concepts for Intermediate Computer Science Students</a>
-          <p class="tab">Type: Work In Progress Paper</p>
-          <p class="tab">Authors: Brian McSkimming, Sean Mackay, Adrienne Decker</p>
-        </div> 
-        <div class="w3-container">
-          <h5><b>SIGCSE 2023</b></h5>
-          <a href="https://tinyurl.com/2aw33mhx" class="w3-text-black"><i class="fa fa-paperclip fa-fw w3-margin-right"></i>Factors Influencing Academic Integrity Violations</a>
-          <p class="tab">Type: Poster</p>
-          <p class="tab">Authors: Sean Mackay</p>
-        </div>
-        <div class="w3-container">
-          <h5><b>SIGCSE 2022</b></h5>
-          <a href="https://tinyurl.com/2zpwt2f6" class="w3-text-black"><i class="fa fa-paperclip fa-fw w3-margin-right"></i>What Does Literature Tell Us About Recursion?</a>
-          <p class="tab">Type: ACM Student Research Competition Poster</p>
-          <p class="tab">Authors: Sean Mackay</p>
-        </div>
-        <div class="w3-container">
-          <h5><b>FIE 2022</b></h5>
-          <a href="https://tinyurl.com/2p9jn8eu" class="w3-text-black"><i class="fa fa-paperclip fa-fw w3-margin-right"></i>Investigating the Connection Between Sense of Belonging and Academic Dishonesty</a>
-          <p class="tab">Type: Conference Work in Progress Paper</p>
-          <p class="tab">Authors: Sean Mackay, Jessica Swenson</p>
-        </div>
-        <div class="w3-container">
-          <h5><b>FIE 2021</b></h5>
-          <a href="https://tinyurl.com/5dpc7c4t" class="w3-text-black"><i class="fa fa-paperclip fa-fw w3-margin-right"></i>Investigating the usage of Likert-style items within Computer Science Education Research Instruments</a>
-          <p class="tab">Type: Conference Paper</p>
-          <p class="tab">Authors: Brian McSkimming, Sean Mackay, Adrienne Decker</p>
-        </div>
-        <div class="w3-container">
-          <h5><b>FIE 2020</b></h5>
-          <a href="https://tinyurl.com/ycx7kpae" class="w3-text-black"><i class="fa fa-paperclip fa-fw w3-margin-right"></i>Updating our Understanding of the Impact of Pre-College Computing Experiences on University Students</a>
-          <p class="tab">Type: Conference Paper</p>
-          <p class="tab">Authors: Sean Mackay, Adrienne Decker</p>
-        </div>
-      </div>
-      <br>
+      </section>
 
-      <!--My list of conferences-->
-      <div class="w3-container w3-card w3-sand">
-        <h2 class="w3-text-black w3-padding-16"><i class="fa fa-book fa-fw w3-margin-right w3-xxlarge w3-text-black"></i>Conferences Attended</h2>
-        <div class="w3-container">
-			    <h5><b>SIGCSE TS 2026</b></h5>
-			    <p class="w3-text-black"><i class="fa fa-map-marker fa-fw w3-margin-right"></i>St Louis, MO</p>
-		    </div>
-        <div class="w3-container">
-			    <h5><b>Computing Research Association (CRA) Summit</b></h5>
-			    <p class="w3-text-black"><i class="fa fa-map-marker fa-fw w3-margin-right"></i>San Francisco, CA</p>
-		    </div>
-        <div class="w3-container">
-			    <h5><b>SIGCSE TS 2025</b></h5>
-			    <p class="w3-text-black"><i class="fa fa-map-marker fa-fw w3-margin-right"></i>Pittsburgh, PA</p>
-		    </div>
-        <div class="w3-container">
-			    <h5><b>FIE 2024</b></h5>
-			    <p class="w3-text-black"><i class="fa fa-map-marker fa-fw w3-margin-right"></i>Washington, DC</p>
-		    </div>
-        <div class="w3-container">
-          <h5><b>SIGCSE TS 2024</b></h5>
-          <p class="w3-text-black"><i class="fa fa-map-marker fa-fw w3-margin-right"></i>Portland, Oregon</p>
-        </div>  
-		    <div class="w3-container">
-          <h5><b>ICER 2023</b></h5>
-          <p class="w3-text-black"><i class="fa fa-map-marker fa-fw w3-margin-right"></i>Chicago, Illinois</p>
-        </div> 
-		    <div class="w3-container">
-          <h5><b>SIGCSE TS 2023</b></h5>
-          <p class="w3-text-black"><i class="fa fa-map-marker fa-fw w3-margin-right"></i>Toronto, Canada</p>
-        </div>
-		    <div class="w3-container">
-          <h5><b>SIGCSE TS 2022</b></h5>
-          <p class="w3-text-black"><i class="fa fa-map-marker fa-fw w3-margin-right"></i>Providence, Rhode Island</p>
-        </div>
-		    <div class="w3-container">
-          <h5><b>SIGCSE TS 2020</b></h5>
-          <p class="w3-text-black"><i class="fa fa-map-marker fa-fw w3-margin-right"></i>Portland, Oregon</p>
-        </div>
-		    <div class="w3-container">
-          <h5><b>ICER 2019</b></h5>
-          <p class="w3-text-black"><i class="fa fa-map-marker fa-fw w3-margin-right"></i>Toronto, Canada</p>
-        </div>		
-      </div>
-      <br>
+      <section class="sheet" id="service">
+        <h2 class="section-title"><i class="fa fa-graduation-cap"></i>Service Work</h2>
 
-      <!--Work Experience Section -->
-      <div class="w3-container w3-card w3-sand w3-margin-bottom">
-        <h2 class="w3-text-black w3-padding-16"><i class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge w3-text-black"></i>Work Experience</h2>
-		    <div class="w3-container">
-          <h5><b>Assistant Professor / The University of Oklahoma</b></h5>
-          <h6 class="w3-text-black"><i class="fa fa-calendar fa-fw w3-margin-right"></i>August 2025 - <span class="w3-tag w3-black w3-round">Current</span></h6>
-          <p>Assistant Professor in the School of Computer Science in the Gallogly College of Engineering.</p>
-          <br>
-        </div>
-		    <div class="w3-container">
-          <h5><b>Summer Adjunct Professor / University at Buffalo</b></h5>
-          <h6 class="w3-text-black"><i class="fa fa-calendar fa-fw w3-margin-right"></i>June 2021 - August 2025</h6>
-          <p>Summer adjunct professor for Intro to Computer Science 1 (CSE 115).</p>
-          <br>
-        </div>
-		    <div class="w3-container">
-          <h5><b>CSE 115 Instructor / University at Buffalo</b></h5>
-          <h6 class="w3-text-black"><i class="fa fa-calendar fa-fw w3-margin-right"></i>August 2024 - December 2024</h6>
-          <p>Serving as one of the faculty members for CSE 115 for Fall 2024.</p>
-          <br>
-        </div>
-        <div class="w3-container">
-          <h5><b>Graduate Research Assistant / University at Buffalo</b></h5>
-          <h6 class="w3-text-black"><i class="fa fa-calendar fa-fw w3-margin-right"></i>June 2020 - July 2025</h6>
-          <p>Research Assistant for Dr. Adrienne Decker on several projects including my dissertation.</p>
-          <br>
-        </div>
-        <div class="w3-container">
-          <h5><b>Software Development & IT Consultant</b></h5>
-          <h6 class="w3-text-black"><i class="fa fa-calendar fa-fw w3-margin-right"></i>May 2015 - June 2025</h6>
-          <p>Working with clients on managing their technology infrastructure and in-house software requirements.</p>
-          <br>
-        </div>
-        <div class="w3-container">
-          <h5><b>Graduate Teaching Assistant / University at Buffalo</b></h5>
-          <h6 class="w3-text-black"><i class="fa fa-calendar fa-fw w3-margin-right"></i>August 2020 - December 2020</h6>
-          <p>Graduate teaching assistant in the School of Engineering and Applied Sciences for EAS 230 (introduction to Matlab.)</p>
-          <br>
-        </div>
-        <div class="w3-container">
-          <h5><b>Undergraduate Research Assistant / University at Buffalo</b></h5>
-          <h6 class="w3-text-black"><i class="fa fa-calendar fa-fw w3-margin-right"></i>May 2018 - June 2020</h6>
-          <p>Research Assistant in the Computer Science department with Dr. Sridhar from June 2018 - December 2018</p>
-          <p>Research Assistant with Dr. Adrienne Decker from June 2019 - June 2020</p>
-          <br>
-        </div>
-        <div class="w3-container">
-          <h5><b>Undergraduate Teaching Assistant / University at Buffalo</b></h5>
-          <h6 class="w3-text-black"><i class="fa fa-calendar fa-fw w3-margin-right"></i>Feb 2018 - July 2020</h6>
-          <p>Teaching assistant for a wide array of computer science courses. </p>
-          <ul>
-            <li>CSE 113: Introduction to Programming For Nonmajors</li>
-            <li>CSE 115: Introduction to Computer Science 1</li>
-            <li>CSE 250: Data Structures</li>
-            <li>CSE 331: Algorithms Design and Analysis</li>
-            <li>CSE 442: Software Engineering</li>
-            <li>CSE 305: Programming Languages</li>
-          </ul> <br>
-        </div>
-      </div>
+        <div class="entry"><div class="entry-title"><b>Faculty Advisor, Game Developers Association</b></div>
+          <div class="entry-details"><p>Primary faculty advisor for the Game Developers Association registered student organisation in OU Computer Science.</p><p>August 2025-Present</p></div></div>
 
-    <!-- End Right Column -->
-    </div>
-  <!-- End Grid -->
+        <div class="entry"><div class="entry-title"><b>Faculty Co-Advisor, Hacklahoma</b></div>
+          <div class="entry-details"><p>Faculty co-advisor for Hacklahoma, the University of Oklahoma's MLH hackathon.</p><p>August 2025-Present</p></div></div>
+
+        <div class="entry"><div class="entry-title"><b>Faculty Co-Advisor, Interview Preparation Club</b></div>
+          <div class="entry-details"><p>Faculty co-advisor for the OU CS Interview Preparation Club.</p><p>August 2025-Present</p></div></div>
+
+        <div class="entry"><div class="entry-title"><b>OU CS Undergraduate Studies Committee Member</b></div>
+          <div class="entry-details"><p>August 2025-Present</p></div></div>
+
+        <div class="entry"><div class="entry-title"><b>OU CS ABET Committee Member</b></div>
+          <div class="entry-details"><p>August 2025-Present</p></div></div>
+
+        <div class="entry"><div class="entry-title"><b>OU CS Undergraduate Honours Student Coordinator</b></div>
+          <div class="entry-details"><p>August 2025-Present</p></div></div>
+
+        <div class="entry"><div class="entry-title"><b>Reviewer, ACM SIGCSE Technical Symposium on Computer Science Education</b></div>
+          <div class="entry-details"><p>2020-Present</p></div></div>
+
+        <div class="entry"><div class="entry-title"><b>Reviewer, IEEE FIE (Frontiers in Education) Conference</b></div>
+          <div class="entry-details"><p>2021-Present</p></div></div>
+
+        <div class="entry"><div class="entry-title"><b>OU CS Community Outreach Committee Member</b></div>
+          <div class="entry-details"><p>August 2025-August 2026</p></div></div>
+
+        <div class="entry"><div class="entry-title"><b>OU School of Computer Science AI Summer Camp Faculty Co-Lead</b></div>
+          <div class="entry-details"><p>Summer 2026</p></div></div>
+
+        <div class="entry"><div class="entry-title"><b>The University at Buffalo SEAS Graduate Handbook Development Committee Member</b></div>
+          <div class="entry-details"><p>2024</p></div></div>
+      </section>
+
+      <section class="sheet" id="grants">
+        <h2 class="section-title"><i class="fa fa-book"></i>Grants</h2>
+
+        <div class="grant">
+          <div class="grant-title"><b>WINAI Challenge Gates Foundation Grant</b></div>
+          <dl class="grant-facts">
+            <div><dt>Potential Funding:</dt> <dd>$5,000,000</dd></div>
+            <div><dt>Funding to Dr. Mackay:</dt> <dd>~$350,000</dd></div>
+            <div><dt>OU Norman PI:</dt> <dd>Dr. Ze Shi Li</dd></div>
+            <div><dt>OU Norman Co-PI:</dt> <dd>Dr. Sean Mackay</dd></div>
+            <div><dt>Status:</dt> <dd>Finalist, Not Funded</dd></div>
+            <div><dt>Submitted:</dt> <dd>January, 2026</dd></div>
+          </dl>
+        </div>
+
+        <div class="grant">
+          <div class="grant-title"><b>Spencer Grant Initial Submission</b></div>
+          <dl class="grant-facts">
+            <div><dt>Potential Funding:</dt> <dd>$400,000</dd></div>
+            <div><dt>PI:</dt> <dd>Dr. Ze Shi Li</dd></div>
+            <div><dt>Co-PI:</dt> <dd>Dr. Sean Mackay</dd></div>
+            <div><dt>Status:</dt> <dd>Final Round, Not Funded</dd></div>
+            <div><dt>Submitted:</dt> <dd>November, 2025</dd></div>
+          </dl>
+        </div>
+      </section>
+
+      <section class="sheet" id="publications">
+        <h2 class="section-title"><i class="fa fa-book"></i>Publications</h2>
+
+        <div class="pub">
+          <div class="pub-venue">FIE 2026</div>
+          <a href="" class="pub-title"><i class="fa fa-paperclip"></i>A Beginner's API: Revising the Java API to Support Introductory Programming Students</a>
+          <div class="pub-meta"><div>Accepted Work-In-Progress Paper</div><div>Ethan Gulley, Sean Mackay, Deborah Trytten</div></div>
+        </div>
+
+        <div class="pub">
+          <div class="pub-venue">FIE 2024</div>
+          <a href="" class="pub-title"><i class="fa fa-paperclip"></i>Using Chat-GPT to Create Multiple Choice CS Exams</a>
+          <div class="pub-meta"><div>Work-In-Progress Paper</div><div>Karol Lejmbach, Sean Mackay</div></div>
+        </div>
+
+        <div class="pub">
+          <div class="pub-venue">FIE 2024</div>
+          <a href="" class="pub-title"><i class="fa fa-paperclip"></i>Two Sides of the Same Coin: Differing Approaches to Generative AI in Two Computer Science Classrooms</a>
+          <div class="pub-meta"><div>Full Paper</div><div>Sean Mackay, Kurt Eiselt, Adrienne Decker</div></div>
+        </div>
+
+        <div class="pub">
+          <div class="pub-venue">FIE 2024</div>
+          <a href="" class="pub-title"><i class="fa fa-paperclip"></i>Interview Iterations and Improvements for Identifying Intermediate Computer Science Threshold Concepts</a>
+          <div class="pub-meta"><div>Work-In-Progress Paper</div><div>Sean Mackay, Brian McSkimming, Adrienne Decker</div></div>
+        </div>
+
+        <div class="pub">
+          <div class="pub-venue">SIGCSE 2024</div>
+          <a href="https://dl.acm.org/doi/10.1145/3626253.3635501" class="pub-title"><i class="fa fa-paperclip"></i>Computer Science Curriculum Trends</a>
+          <div class="pub-meta"><div>Poster</div><div>Sean Mackay, Adrienne Decker</div></div>
+        </div>
+
+        <div class="pub">
+          <div class="pub-venue">ICER 2023</div>
+          <a href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=Nxb-wloAAAAJ&authuser=1&citation_for_view=Nxb-wloAAAAJ:8O4vDxvErlEC" class="pub-title"><i class="fa fa-paperclip"></i>Investigating Troublesome Knowledge in Middle-Year Computer Science Courses to Support Retention</a>
+          <div class="pub-meta"><div>Doctoral Consortium Publication</div><div>Sean Mackay, Adrienne Decker</div></div>
+        </div>
+
+        <div class="pub">
+          <div class="pub-venue">FIE 2023</div>
+          <a href="https://confcats-siteplex.s3.us-east-1.amazonaws.com/fie23/FIE_2023_Program_V16_9fbe7d5554.pdf" class="pub-title"><i class="fa fa-paperclip"></i>Identification of Threshold Concepts for Intermediate Computer Science Students</a>
+          <div class="pub-meta"><div>Work In Progress Paper</div><div>Brian McSkimming, Sean Mackay, Adrienne Decker</div></div>
+        </div>
+
+        <div class="pub">
+          <div class="pub-venue">SIGCSE 2023</div>
+          <a href="https://tinyurl.com/2aw33mhx" class="pub-title"><i class="fa fa-paperclip"></i>Factors Influencing Academic Integrity Violations</a>
+          <div class="pub-meta"><div>Poster</div><div>Sean Mackay</div></div>
+        </div>
+
+        <div class="pub">
+          <div class="pub-venue">SIGCSE 2022</div>
+          <a href="https://tinyurl.com/2zpwt2f6" class="pub-title"><i class="fa fa-paperclip"></i>What Does Literature Tell Us About Recursion?</a>
+          <div class="pub-meta"><div>ACM Student Research Competition Poster</div><div>Sean Mackay</div></div>
+        </div>
+
+        <div class="pub">
+          <div class="pub-venue">FIE 2022</div>
+          <a href="https://tinyurl.com/2p9jn8eu" class="pub-title"><i class="fa fa-paperclip"></i>Investigating the Connection Between Sense of Belonging and Academic Dishonesty</a>
+          <div class="pub-meta"><div>Conference Work in Progress Paper</div><div>Sean Mackay, Jessica Swenson</div></div>
+        </div>
+
+        <div class="pub">
+          <div class="pub-venue">FIE 2021</div>
+          <a href="https://tinyurl.com/5dpc7c4t" class="pub-title"><i class="fa fa-paperclip"></i>Investigating the usage of Likert-style items within Computer Science Education Research Instruments</a>
+          <div class="pub-meta"><div>Conference Paper</div><div>Brian McSkimming, Sean Mackay, Adrienne Decker</div></div>
+        </div>
+
+        <div class="pub">
+          <div class="pub-venue">FIE 2020</div>
+          <a href="https://tinyurl.com/ycx7kpae" class="pub-title"><i class="fa fa-paperclip"></i>Updating our Understanding of the Impact of Pre-College Computing Experiences on University Students</a>
+          <div class="pub-meta"><div>Conference Paper</div><div>Sean Mackay, Adrienne Decker</div></div>
+        </div>
+      </section>
+
+      <section class="sheet" id="conferences">
+        <h2 class="section-title"><i class="fa fa-book"></i>Conferences Attended</h2>
+        <div class="conf-grid">
+          <div class="conf-item"><div class="conf-name"><b>SIGCSE TS 2026</b></div><div class="conf-loc"><i class="fa fa-map-marker"></i>St Louis, MO</div></div>
+          <div class="conf-item"><div class="conf-name"><b>Computing Research Association (CRA) Summit</b></div><div class="conf-loc"><i class="fa fa-map-marker"></i>San Francisco, CA</div></div>
+          <div class="conf-item"><div class="conf-name"><b>SIGCSE TS 2025</b></div><div class="conf-loc"><i class="fa fa-map-marker"></i>Pittsburgh, PA</div></div>
+          <div class="conf-item"><div class="conf-name"><b>FIE 2024</b></div><div class="conf-loc"><i class="fa fa-map-marker"></i>Washington, DC</div></div>
+          <div class="conf-item"><div class="conf-name"><b>SIGCSE TS 2024</b></div><div class="conf-loc"><i class="fa fa-map-marker"></i>Portland, Oregon</div></div>
+          <div class="conf-item"><div class="conf-name"><b>ICER 2023</b></div><div class="conf-loc"><i class="fa fa-map-marker"></i>Chicago, Illinois</div></div>
+          <div class="conf-item"><div class="conf-name"><b>SIGCSE TS 2023</b></div><div class="conf-loc"><i class="fa fa-map-marker"></i>Toronto, Canada</div></div>
+          <div class="conf-item"><div class="conf-name"><b>SIGCSE TS 2022</b></div><div class="conf-loc"><i class="fa fa-map-marker"></i>Providence, Rhode Island</div></div>
+          <div class="conf-item"><div class="conf-name"><b>SIGCSE TS 2020</b></div><div class="conf-loc"><i class="fa fa-map-marker"></i>Portland, Oregon</div></div>
+          <div class="conf-item"><div class="conf-name"><b>ICER 2019</b></div><div class="conf-loc"><i class="fa fa-map-marker"></i>Toronto, Canada</div></div>
+        </div>
+      </section>
+
+      <section class="sheet" id="experience">
+        <h2 class="section-title"><i class="fa fa-suitcase"></i>Work Experience</h2>
+        <div class="timeline">
+
+          <div class="tl-item">
+            <div class="tl-role"><b>Assistant Professor</b> <span class="tl-org">/ The University of Oklahoma</span></div>
+            <div class="tl-date">August 2025 - <span class="current">Current</span></div>
+            <div class="tl-desc">Assistant Professor in the School of Computer Science in the Gallogly College of Engineering.</div>
+          </div>
+
+          <div class="tl-item">
+            <div class="tl-role"><b>Summer Adjunct Professor</b> <span class="tl-org">/ University at Buffalo</span></div>
+            <div class="tl-date">June 2021 - August 2025</div>
+            <div class="tl-desc">Summer adjunct professor for Intro to Computer Science 1 (CSE 115).</div>
+          </div>
+
+          <div class="tl-item">
+            <div class="tl-role"><b>CSE 115 Instructor</b> <span class="tl-org">/ University at Buffalo</span></div>
+            <div class="tl-date">August 2024 - December 2024</div>
+            <div class="tl-desc">Serving as one of the faculty members for CSE 115 for Fall 2024.</div>
+          </div>
+
+          <div class="tl-item">
+            <div class="tl-role"><b>Graduate Research Assistant</b> <span class="tl-org">/ University at Buffalo</span></div>
+            <div class="tl-date">June 2020 - July 2025</div>
+            <div class="tl-desc">Research Assistant for Dr. Adrienne Decker on several projects including my dissertation.</div>
+          </div>
+
+          <div class="tl-item">
+            <div class="tl-role"><b>Software Development &amp; IT Consultant</b></div>
+            <div class="tl-date">May 2015 - June 2025</div>
+            <div class="tl-desc">Working with clients on managing their technology infrastructure and in-house software requirements.</div>
+          </div>
+
+          <div class="tl-item">
+            <div class="tl-role"><b>Graduate Teaching Assistant</b> <span class="tl-org">/ University at Buffalo</span></div>
+            <div class="tl-date">August 2020 - December 2020</div>
+            <div class="tl-desc">Graduate teaching assistant in the School of Engineering and Applied Sciences for EAS 230 (introduction to Matlab.)</div>
+          </div>
+
+          <div class="tl-item">
+            <div class="tl-role"><b>Undergraduate Research Assistant</b> <span class="tl-org">/ University at Buffalo</span></div>
+            <div class="tl-date">May 2018 - June 2020</div>
+            <div class="tl-desc">
+              Research Assistant in the Computer Science department with Dr. Sridhar from June 2018 - December 2018<br>
+              Research Assistant with Dr. Adrienne Decker from June 2019 - June 2020
+            </div>
+          </div>
+
+          <div class="tl-item">
+            <div class="tl-role"><b>Undergraduate Teaching Assistant</b> <span class="tl-org">/ University at Buffalo</span></div>
+            <div class="tl-date">Feb 2018 - July 2020</div>
+            <div class="tl-desc">
+              Teaching assistant for a wide array of computer science courses.
+              <ul>
+                <li>CSE 113: Introduction to Programming For Nonmajors</li>
+                <li>CSE 115: Introduction to Computer Science 1</li>
+                <li>CSE 250: Data Structures</li>
+                <li>CSE 331: Algorithms Design and Analysis</li>
+                <li>CSE 442: Software Engineering</li>
+                <li>CSE 305: Programming Languages</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
   </div>
-  <!-- End Page Container -->
 </div>
 
-<footer class="w3-container w3-black w3-center w3-margin-top">
-  <a href="/index" class="w3-btn w3-sand w3-text-black w3-round-large w3-margin-top"><i class="fa fa-home"></i> HOME</a>
-  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank" rel="noopener">w3.css version 5.0</a></p>
+<footer>
+  <a href="/index" class="home-btn"><i class="fa fa-home"></i> Home</a>
+  <p>Powered by hand-rolled CSS</p>
 </footer>
 
 </body>
