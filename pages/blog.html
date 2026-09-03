@@ -1,122 +1,374 @@
 <!DOCTYPE html>
-<html>
-<title>My random thoughts</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<style>
-html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
-</style>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My Random Thoughts</title>
+  <meta name="description" content="Random reflections written during my PhD process and other things.">
 
-<style type="text/css">
-  <!--
-   .tab { margin-left: 40px; }
-  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,500&family=Roboto:wght@300;400;500;700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <style>
+    :root {
+      --blue: #2e4c6d;
+      --blue-deep: #1b3350;
+      --bg: #171512;
+      --bg-soft: #201d19;
+      --paper: #f6f1e6;
+      --paper-stripe: #e6ebf0;
+      --ink: #241f1a;
+      --ink-soft: #6d6355;
+      --rule: #ddcfae;
+      --rule-soft: rgba(221, 207, 174, 0.18);
+      --radius: 8px;
+      --shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+      --max-width: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      background-image:
+        radial-gradient(circle at 12% 8%, rgba(46, 76, 109, 0.10), transparent 45%),
+        radial-gradient(circle at 88% 92%, rgba(46, 76, 109, 0.08), transparent 40%);
+      color: var(--paper);
+      font-family: "Roboto", sans-serif;
+      font-weight: 300;
+      line-height: 1.55;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: "Lora", serif;
+      font-weight: 600;
+      margin: 0;
+      color: var(--ink);
+    }
+
+    a { color: var(--blue-deep); }
+    a:hover { color: var(--blue); }
+
+    :focus-visible {
+      outline: 2px solid var(--blue);
+      outline-offset: 2px;
+    }
+
+    /* ---- Wrapper ---- */
+    .wrap {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 56px 24px 40px;
+    }
+
+    /* ---- Masthead ---- */
+    .masthead {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+      padding-bottom: 28px;
+      margin-bottom: 40px;
+      border-bottom: 1px solid var(--rule-soft);
+    }
+    .masthead .kicker {
+      font-family: "Lora", serif;
+      font-style: italic;
+      font-size: 0.95rem;
+      color: rgba(246, 241, 230, 0.55);
+    }
+    .masthead nav a {
+      color: rgba(246, 241, 230, 0.75);
+      text-decoration: none;
+      font-size: 0.92rem;
+      margin-left: 22px;
+      border-bottom: 1px solid transparent;
+      padding-bottom: 2px;
+    }
+    .masthead nav a:hover {
+      color: var(--paper);
+      border-bottom-color: var(--blue);
+    }
+
+    /* ---- Layout ---- */
+    .layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 28px;
+      align-items: start;
+    }
+
+    aside {
+      position: sticky;
+      top: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* ---- Sheet (content card) ---- */
+    .sheet {
+      background: var(--paper);
+      color: var(--ink);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    /* ---- Blog sidebar card ---- */
+    .blog-profile-img {
+      width: 148px;
+      height: 148px;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+      margin: 26px auto 18px;
+      border: 3px solid var(--blue);
+      box-shadow: 0 0 0 5px var(--paper), 0 0 0 6px var(--rule);
+    }
+
+    .blog-sidebar-body {
+      padding: 0 24px 26px;
+    }
+
+    .blog-sidebar-body h1 {
+      font-size: 1.2rem;
+      line-height: 1.3;
+      margin-bottom: 12px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--blue);
+    }
+
+    .blog-sidebar-body p {
+      margin: 0;
+      font-size: 0.92rem;
+      color: var(--ink-soft);
+      line-height: 1.65;
+    }
+
+    /* ---- Main content area ---- */
+    main {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* ---- Blog post card ---- */
+    .post {
+      padding: 30px 32px 34px;
+    }
+
+    .post-header {
+      padding-bottom: 16px;
+      margin-bottom: 22px;
+      border-bottom: 2px solid var(--blue);
+    }
+
+    .post-header h2 {
+      font-size: 1.4rem;
+      line-height: 1.25;
+    }
+
+    .post-body p {
+      font-family: "Lora", serif;
+      font-size: 1.0rem;
+      line-height: 1.8;
+      color: var(--ink);
+      margin: 0 0 1.4em;
+      max-width: 68ch;
+    }
+
+    .post-body p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* ---- Footer ---- */
+    footer {
+      text-align: center;
+      padding: 40px 24px 20px;
+      color: rgba(246, 241, 230, 0.45);
+      font-size: 0.85rem;
+    }
+    footer a { color: rgba(246, 241, 230, 0.7); }
+    .home-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--paper);
+      text-decoration: none;
+      border: 1px solid var(--rule-soft);
+      padding: 8px 18px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+      font-size: 0.88rem;
+    }
+    .home-btn:hover {
+      border-color: var(--blue);
+      color: var(--paper);
+      background: rgba(46, 76, 109, 0.15);
+    }
+
+    /* ---- Responsive: tablet + mobile ---- */
+    @media (max-width: 860px) {
+      .wrap { padding: 28px 16px 32px; }
+
+      .masthead { flex-direction: column; align-items: flex-start; gap: 8px; }
+      .masthead nav { display: flex; flex-wrap: wrap; }
+      .masthead nav a { margin-left: 0; margin-right: 20px; padding: 6px 0; }
+
+      .layout { grid-template-columns: 1fr; gap: 20px; }
+      aside { position: static; }
+
+      /* Sidebar flips to a horizontal band */
+      .sidebar-card {
+        display: flex;
+        align-items: center;
+      }
+      .blog-profile-img {
+        width: 90px;
+        height: 90px;
+        margin: 20px 0 20px 20px;
+        flex-shrink: 0;
+      }
+      .blog-sidebar-body {
+        padding: 16px 20px;
+      }
+      .blog-sidebar-body h1 { font-size: 1.05rem; }
+
+      .post { padding: 20px 18px 24px; }
+      .post-header h2 { font-size: 1.2rem; }
+      .post-body p { max-width: 100%; }
+    }
+
+    /* ---- Responsive: small phones ---- */
+    @media (max-width: 480px) {
+      .wrap { padding: 18px 12px 28px; }
+
+      .blog-profile-img { width: 72px; height: 72px; margin: 16px 0 16px 16px; }
+      .blog-sidebar-body { padding: 12px 16px; }
+      .blog-sidebar-body h1 { font-size: 0.97rem; }
+      .blog-sidebar-body p { font-size: 0.86rem; }
+
+      .post { padding: 16px 14px 20px; }
+      .post-header h2 { font-size: 1.1rem; }
+      .post-body p { font-size: 0.95rem; line-height: 1.75; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+    }
   </style>
+</head>
+<body>
 
-<body class="w3-green">
+<div class="wrap">
 
-<!-- Page Container -->
-<div class="w3-content w3-margin-top" style="max-width:1400px;">
-
-  <!-- The Grid -->
-  <div class="w3-row-padding">
-
-    <!-- Left Column -->
-    <div class="w3-third">
-
-      <div class="w3-pale-yellow w3-text-black w3-card-4">
-        <div class="w3-display-container">
-          <img src="images/mountain.jpg" style="width:100%" alt="Avatar">
-          <div class="w3-display-bottomleft w3-container w3-text-white">
-            <h2>My rambling thoughts</h2>
-          </div>
-          </div>
-          <div class="w3-container">
-          <p></p>Random reflections I've written during my PhD process and other things</p>
-          
-          
-        </div>
-        
-      </div><br>
-
-    <!-- End Left Column -->
-    </div>
-    <!-- Blog Section -->
-    <!-- Right Column -->
-    <div class="w3-twothird">
-
-      <div class="w3-container w3-card w3-pale-yellow w3-margin-bottom">
-        <h2 class="w3-text-black ">A Reflection</h2>
-        <div class="w3-container">
-          <p><i class="fa fa- fa-fw"></i>The best research plans rarely ever come to fruition if you fail to scope them correctly: this has been 
-            simultaneously the most important and the hardest lesson I’ve learned thus far in graduate school. When I initially began my journey 
-            as a PhD student in 2020, I had only a rough idea of the field of Computer Science education, and while one of the first courses I 
-            took was specifically designed to help provide me with a gateway into the field, I found myself at a loss with what specifically I 
-            wanted to investigate. I remember the assignment vividly; I was tasked with proposing a region of research that interested me, and 
-            thus this became the focus of my work for the next year and a half. I somewhat naively chose to investigate students’ mental models 
-            (or internal representations for) recursion, a programming method/paradigm commonly found in Computer Science.  While I initially 
-            believed that I had scoped the problem in an appropriate manner, it wasn’t until later that I realized that recursion serves as both 
-            a region of potential in terms of unexplored research as well as an impossible pit of rabbit holes and loosely justified reasons for 
-            systemic norms and practices. My retrospective on this work is not a criticism of myself two years ago; nor is it a criticism of my advisor. 
-            my advisor provided me both the support as well as the freedom to learn and grow into the field of Computer Science education on my own terms, 
-            something that I am eternally grateful for. The purpose of this reflection, however, is to document and assess my initial conceptions of 
-            Computer Science education, as well as my initial goals for my dissertation. Furthermore, an additional goal of this reflection is to 
-            provide myself a chance to reflect upon what I have learned in the last roughly two to three years of doing research in this space, 
-            and how I can apply what I have learned to my future work. 
-            </p>
-            <p><i class="fa fa- fa-fw"></i>
-              Last fall, I hit somewhat of a wall with my work regarding recursion. While up to that moment I had an idea of what my contribution 
-              to education research surround recursion could be, I found through completing the systematic literature review I had finished findings 
-              that indicated to me several truths regarding recursion. The most impactful finding was that there was no single contribution I could 
-              make to our understanding of students and recursion that would be both appropriate in size and scope for a dissertation while also 
-              impactful to Computer Science education as a field. It took me a further semester to admit defeat, and while I am actively finishing 
-              the work I have done regarding recursion, I am now looking to refocus my work towards more meaningful lines of rhetoric. 
-            </p>
-            <p><i class="fa fa- fa-fw"></i>
-              This reflection serves as a roadmap of what I have done, tried, and failed at with regards to my research in the process of getting 
-              to my third year in the DEE PhD program. I do not consider this to have been wasted time or effort; rather I know I have gained 
-              perspective into what effective, impactful research should consist of. Furthermore, I have taken the work I have done in consideration 
-              as I approach the next steps in my dissertation process. While I feel strongly that what I have been working on does not serve as an 
-              appropriate dissertation topic, it has brought to my attention other ideas and areas of potential research. The area I am most strongly 
-              considering right now is investigating the liminality of senior Computer Science students’ identity and sense of belonging as they 
-              transition from Computer Science students to professionals. Particularly, I wish to understand what factors may influence students 
-              to not believe the professional sector is for them and look at what students choose to leave Computer Science as a field post-graduation and why.
-              </p>
-        </div>
-
-      </div>
-	  <!--
-      <div class="w3-container w3-card w3-light-grey w3-margin-bottom">
-        <h2 class="w3-text-green "></h2>
-        <div class="w3-container">
-          <p><i class="fa fa- fa-fw"></i>
-          </p>
-          <p><i class="fa fa- fa-fw"></i>
-          </p>
-          <p><i class="fa fa- fa-fw"></i>
-          </p>
-        </div>
-      </div>
-	  -->
-
-      
-
-    <!-- End Right Column -->
-    </div>
-
-  <!-- End Grid -->
+  <div class="masthead">
+    <span class="kicker">My Random Thoughts</span>
+    <nav>
+      <a href="/index">Home</a>
+      <a href="#">Blog</a>
+    </nav>
   </div>
 
-  <!-- End Page Container -->
+  <div class="layout">
+
+    <!-- Sidebar -->
+    <aside>
+      <div class="sheet sidebar-card">
+        <img
+          src="../images/me25.jpg"
+          alt="Photo of me"
+          class="blog-profile-img"
+        >
+        <div class="blog-sidebar-body">
+          <h1>My Rambling Thoughts</h1>
+          <p>
+            Random reflections I've written during my PhD process
+            and other things.
+          </p>
+        </div>
+      </div>
+    </aside>
+    <!-- End Sidebar -->
+
+    <!-- Blog Posts -->
+    <main>
+
+      <article class="sheet post">
+        <header class="post-header">
+          <h2>A Reflection</h2>
+        </header>
+        <div class="post-body">
+          <p>
+            The best research plans rarely ever come to fruition if you fail to scope them correctly:
+            this has been simultaneously the most important and the hardest lesson I've learned thus
+            far in graduate school. When I initially began my journey as a PhD student in 2020, I had
+            only a rough idea of the field of Computer Science education, and while one of the first
+            courses I took was specifically designed to help provide me with a gateway into the field,
+            I found myself at a loss with what specifically I wanted to investigate. I remember the
+            assignment vividly; I was tasked with proposing a region of research that interested me,
+            and thus this became the focus of my work for the next year and a half. I somewhat naively
+            chose to investigate students' mental models (or internal representations for) recursion,
+            a programming method/paradigm commonly found in Computer Science. While I initially
+            believed that I had scoped the problem in an appropriate manner, it wasn't until later
+            that I realized that recursion serves as both a region of potential in terms of unexplored
+            research as well as an impossible pit of rabbit holes and loosely justified reasons for
+            systemic norms and practices. My retrospective on this work is not a criticism of myself
+            two years ago; nor is it a criticism of my advisor. My advisor provided me both the support
+            as well as the freedom to learn and grow into the field of Computer Science education on
+            my own terms, something that I am eternally grateful for. The purpose of this reflection,
+            however, is to document and assess my initial conceptions of Computer Science education,
+            as well as my initial goals for my dissertation. Furthermore, an additional goal of this
+            reflection is to provide myself a chance to reflect upon what I have learned in the last
+            roughly two to three years of doing research in this space, and how I can apply what I
+            have learned to my future work.
+          </p>
+          <p>
+            Last fall, I hit somewhat of a wall with my work regarding recursion. While up to that
+            moment I had an idea of what my contribution to education research surround recursion
+            could be, I found through completing the systematic literature review I had finished
+            findings that indicated to me several truths regarding recursion. The most impactful
+            finding was that there was no single contribution I could make to our understanding of
+            students and recursion that would be both appropriate in size and scope for a dissertation
+            while also impactful to Computer Science education as a field. It took me a further
+            semester to admit defeat, and while I am actively finishing the work I have done regarding
+            recursion, I am now looking to refocus my work towards more meaningful lines of rhetoric.
+          </p>
+          <p>
+            This reflection serves as a roadmap of what I have done, tried, and failed at with regards
+            to my research in the process of getting to my third year in the DEE PhD program. I do not
+            consider this to have been wasted time or effort; rather I know I have gained perspective
+            into what effective, impactful research should consist of. Furthermore, I have taken the
+            work I have done in consideration as I approach the next steps in my dissertation process.
+            While I feel strongly that what I have been working on does not serve as an appropriate
+            dissertation topic, it has brought to my attention other ideas and areas of potential
+            research. The area I am most strongly considering right now is investigating the liminality
+            of senior Computer Science students' identity and sense of belonging as they transition
+            from Computer Science students to professionals. Particularly, I wish to understand what
+            factors may influence students to not believe the professional sector is for them and look
+            at what students choose to leave Computer Science as a field post-graduation and why.
+          </p>
+        </div>
+      </article>
+
+    </main>
+    <!-- End Blog Posts -->
+
+  </div>
+
 </div>
 
-<footer class="w3-container w3-green w3-center w3-margin-top">
-  <p> </p>
-  <a href="/index" class=" w3-btn w3-white w3-text-green w3-round-large "><i class="fa fa-home"></i> HOME</a>
-  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+<footer>
+  <a href="/index" class="home-btn"><i class="fa fa-home"></i> Home</a>
+  <p>Powered by hand-rolled CSS</p>
 </footer>
 
 </body>
