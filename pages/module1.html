@@ -1,671 +1,1118 @@
 <!DOCTYPE html>
-<html>
-<title>Module 1: Memory</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Module 1: Memory &amp; Pointers</title>
+  <meta name="description" content="Course materials for Module 1: Pointers, References, and Memory Allocation in C.">
 
-<!--Syntax highlighting import-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
 
-    <!-- and it's easy to individually load additional languages -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/c.min.js"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,500&family=Roboto:wght@300;400;500;700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+  <!-- Syntax highlighting -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/c.min.js"></script>
+  <script>hljs.highlightAll();</script>
 
-    <script>hljs.highlightAll();</script>
+  <style>
+    :root {
+      --blue: #2e4c6d;
+      --blue-deep: #1b3350;
+      --bg: #171512;
+      --bg-soft: #201d19;
+      --paper: #f6f1e6;
+      --paper-stripe: #e6ebf0;
+      --ink: #241f1a;
+      --ink-soft: #6d6355;
+      --rule: #ddcfae;
+      --rule-soft: rgba(221, 207, 174, 0.18);
+      --radius: 8px;
+      --shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+      --max-width: 900px;
+    }
 
-<!--Style block-->
-    <style>
-    html,body,h1,h2,h3,h4,h5,h6 {font-family: "Lucida Console", "Courier New", monospace}
-    </style>
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
 
-    <style type="text/css">
-        .tab { margin-left: 40px; }
-    </style>
+    body {
+      margin: 0;
+      background: var(--bg);
+      background-image:
+        radial-gradient(circle at 12% 8%, rgba(46, 76, 109, 0.10), transparent 45%),
+        radial-gradient(circle at 88% 92%, rgba(46, 76, 109, 0.08), transparent 40%);
+      color: var(--paper);
+      font-family: "Roboto", sans-serif;
+      font-weight: 300;
+      line-height: 1.65;
+    }
 
-<!--Body -->
-<body class="w3-light-blue">
+    h1, h2, h3, h4, h5, h6 {
+      font-family: "Lora", serif;
+      font-weight: 600;
+      margin: 0;
+      color: var(--ink);
+    }
 
-<!-- Navbar (sit on top) -->
-<div class="w3-top">
-  <div class="w3-bar w3-grey w3-text-white" id="myNavbar">
-    <a href="/repository" class="w3-bar-item w3-btn w3-hover-blue w3-hide-small"><i class="fa fa-home"></i> MODULES</a>
-    <a href="#home" class="w3-bar-item w3-btn w3-hover-blue w3-hide-small"><i class="fa fa-home"></i> HOME</a>
-    <a href="#code" class="w3-bar-item w3-btn w3-hover-blue w3-hide-small"><i class="fa fa-briefcase"></i> CODING</a>
-    <a href="#computermemory" class="w3-bar-item w3-btn w3-hover-blue w3-hide-small"><i class="fa fa-desktop"></i> 1: COMPUTER MEMORY</a>
-    <a href="#pointers" class="w3-bar-item w3-btn w3-hover-blue w3-hide-small"><i class="fa fa-asterisk"></i> 2: POINTERS</a>
-    <a href="#s2practice" class="w3-bar-item w3-btn w3-hover-blue w3-hide-small"><i class="fa fa-asterisk"></i> 2: PRACTICE </a>
-    <a href="#advanced" class="w3-bar-item w3-btn w3-hover-blue w3-hide-small"><i class="fa fa-asterisk"></i> 3: ADVANCED POINTERS </a>
-    <a href="#heap" class="w3-bar-item w3-btn w3-hover-blue w3-hide-small"><i class="fa fa-asterisk"></i> 4: HEAP ALLOCATION </a>
+    a { color: var(--blue-deep); }
+    a:hover { color: var(--blue); }
+
+    :focus-visible {
+      outline: 2px solid var(--blue);
+      outline-offset: 2px;
+    }
+
+    /* ---- Wrapper ---- */
+    .wrap {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 56px 24px 40px;
+    }
+
+    /* ---- Masthead ---- */
+    .masthead {
+      padding-bottom: 28px;
+      margin-bottom: 40px;
+      border-bottom: 1px solid var(--rule-soft);
+    }
+    .masthead-top {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+    .masthead .kicker {
+      font-family: "Lora", serif;
+      font-style: italic;
+      font-size: 0.95rem;
+      color: rgba(246, 241, 230, 0.55);
+    }
+    .masthead .back-link {
+      color: rgba(246, 241, 230, 0.7);
+      text-decoration: none;
+      font-size: 0.88rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .masthead .back-link:hover { color: var(--paper); }
+
+    .module-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 0;
+    }
+    .module-nav a {
+      color: rgba(246, 241, 230, 0.70);
+      text-decoration: none;
+      font-size: 0.85rem;
+      margin-right: 20px;
+      border-bottom: 1px solid transparent;
+      padding-bottom: 2px;
+      white-space: nowrap;
+    }
+    .module-nav a:hover {
+      color: var(--paper);
+      border-bottom-color: var(--blue);
+    }
+
+    /* ---- Sheet cards ---- */
+    .sheet {
+      background: var(--paper);
+      color: var(--ink);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 30px 32px 34px;
+      margin-bottom: 24px;
+    }
+
+    /* ---- Section titles ---- */
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.3rem;
+      padding-bottom: 14px;
+      margin-bottom: 22px;
+      border-bottom: 2px solid var(--blue);
+      color: var(--ink);
+    }
+    .section-title i { color: var(--blue); font-size: 1.05rem; }
+
+    .sub-title {
+      font-size: 1.1rem;
+      color: var(--blue-deep);
+      margin: 28px 0 12px;
+    }
+
+    /* ---- Body text ---- */
+    .body-text {
+      font-size: 1rem;
+      line-height: 1.75;
+      color: var(--ink);
+    }
+    .body-text + .body-text { margin-top: 1em; }
+
+    /* ---- TOC list ---- */
+    .toc-list {
+      list-style: none;
+      margin: 18px 0 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .toc-list li {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      font-size: 0.97rem;
+    }
+    .toc-list .toc-num {
+      font-family: "Lora", serif;
+      font-style: italic;
+      font-size: 0.85rem;
+      color: var(--ink-soft);
+      min-width: 18px;
+    }
+    .toc-list a {
+      color: var(--blue-deep);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+    }
+    .toc-list a:hover {
+      color: var(--blue);
+      border-bottom-color: var(--blue);
+    }
+
+    /* ---- Images ---- */
+    .img-fluid {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 20px auto;
+      border-radius: 4px;
+    }
+
+    /* ---- YouTube link cards ---- */
+    .yt-link {
+      display: block;
+      text-decoration: none;
+      border-radius: 6px;
+      overflow: hidden;
+      margin: 12px 0;
+      border: 1px solid var(--rule);
+      transition: box-shadow 0.15s, transform 0.15s;
+    }
+    .yt-link:hover {
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.18);
+      transform: translateY(-2px);
+    }
+    .yt-thumb {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      background: #0a0a0a;
+      overflow: hidden;
+    }
+    .yt-thumb img {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      opacity: 0.82;
+      transition: opacity 0.15s;
+    }
+    .yt-link:hover .yt-thumb img { opacity: 1; }
+    .yt-play {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 56px; height: 56px;
+      background: rgba(220, 0, 0, 0.90);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s, transform 0.15s;
+      pointer-events: none;
+    }
+    .yt-link:hover .yt-play {
+      background: rgb(220, 0, 0);
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+    .yt-play i { color: #fff; font-size: 1rem; margin-left: 4px; }
+    .yt-caption {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      background: var(--paper-stripe);
+      color: var(--ink-soft);
+      font-size: 0.88rem;
+    }
+    .yt-caption .fa-youtube-play { color: #dc0000; font-size: 1.1rem; }
+    .yt-ext { margin-left: auto; opacity: 0.4; font-size: 0.78rem; }
+
+    /* ---- Code editor iframe ---- */
+    .editor-wrap {
+      width: 100%;
+      height: 700px;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 16px;
+    }
+    .editor-wrap iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* ---- Code blocks ---- */
+    pre {
+      margin: 16px 0;
+      border-radius: 6px;
+      overflow-x: auto;
+    }
+    pre code.hljs {
+      font-size: 0.88rem;
+      line-height: 1.6;
+      border-radius: 6px;
+    }
+    /* Inline code */
+    :not(pre) > code {
+      font-family: "Courier New", Courier, monospace;
+      font-size: 0.9em;
+      background: rgba(46, 76, 109, 0.12);
+      color: var(--blue-deep);
+      padding: 1px 5px;
+      border-radius: 3px;
+    }
+
+    /* ---- Links section ---- */
+    .link-group {
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid var(--rule);
+    }
+    .link-group-label {
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--ink-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 8px;
+    }
+    .link-group a {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-right: 16px;
+      margin-bottom: 6px;
+      font-size: 0.92rem;
+    }
+    .link-group a i { font-size: 0.8rem; color: var(--blue); }
+
+    /* ---- Practice / details ---- */
+    details {
+      margin-top: 16px;
+      border: 1px solid var(--rule);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    summary {
+      cursor: pointer;
+      padding: 12px 16px;
+      font-family: "Lora", serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--blue-deep);
+      background: var(--paper-stripe);
+      list-style: none;
+      user-select: none;
+    }
+    summary::-webkit-details-marker { display: none; }
+    summary::before {
+      content: "▶ ";
+      font-size: 0.75rem;
+      color: var(--blue);
+    }
+    details[open] summary::before { content: "▼ "; }
+    details > :not(summary) { padding: 14px 16px; }
+
+    .practice-question {
+      padding: 18px 0;
+      border-bottom: 1px solid var(--rule);
+    }
+    .practice-question:last-child { border-bottom: none; padding-bottom: 0; }
+    .practice-question:first-child { padding-top: 0; }
+    .question-label {
+      font-family: "Lora", serif;
+      font-weight: 600;
+      color: var(--blue-deep);
+      font-size: 0.95rem;
+      margin-bottom: 10px;
+    }
+
+    /* ---- Footer ---- */
+    footer {
+      text-align: center;
+      padding: 40px 24px 20px;
+      color: rgba(246, 241, 230, 0.45);
+      font-size: 0.85rem;
+    }
+    footer a { color: rgba(246, 241, 230, 0.7); }
+    .home-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--paper);
+      text-decoration: none;
+      border: 1px solid var(--rule-soft);
+      padding: 8px 18px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+      font-size: 0.88rem;
+    }
+    .home-btn:hover {
+      border-color: var(--blue);
+      color: var(--paper);
+      background: rgba(46, 76, 109, 0.15);
+    }
+
+    /* ---- Responsive: tablet ---- */
+    @media (max-width: 860px) {
+      .wrap { padding: 28px 16px 32px; }
+      .sheet { padding: 20px 18px 24px; }
+      .masthead-top { flex-direction: column; gap: 6px; }
+      .editor-wrap { height: 500px; }
+    }
+
+    /* ---- Responsive: small phones ---- */
+    @media (max-width: 480px) {
+      .wrap { padding: 16px 10px 24px; }
+      .sheet { padding: 14px 14px 18px; }
+      .section-title { font-size: 1.1rem; }
+      .editor-wrap { height: 400px; }
+      pre code.hljs { font-size: 0.8rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="masthead">
+    <div class="masthead-top">
+      <span class="kicker">Module 1: Pointers, References &amp; Memory Allocation</span>
+      <a href="/repository" class="back-link"><i class="fa fa-arrow-left"></i> All Modules</a>
+    </div>
+    <nav class="module-nav">
+      <a href="#home">Overview</a>
+      <a href="#code"><i class="fa fa-code"></i> Coding Env</a>
+      <a href="#computermemory">§1 Computer Memory</a>
+      <a href="#pointers">§2 Pointers</a>
+      <a href="#s2practice">§2 Practice</a>
+      <a href="#advanced">§3 Advanced Pointers</a>
+      <a href="#heap">§4 Heap Allocation</a>
+    </nav>
   </div>
 
-<!-- Navbar on small screens -->
-  <div id="navDemo" class="w3-bar-block w3-blue w3-hide w3-hide-large w3-hide-medium">
-    <a href="/repository" class="w3-bar-item w3-button" onclick="toggleFunction()">MODULES</a>
-    <a href="#home" class="w3-bar-item w3-button" onclick="toggleFunction()">HOME</a>
-    <a href="#code" class="w3-bar-item w3-button" onclick="toggleFunction()">CODING</a>
-    <a href="#computermemory" class="w3-bar-item w3-button" onclick="toggleFunction()">1: COMPUTER MEMORY</a>
-    <a href="#pointers" class="w3-bar-item w3-button" onclick="toggleFunction()">2: POINTERS</a>
-    <a href="#s2practice" class="w3-bar-item w3-button" onclick="toggleFunction()">2: PRACTICE</a>
-    <a href="#advanced" class="w3-bar-item w3-button" onclick="toggleFunction()">3: ADVANCED POINTERS</a>
-    <a href="#heap" class="w3-bar-item w3-button" onclick="toggleFunction()">4: HEAP ALLOCATION</a>
+  <main>
+
+    <!-- Overview / TOC -->
+    <section class="sheet" id="home">
+      <h2 class="section-title"><i class="fa fa-home"></i>Module 1: Overview</h2>
+      <p class="body-text">
+        This module contains resources for learning about pointers and memory in computer science.
+        The module discusses these concepts in terms of the programming language C.
+        Many of the same concepts apply to other programming languages.
+      </p>
+      <p class="body-text">
+        The module contains multiple sections beginning with a discussion of how memory works in C.
+        It is best to start with Section 1. Before Section 1 is an embedded instance of OnlineGDB,
+        an editing environment that allows you to write and compile C code online.
+      </p>
+      <ul class="toc-list">
+        <li><span class="toc-num">1</span><a href="#code">C Programming Environment</a></li>
+        <li><span class="toc-num">2</span><a href="#computermemory">Section 1: Computer Memory Basics</a></li>
+        <li><span class="toc-num">3</span><a href="#pointers">Section 2: Pointers</a></li>
+        <li><span class="toc-num">4</span><a href="#s2practice">Section 2: Practice Problems</a></li>
+        <li><span class="toc-num">5</span><a href="#advanced">Section 3: Advanced Pointer Concepts — Double Pointers, Void Pointers, and Pointer Math</a></li>
+        <li><span class="toc-num">6</span><a href="#heap">Section 4: Dynamic Memory Allocation and Deallocation on the Heap</a></li>
+      </ul>
+    </section>
+
+    <!-- Code Environment -->
+    <section class="sheet" id="code">
+      <h2 class="section-title"><i class="fa fa-code"></i>C Coding Environment</h2>
+      <p class="body-text">
+        Use the embedded OnlineGDB editor below to write and run C code directly in your browser.
+        No local setup required.
+      </p>
+      <div class="editor-wrap">
+        <iframe id="editor" src="https://www.onlinegdb.com/online_c_compiler" title="OnlineGDB C compiler"></iframe>
+      </div>
+    </section>
+
+    <!-- Section 1: Computer Memory -->
+    <section class="sheet" id="computermemory">
+      <h2 class="section-title"><i class="fa fa-desktop"></i>Section 1: Computer Memory</h2>
+
+      <p class="body-text">
+        Computers much like our brains need to have the ability to store, hold, and work with information.
+        Typically we consider people to have short and long term memories.
+        Short term memories are things we need to hold in our brains for a short time, such as the next step in a recipe when we are cooking.
+        Long term memories are things we store for a longer time, such as meaningful events and things we have learned.
+      </p>
+      <p class="body-text">
+        Computers work in much the same way.
+        In our computer we have short term memory, commonly referred to as Random Access Memory or RAM.
+        We also have long term memory or storage, typically in the form of a hard disk drive (HDD) or solid state drive (SSD).
+        On our HDD or SSD, we find the files on our computer.
+        In our RAM, we find the programs and files that are currently open or actively in use.
+        Memory is typically referred to in terms of bits.
+        8 bits make up a byte of memory.
+        Typically RAM in current computers is gigabytes in size, with 8 to 32 gigabytes being commonplace in consumer computers.
+        In terms of programming, it is this RAM we care about the most.
+      </p>
+
+      <img
+        src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fnetworkustad.com%2Fwp-content%2Fuploads%2F2019%2F05%2Fbandwidth-table.png&f=1&nofb=1&ipt=07de49dc538b81206f309b7cc8730855f071c82634d827ef7d5e3ea0d9bed1eb&ipo=images"
+        alt="Bit conversion table"
+        class="img-fluid"
+      >
+
+      <p class="body-text">
+        When we are programming in some languages, including C or C++, we have direct access to the RAM that our program is assigned.
+        This assignment of memory is done by our computer and the compiler, but we need to give it directions for it to work properly.
+        Memory in a computer can be thought of as being very similar to that of houses on a street.
+        Each section of memory has an address.
+        This address allows us to refer to what is held at this specific location in memory and keeps memory organized much like house addresses allow us to refer to a specific address on a road.
+        These addresses refer to specifically one byte of memory.
+        Memory addresses are represented using hexadecimal. The following are examples of valid memory addresses:
+      </p>
+
+      <pre><code class="language-c">0x00000000001
+0x00034AEEFC2
+0xDEADBEEF
+0x3A39AFE45</code></pre>
+
+      <p class="body-text">
+        As we can see, these addresses all have some things in common.
+        Because they are hexadecimal numbers, we start them with the characters <code>0x</code>.
+        These characters tell us that the following number is represented in base 16, or hexadecimal.
+        Because the number is hexadecimal, it is composed of the following characters: <code>0 1 2 3 4 5 6 7 8 9 A B C D E F</code>.
+      </p>
+
+      <p class="body-text">
+        The memory in our computer that we access in our programs is divided commonly into two types: the stack and the heap.
+        The stack consists primarily of primitives such as integers, longs, and doubles.
+        The stack behaves exactly as it sounds.
+        On a stack, new elements (variables) are added to the top.
+        Elements are also removed from the top of the stack as we finish using them.
+        This organizational pattern is called First-In-Last-Out or FILO.
+        These primitives have a specific size in terms of how much memory they use.
+        For example, an integer in a modern computer is 4 bytes or 32 bits in size.
+        Below are examples of how we might create variables that will reside on this stack.
+      </p>
+
+      <pre><code class="language-c">int x = 44;       // 32 bit integer
+int y = 13;       // 32 bit integer
+long int ex = 4398;  // 64 bit integer
+double dub = 188.1114; // 64 bit float</code></pre>
+
+      <p class="body-text">
+        Creating variables on the stack is very simple and does not require any additional steps.
+        This is known as <em>static memory allocation</em> because we do not need to do anything to allocate memory for these variables.
+        Our program compiler takes care of this step for us because it knows, based on the type of our variable, how much memory it needs to allocate.
+        For example, <code>int x = 44;</code> is easy for the compiler to figure out — it knows the type is <code>int</code>, which needs 4 bytes of memory regardless of the stored value.
+      </p>
+
+      <p class="body-text">
+        The heap, on the other hand, behaves quite a bit differently.
+        We can think of the heap as a large mountain of memory.
+        Just like before, the heap has addresses to refer to each byte of memory.
+        However, we now need to specify in our code the amount of memory we actually want to use.
+        This is because the heap allows us to define more complicated and larger things in our code.
+        For example, strings, arrays, and Objects (C++) are placed on the heap.
+        Because their size is not guaranteed, we need to assign how much space on the heap we actually need for these elements.
+      </p>
+
+      <img
+        src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Funicminds.com%2Fwp-content%2Fuploads%2F2022%2F09%2FStackvsHeap-Expalined-for-Kids.png&f=1&nofb=1&ipt=4d96076ba9648c7870a23db0ebbabdf1db2e4491b1365e01b47e21f62e28eeec&ipo=images"
+        alt="Stack vs Heap diagram"
+        class="img-fluid"
+      >
+
+      <p class="body-text">
+        In Section 2, below, we will discuss the concept of pointers, which are something we will need to further explore the heap.
+        In Section 3, we will explore more advanced uses of pointers and references beyond their basic usage.
+        In Section 4, we will continue looking at this idea of the heap.
+      </p>
+
+      <div class="link-group">
+        <div class="link-group-label">Relevant Links</div>
+        <a href="https://www.geeksforgeeks.org/static-and-dynamic-memory-allocation-in-c/"><i class="fa fa-external-link"></i>Basics of Memory and Static Memory Addressing</a>
+        <a href="https://www.w3schools.com/c/c_memory_management.php"><i class="fa fa-external-link"></i>W3Schools: Memory in C</a>
+      </div>
+
+      <div class="link-group">
+        <div class="link-group-label">Relevant Videos</div>
+        <a href="https://www.youtube.com/watch?v=xyBbocLXbNY" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/xyBbocLXbNY/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
   </div>
+  <div class="yt-caption">
+    <i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i>
+  </div>
+</a>
+        <a href="https://www.youtube.com/watch?v=1KVpi0VN82E" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/1KVpi0VN82E/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption">
+    <i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i>
+  </div>
+</a>
+      </div>
+    </section>
+
+    <!-- Section 2: Pointers -->
+    <section class="sheet" id="pointers">
+      <h2 class="section-title"><i class="fa fa-asterisk"></i>Section 2: Pointers</h2>
+
+      <p class="body-text">
+        In the previous section we began discussing memory in a computer.
+        We saw that creating primitive variables on the stack such as ints, longs, and doubles is very simple, and the space they take up is assigned statically by the compiler.
+        We also saw that the heap is our other area of memory we can access in our programs.
+        This section will explore how we can refer to things we create on the heap — pointers.
+      </p>
+      <p class="body-text">
+        First, let's take a slight detour and consider the other side of this coin: references.
+        References are specifically an address in memory — the physical location of a value.
+        For example, consider the following code:
+      </p>
+
+      <pre><code class="language-c">int x = 43;
+printf("%p \n", &x);</code></pre>
+
+      <p class="body-text">
+        If we run this code, we'll find that the printf statement will print a value that looks like a memory address.
+        If you are unfamiliar with printf, the video below provides a helpful explanation.
+      </p>
+
+      <a href="https://www.youtube.com/watch?v=yBLApvS7fcY" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/yBLApvS7fcY/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption">
+    <i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i>
+  </div>
+</a>
+
+      <p class="body-text">
+        What is printed is actually just the memory address where our variable <code>x</code> is being stored on the stack.
+        The <code>&amp;</code> symbol means we want to access the location of the variable <code>x</code>.
+        We'll use this knowledge now to create a pointer.
+        Pointers are as simple as they sound — a pointer is a variable that provides a reference to an address in memory we want to access.
+      </p>
+      <p class="body-text">
+        Let us consider an example of a pointer and break down its components.
+      </p>
+
+      <pre><code class="language-c">int x = 43;
+int* y = &x;</code></pre>
+
+      <p class="body-text">
+        On the first line, we create a variable in the usual way — assigning the value 43 to the int variable <code>x</code>.
+        To create a pointer to <code>x</code>, we write <code>int*</code>. The <code>*</code> tells our compiler that what we are creating is a pointer.
+        We then set our pointer variable <code>y</code> to be equal to a reference to <code>x</code> (that is, <code>&amp;x</code>).
+        This gives us an int pointer <code>y</code> whose value is the address where <code>x</code> is stored.
+        Let us continue looking at our example:
+      </p>
+
+      <pre><code class="language-c">int main(){
+    int x = 43;
+    int* y = &x;
+    printf("Value at y = %p \n", y);
+    printf("Value at x = %d \n", x);
+    printf("Value at *y = %d \n", *y);
+    return 0;
+}</code></pre>
+
+      <p class="body-text">This code will print the following three lines:</p>
+
+      <pre><code class="language-c">Value at y = 0x3A39AFE45
+Value at x = 43
+Value at *y = 43</code></pre>
+
+      <p class="body-text">
+        Here we see that our pointer <code>y</code> can be used for two things.
+        When we write <code>*y</code> we access the <em>value</em> that our pointer is pointing to — in this case, the value assigned to <code>x</code>, which is <code>43</code>.
+        When we write <code>y</code> by itself, we get the address in memory we're pointing to — <code>0x3A39AFE45</code>.
+      </p>
+      <p class="body-text">
+        And that's the basics of pointers and references.
+        In Section 3 we'll explore this concept further and look at some more complex examples.
+        Section 2 contains practice questions below — try them yourself before revealing the answers.
+      </p>
+
+      <div class="link-group">
+        <div class="link-group-label">Relevant Links</div>
+        <a href="https://www.geeksforgeeks.org/c-pointers/"><i class="fa fa-external-link"></i>Pointers in C — GeeksForGeeks</a>
+        <a href="https://www.w3schools.com/c/c_pointers.php"><i class="fa fa-external-link"></i>W3Schools: Pointers in C</a>
+      </div>
+
+      <div class="link-group">
+        <div class="link-group-label">Relevant Videos</div>
+        <a href="https://www.youtube.com/watch?v=2ybLD6_2gKM" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/2ybLD6_2gKM/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption">
+    <i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i>
+  </div>
+</a>
+        <a href="https://www.youtube.com/watch?v=i49_SNt4yfk" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/i49_SNt4yfk/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption">
+    <i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i>
+  </div>
+</a>
+        <a href="https://www.youtube.com/watch?v=qclZUQYZTzg" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/qclZUQYZTzg/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption">
+    <i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i>
+  </div>
+</a>
+        <a href="https://www.youtube.com/watch?v=47IS8VtAM9E" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/47IS8VtAM9E/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption">
+    <i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i>
+  </div>
+</a>
+        <a href="https://www.youtube.com/watch?v=DplxIq0mc_Y" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/DplxIq0mc_Y/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption">
+    <i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i>
+  </div>
+</a>
+      </div>
+    </section>
+
+    <!-- Section 2: Practice -->
+    <section class="sheet" id="s2practice">
+      <h2 class="section-title"><i class="fa fa-pencil"></i>Section 2: Practice Problems</h2>
+
+      <div class="practice-question">
+        <div class="question-label">Question 1</div>
+        <p class="body-text">Given the following code snippet, what will be printed when this is executed?</p>
+        <pre><code class="language-c">int main(){
+    int datum = 300;
+    int* ptr = &datum;
+    int ptrval = *ptr;
+
+    printf("%d \n", datum);
+    printf("%p \n", ptr);
+    printf("%d \n", *ptr);
+    printf("%d \n", ptrval);
+    return 0;
+}</code></pre>
+
+        <details>
+          <summary>Answer</summary>
+          <pre><code class="language-c">300
+0xAEC43532   // the address of datum
+300
+300</code></pre>
+        </details>
+
+        <details>
+          <summary>Explanation</summary>
+          <p class="body-text">
+            Our first print statement is straightforward — it prints the value associated with our variable <code>datum</code>.
+            Our second print statement prints the address that our pointer is pointing to.
+            Our third print statement requests the value that <code>ptr</code> is pointing to, so the value of <code>datum</code>, or 300.
+            Our fourth print statement works similarly to the third, except instead of using <code>ptr</code> directly, we have a new variable <code>ptrval</code> that has been set equal to the value <code>ptr</code> is pointing at.
+          </p>
+        </details>
+      </div>
+    </section>
+
+    <!-- Section 3: Advanced Pointer Concepts -->
+    <section class="sheet" id="advanced">
+      <h2 class="section-title"><i class="fa fa-asterisk"></i>Section 3: Advanced Pointer Concepts</h2>
+
+      <p class="body-text">
+        In our last section we discussed the basic uses of pointers and references.
+        Now we're going to look at some more advanced uses of pointers.
+        In the next section, we'll explore using these pointers for dynamic memory allocation.
+        This section will consider three specific concepts: double pointers, void pointers, and pointer math.
+      </p>
+
+      <h3 class="sub-title">3.1: Double Pointers</h3>
+
+      <p class="body-text">Consider the following section of code:</p>
+
+      <pre><code class="language-c">int main(){
+    int val = 5;
+    int *pval = &val;
+    int **d_pval = &pval;
+    printf("Value of val = %d\n", val);
+    printf("Value of val using single pointer = %d\n", *pval);
+    printf("Value of val using double pointer = %d\n", **d_pval);
+
+    return 0;
+}
+
+// Output:
+// Value of val = 5
+// Value of val using a single pointer = 5
+// Value of val using a double pointer = 5</code></pre>
+
+      <p class="body-text">
+        As we can see, we are defining three different variables.
+        <code>val</code> is a simple integer with value 5.
+        <code>pval</code> is a simple pointer much like what we've seen in Section 2.
+        <code>d_pval</code> is a pointer that we have defined to point to our first pointer — a pointer to a pointer, or a double pointer.
+      </p>
+      <p class="body-text">
+        Let's consider another example in terms of what's happening in memory.
+        In the image below we have <code>var</code> with value 10.
+        <code>ptr1</code> is a regular pointer whose value is the memory address of <code>var</code>.
+        <code>ptr2</code> is a double pointer whose value is the memory address of <code>ptr1</code>.
+      </p>
+
+      <img
+        src="https://media.geeksforgeeks.org/wp-content/uploads/20230412184414/double-pointers-in-c.webp"
+        alt="Double pointers diagram"
+        class="img-fluid"
+      >
+
+      <h3 class="sub-title">3.2: Void Pointers</h3>
+
+      <p class="body-text">
+        So far with pointers we have defined them as having the same datatype as the data we are pointing to.
+        Void pointers are a type of pointer that can point to any type of data and has no associated data type.
+        Consider the following block of code:
+      </p>
+
+      <pre><code class="language-c">int main(){
+    int a = 10;
+    char b = 'x';
+
+    // void pointer holds address of int 'a'
+    void *p = &a;
+    // void pointer reassigned to hold address of char 'b'
+    p = &b;
+}</code></pre>
+
+      <p class="body-text">
+        In this code, we define two variables: <code>a</code> (an int) and <code>b</code> (a char).
+        We also define our void pointer <code>p</code>.
+        At first, <code>p</code> is assigned a reference to <code>a</code>.
+        However, we can seamlessly reassign <code>p</code> to a reference to <code>b</code>, despite the fact that <code>a</code> and <code>b</code> are different types.
+        Getting access to the value being pointed to is a bit tricky — the following would cause a compiler error:
+      </p>
+
+      <pre><code class="language-c">printf("%d", *p);</code></pre>
+
+      <p class="body-text">
+        This is because C needs to know the type of the data when we dereference the pointer.
+        Instead, we specify the type at dereference time:
+      </p>
+
+      <pre><code class="language-c">printf("%d", *(int*)ptr);</code></pre>
+
+      <h3 class="sub-title">3.3: Pointer Arithmetic</h3>
+
+      <p class="body-text">
+        So far we have seen how to define double pointers and void pointers.
+        One other concept we often need is <em>pointer arithmetic</em>.
+        Pointers reference a specific address in memory.
+        Sometimes we want to reference a different address than the one we initially had.
+        Consider the following code:
+      </p>
+
+      <pre><code class="language-c">int main(){
+    int arr[2] = {34, 56};
+    void* parr = &arr;
+
+    printf("%d", *(int*)parr);
+
+    parr = parr + sizeof(int);
+    printf("%d", *(int*)parr);
+
+    return 0;
+}
+
+// Output:
+// 34
+// 56</code></pre>
+
+      <p class="body-text">
+        We first define an array containing two integers, 34 and 56, and point our void pointer at it.
+        The void pointer starts out pointing to the 0th index of the array.
+        We then modify our pointer by adding the size of an integer, shifting it to point to the next address in memory — the next element in the array.
+        We can do this for arrays of any type, and can also use this to shift by larger amounts or iterate over more complex data structures.
+        We'll see this in Section 4 where we explore malloc and heap memory allocation.
+      </p>
+
+      <div class="link-group">
+        <div class="link-group-label">Relevant Links</div>
+        <a href="https://www.mycplus.com/tutorials/c-programming-tutorials/double-pointer-to-pointer-in-c/"><i class="fa fa-external-link"></i>Double Pointers Examples</a>
+        <a href="https://dev.to/noah11012/double-pointers-in-cc-2n96"><i class="fa fa-external-link"></i>Double Pointers in C/C++</a>
+      </div>
+
+      <div class="link-group">
+        <div class="link-group-label">Relevant Videos</div>
+        <a href="https://www.youtube.com/watch?v=k6ESk9zafHM" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/k6ESk9zafHM/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption">
+    <i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i>
+  </div>
+</a>
+        <a href="https://www.youtube.com/watch?v=q24-QTbKQS8" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/q24-QTbKQS8/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption">
+    <i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i>
+  </div>
+</a>
+        <a href="https://www.youtube.com/watch?v=t7CUti_7d7c" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/t7CUti_7d7c/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption">
+    <i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i>
+  </div>
+</a>
+        <a href="https://www.youtube.com/watch?v=Vd-4eGnBAK8" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/Vd-4eGnBAK8/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption">
+    <i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i>
+  </div>
+</a>
+        <a href="https://www.youtube.com/watch?v=8T0WOABe7OY" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/8T0WOABe7OY/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption">
+    <i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i>
+  </div>
+</a>
+      </div>
+    </section>
+
+    <!-- Section 4: Dynamic Memory Allocation -->
+    <section class="sheet" id="heap">
+      <h2 class="section-title"><i class="fa fa-database"></i>Section 4: Dynamic Memory Allocation</h2>
+
+      <p class="body-text">
+        Previously, we have looked at pointers, references, how to use them, and how stack memory allocation works.
+        Thus far, all of the memory we have allocated has been on the stack, including variables and arrays as explored in the previous section with pointer math.
+        The heap is our other area of memory in our computer — a larger, unordered section of memory that needs to be managed manually.
+        To store things on the heap we need to use a memory allocator.
+        C has an excellent built-in memory allocator called <code>malloc</code>.
+      </p>
+      <p class="body-text">
+        <code>malloc</code> allows us to simply specify the size of memory on the heap we want to allocate and the memory will be allocated for us.
+        However, this means that we need to have some idea of how much memory we are going to need prior to allocating it.
+        <code>malloc</code> takes as a parameter the size in bytes that we want to allocate.
+        Let us consider the following code involving allocating an integer array for 100 integers to the heap:
+      </p>
+
+      <pre><code class="language-c">int main(){
+    int* p = (int*) malloc(400);
+
+    return 0;
+}</code></pre>
+
+      <p class="body-text">
+        Here we have defined a pointer using <code>malloc</code> to allocate 400 bytes on our heap.
+        Since an integer is 4 bytes, this is room for an array of 100 integers.
+        If we wanted to allocate a different number of integers we could instead write:
+      </p>
+
+      <pre><code class="language-c">int main(){
+    int* p = (int*) malloc(200 * sizeof(int));
+
+    return 0;
+}</code></pre>
+
+      <p class="body-text">
+        However, sometimes it is possible we will have run out of memory on the heap.
+        When this happens our pointer will fail to be allocated.
+        We can check for this with the following:
+      </p>
+
+      <pre><code class="language-c">int main(){
+    int* p = (int*) malloc(200 * sizeof(int));
+    if (p == NULL) {
+        printf("memory failed to allocate. \n");
+    }
+
+    return 0;
+}</code></pre>
+
+      <p class="body-text">
+        If our memory has been allocated correctly, we can now populate the array and access elements using pointer arithmetic.
+        For example, let's set each element in an array of size 200 to the numbers 1–200 in order:
+      </p>
+
+      <pre><code class="language-c">int main(){
+    int i;
+    int* p = (int*) malloc(200 * sizeof(int));
+    if (p == NULL) {
+        printf("memory failed to allocate. \n");
+    }
+    else {
+        for (i = 0; i < 200; i++){
+            p[i] = i + 1;
+        }
+    }
+    // print the elements
+    for (i = 0; i < 200; i++){
+        printf("%d, ", p[i]);
+    }
+
+    return 0;
+}</code></pre>
+
+      <p class="body-text">
+        In this code block we have allocated 800 bytes for 200 integers, populated the memory, and printed out the results.
+        When we execute this code, we will receive the numbers 1 to 200 printed out.
+      </p>
+      <p class="body-text">
+        Just like how we need to allocate memory we need to also free that memory before we finish our code.
+        Otherwise we experience what is known as a <em>memory leak</em> — allocated memory that we can no longer access.
+        To avoid this, we use <code>free()</code>:
+      </p>
+
+      <pre><code class="language-c">int main(){
+    int i;
+    int* p = (int*) malloc(200 * sizeof(int));
+    if (p == NULL) {
+        printf("memory failed to allocate. \n");
+    }
+    else {
+        for (i = 0; i < 200; i++){
+            p[i] = i + 1;
+        }
+    }
+    // print the elements
+    for (i = 0; i < 200; i++){
+        printf("%d, ", p[i]);
+    }
+
+    // dynamically deallocate memory
+    free(p);
+    p = NULL;
+    return 0;
+}</code></pre>
+
+      <p class="body-text">
+        The first added step calls <code>free()</code>, which takes our pointer and frees the memory allocated using it.
+        Secondly, we set our pointer to <code>NULL</code>, preventing any attempt to access the memory after it has been deallocated — something that should always be avoided as it can cause severe security issues.
+      </p>
+      <p class="body-text">
+        Congrats! We have reached the end of Module 1.
+        More content will be added in the future, but this covers the basics of both static and dynamic memory allocation.
+      </p>
+
+      <div class="link-group">
+        <div class="link-group-label">Relevant Videos</div>
+        <a href="https://www.youtube.com/watch?v=ryyCnpS3eOc" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/ryyCnpS3eOc/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption">
+    <i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i>
+  </div>
+</a>
+        <a href="https://www.youtube.com/watch?v=wDUiDd3KmAA" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/wDUiDd3KmAA/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption">
+    <i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i>
+  </div>
+</a>
+        <a href="https://www.youtube.com/watch?v=udfbq4M2Kfc" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/udfbq4M2Kfc/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption">
+    <i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i>
+  </div>
+</a>
+        <a href="https://www.youtube.com/watch?v=5OJRqkYbK-4" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/5OJRqkYbK-4/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption">
+    <i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i>
+  </div>
+</a>
+        <a href="https://www.youtube.com/watch?v=OiynRs3iKzI" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/OiynRs3iKzI/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption">
+    <i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i>
+  </div>
+</a>
+      </div>
+    </section>
+
+  </main>
 </div>
 
-<!-- Page Container -->
-<div class="w3-content w3-margin-top" style="max-width:1500px;">
-
-  <!-- The Center Column -->
-  <div class="w3-row-padding">
-
-    
-<!-- Column -->
-    <div class="w3-threethird">
-    <br> <br> <!--to shift it all down-->
-    
-<!-- Opening Section -->
-      <div id="home" class="w3-container w3-card w3-light-grey">
-        <h1 class="w3-text-blue w3-padding-16"><i class="fa fa-home fa-fw w3-margin-right w3-xxlarge w3-text-blue"></i> MODULE 1: Pointers, References, and Memory Allocation</h1>
-        <div class="w3-container">
-          <h5 class="w3-text-black w3-text-center w3-padding-0"> 
-            This module contains resources for learning about pointers and memory in computer science. 
-            The module discusses these concepts in terms of the programming language C. 
-            Many of the same concepts apply to other programming languages.
-            <br><br>
-            The module contains multiple sections beginning with a discussion of how memory works in C.
-            <br><br>
-            It is best to start with Section 1. Before section 1 is an embedded instance of OnlineGDB, an editing environment that allows you to write and compile C code online.
-            <br><br>
-            Table of Contents:<br>
-            1: <a href="#code" class="w3-bar-item w3-btn w3-hover-blue w3-hide-small"><i class="fa fa-briefcase"></i> C Programming Environment</a><br>
-            2: <a href="#computermemory" class="w3-bar-item w3-btn w3-hover-blue w3-hide-small"><i class="fa fa-desktop"></i> Section 1: Computer Memory Basics</a><br>
-            3: <a href="#pointers" class="w3-bar-item w3-btn w3-hover-blue w3-hide-small"><i class="fa fa-asterisk"></i> Section 2: Pointers</a><br>
-            4: <a href="#s2practice" class="w3-bar-item w3-btn w3-hover-blue w3-hide-small"><i class="fa fa-asterisk"></i> Section 2 Practice Problems </a><br>
-            5: <a href="#advanced" class="w3-bar-item w3-btn w3-hover-blue w3-hide-small"><i class="fa fa-asterisk"></i> Section 3: Advanced Pointer Concepts Including Double Pointers, Void Pointers, and Pointer Math </a><br>
-            6: <a href="#heap" class="w3-bar-item w3-btn w3-hover-blue w3-hide-small"><i class="fa fa-asterisk"></i> Section 4: Dynamic Memory Allocation and Deallocation on the Heap </a><br>
-          </h5>
-          <br>
-          
-          
-        </div>
-      </div>
-      <br>
-
-<!-- Code Environment -->
-      <div id="code" class="w3-threethird">
-        <div id="home" class="w3-container w3-card w3-light-grey">
-            <h1 class="w3-text-blue w3-padding-16"><i class="fa fa-briefcase fa-fw w3-margin-right w3-xxlarge w3-text-blue"></i> C CODING Environment</h1>
-            <div class="w3-container">
-                <iframe width="1420" height="1500" id="editor" src="https://www.onlinegdb.com/online_c_compiler"></iframe>
-            </div>
-        </div>
-      </div>
-
-      <br><br>
-
-
-<!--Section 1: COMPUTER MEMORY-->
-      <div id = "computermemory" class="w3-container w3-card w3-light-grey">
-        <h1 class="w3-text-blue w3-padding-16"><i class="fa fa-desktop fa-fw w3-margin-right w3-xxlarge w3-text-blue"></i> Section 1: COMPUTER MEMORY</h1>
-        
-        <h5 class="w3-text-black w3-text-center w3-padding-0"> 
-            Computers much like our brains need to have the ability to store, hold, and work with information. 
-            Typically we consider people to have short and long term memories. 
-            Short term memories are things we need to hold in our brains for a short time, such as the next step in a recipe when we are cooking. 
-            Long term memories are things we store for a longer time, such as meaningful events and things we have learned. 
-            <br><br> 
-            Computers work in much the same way. 
-            In our computer we have short term memory, commonly referred to as Random Access Memory or RAM.
-            We also have long term memory or storage, typical in the form of a hard disk drive (HDD) or solid state drive (SSD).
-            On our HDD or SSD, we find the files on our computer.
-            In our RAM, we find the programs and files that are currently open or actively in use. 
-            Memory is typically referred to in terms of bits. 
-            8 bits make up a byte of memory. 
-            Typically ram in current computers are gigabytes in size, with 8 to 32 gigabytes being commonplace amounts in consumer computers.
-            In terms of programming, it is this RAM we care about the most. 
-        </h5>
-        <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fnetworkustad.com%2Fwp-content%2Fuploads%2F2019%2F05%2Fbandwidth-table.png&f=1&nofb=1&ipt=07de49dc538b81206f309b7cc8730855f071c82634d827ef7d5e3ea0d9bed1eb&ipo=images" alt="bit conversion table" style="width:800px;height:600px;">
-        <br>
-        <br>
-        <h5 class="w3-text-black w3-text-center w3-padding-0">
-            When we are programming in some languages, including C or C++, we have direct access to the RAM that our program is assigned. 
-            This assignment of memory is done by our computer and the compiler, but we need to give it directions for it to work properly.
-            Memory in a computer can be thought of as being very similar to that of houses on a street. 
-            Each section of memory has an address. 
-            This address allows us to refer to what is held at this specific location in memory and keeps memory organized much like house addresses allow us to refer to a specific address on a road.
-            These addresses refer to specifically one byte of memory. 
-            Memory addresses are represented using hexademical. The following are examples of valid memory addresses:
-            
-            <pre><code class="language-c">
-                0x00000000001<br>
-                0x00034AEEFC2<br>
-                0xDEADBEEF<br>
-                0x3A39AFE45
-            </code></pre>
-
-            As we can see, these addresses all have some things in common. 
-            Because they are hexadecimal numbers, we start them with the characters <code class="w3-text-blue">0x</code>.
-            These characters tell us that the following number is represented in base 16, or hexadecimal. 
-            Because the number is hexadecimal, it is composed of the following characters: <code class="w3-text-blue">0 1 2 3 4 5 6 7 8 9 A B C D E F</code>.
-            <br><br>
-
-            The memory in our computer that we access in our programs are divided commonly into two types: the stack and the heap. 
-            The stack consists primarily of primitives such as integers, longs, and doubles. 
-            The stack behaves exactly as it sounds. 
-            On a stack, new elements (variables) are added to the top. 
-            Elements are also removed from the top of stack as we finish using them. 
-            This organizational pattern is called First-In-Last-Out or FILO. 
-            These primitives have a specific size in terms of how much memory these use.
-            For example, an integer in a modern computer is 4 bytes or 32 bits in size. 
-            Below are examples of how we might create variables that will reside on this stack. 
-            
-            <pre><code class="language-c"> 
-                int x = 44; #32 bit integer <br>
-                int y = 13; #32 bit integer <br>
-                long int ex = 4398; #64 bit integer <br>
-                double dub = 188.1114; #64 bit float  
-            </code></pre> 
-        
-            Creating variables in our code on the stack is very simple and does not require any additional steps. 
-            This is known as static memory allocation because we do not need to do anything to allocate memory for these variables. 
-            Our program compiler takes care of this step for us because it knows based on the type of our variable how much memory it needs to allocate on this stack.
-            For example, 
-            <pre><code class="language-c"> int x = 44;</code></pre> 
-            is easy for the compiler to figure out. 
-            It knows that the type is int, which needs 4 bytes of memory regardless of what the value is that we want to store.
-            We can even reassign this variable to a different value later and the amount of memory needed doesn't change. 
-            <br><br>
-            The heap, on the other hand, behaves quite a bit differently. 
-            We can think of the heap as being a large mountain of memory.
-            Just like before, the heap has addresses to refer to each byte of memory.
-            However, we now need to specify in our code the amount of memory we actually want to use. 
-            This is because the heap allows us to define more complicated and larger things in our code.
-            For example, strings, arrays, and Objects (C++) are placed on this heap. 
-            However, because their size is not guarunteed, we need to assign how much space on the heap we actually need for these elements.
-            
-        </h5>
-        <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Funicminds.com%2Fwp-content%2Fuploads%2F2022%2F09%2FStackvsHeap-Expalined-for-Kids.png&f=1&nofb=1&ipt=4d96076ba9648c7870a23db0ebbabdf1db2e4491b1365e01b47e21f62e28eeec&ipo=images" alt="The stack and heap" style="width:800px;height:600px;">
-        <br>
-        <br>
-        <h5 class="w3-text-black w3-text-center w3-padding-0">
-            In section 2, below, we will discuss the concept of pointers, which are something we will need to further explore the heap. 
-            In section 3, we will explore more advanced uses of pointers and references beyond their basic usage.
-            In section 4, we will continue looking at this idea of the heap. 
-            <br><br>
-
-            This section has been composed from the following sources. If you want additional resources, see the following links and videos:
-            <br>
-            Relevant Links:
-            <br>
-            <a href=https://www.geeksforgeeks.org/static-and-dynamic-memory-allocation-in-c/>Basics of Memory and static memory addressing</a> <br>
-            <a href="https://www.w3schools.com/c/c_memory_management.php">W3Schools Memory in C</a>
-            <br><br>
-
-            Relevant Videos: 
-            <br>
-            <iframe width="1000" height="600" src="https://www.youtube.com/embed/xyBbocLXbNY?si=qFf9Ji71ihNPol6P" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-            <br><br>
-            <iframe width="1000" height="600" src="https://www.youtube.com/embed/1KVpi0VN82E?si=0Ep_ssdhyhbSULc0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        </h5>
-        
-      </div>
-      <br>
-
-<!--Section 2: POINTERS-->
-      <div id="pointers" class="w3-container w3-card w3-light-grey">
-        <h1 class="w3-text-blue w3-padding-16"><i class="fa fa-asterisk fa-fw w3-margin-right w3-xxlarge w3-text-blue"></i> SECTION 2: POINTERS</h1>
-        
-        <h5 class="w3-text-black w3-text-center w3-padding-0"> 
-            In the previous section we began discussing memory in a computer. 
-            In this section, we saw that creating primitive variables on the stack such as ints, longs, and doubles are very simple and the space they take up is assigned statically by the compiler when our code is executed. 
-            We also saw that the heap is our other area of memory we can access in our programs. 
-            This section will explore how we can refer to things we create on this heap, pointers.
-            <br><br>
-            First, lets take a slight detour and consider the other side of this coin: references. 
-            References are specifically an address in memory. 
-            They are the physical location of a value in memory. 
-            For example, consider the following code: 
-            
-            <pre><code class="language-c">
-                int x = 43; <br>
-                printf("%p \n",&x);
-            </code></pre>
-            
-            If we run this code, we'll find that the printf statement will print a value that looks like a memory address.
-            If you are confused by the printf statement, the following is a video explaining printf in C. 
-            <br><br>
-            <iframe width="1000" height="600" src="https://www.youtube.com/embed/yBLApvS7fcY?si=dFWGJwdR48zCgZih" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-            <br><br>
-            What is printed here is actually just the memory address where our variable x is being stored on the stack. 
-            The <code class="w3-text-blue">&</code> symobol means we want to access the location of the variable x.
-            We'll use this knowledge now to create a pointer.
-            Pointers are as simple as they sound; a pointer is a variable created to provide a reference to an address in memory we want to access. 
-            This address then provides us access to something in memory we wish to work with more. 
-            Let us consider an example of a pointer and break down it's components.
-            
-            <pre><code class="language-c">
-                int x = 43; <br>
-                int* y = &x;
-            </code></pre>
-            
-            On this first line, we create a variable in the same way we normally would. 
-            In this line we assign the value of 43 to the int variable x. 
-            Now lets say we want to be able to create a pointer to x.
-            To do this we say int*.
-            The * here tells our compiler that what we are trying to create is a pointer. 
-            We then set our pointer variable y to be equal to a reference to x (&x).
-            The & here means we want to make a reference to the variable x.
-            What we are saying here is we want to create an int pointer y that is equal to the address of x. 
-            This allows us to do two different things. 
-            It allows us to access the value that has been assigned to the variable x through the reference. 
-            It also assigns y a value of the address where our variable x has been stored. 
-            Let us continue looking at our example from before:
-
-            <pre><code class="language-c">
-            int main(){
-                int x = 43; <br>
-                int* y = &x; <br>
-                printf("Value at y = %p \n", y); <br>
-                printf("Value at x = %d \n", x); <br>
-                printf("Value at &y = %d \n", *y);
-                return 0;
-            }
-            </code></pre>
-
-            This code will print the following three lines when it is printed:
-            
-            <pre><code class="language-c">
-            >     Value at y = 0x3A39AFE45 <br>
-            >     Value at x = 43 <br>
-            >     Value at *y = 43
-            </code></pre>
-            
-            Here we see that our pointer y can be used for two things. 
-            When we state *y this means we can access the VALUE that our pointer is pointing to.
-            When we do this, we get the value stored at the memory address our pointer is pointing to. 
-            In this case it is the value assigned to the variable x, <code class="w3-text-blue">43</code>.
-            When we state y by itself then we get the value assigned to y, which as it's a pointer, is the address in memory we're pointing to. 
-            In this case, we get the value <code class="w3-text-blue"> 0x3A39AFE45 </code> because thats the address in memory where our variable x is located.
-            <br> <br>
-            And thats the basics for pointers and references.
-            In section 3 we'll explore this concept further and look at some more complex examples. 
-            This section contains some example questions below it. 
-            For these try and work on them yourself, then view the hidden answers by clicking on them. 
-            <br><br> 
-
-            Relevant Links:
-            <br>
-            <a href=https://www.geeksforgeeks.org/c-pointers/>Pointers in C</a> <br>
-            <a href="https://www.w3schools.com/c/c_pointers.php">W3Schools Pointers in C</a>
-            <br><br>
-
-            Relevant Videos: 
-            <br>
-            
-            <iframe width="1000" height="600" src="https://www.youtube.com/embed/2ybLD6_2gKM?si=xqM6dMSLEjN73DcR" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-            <br> <br>
-            <iframe width="1000" height="600" src="https://www.youtube.com/embed/i49_SNt4yfk?si=2ogULNn4r9zlKHEX" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-            <br><br>
-            <iframe width="1000" height="600" src="https://www.youtube.com/embed/qclZUQYZTzg?si=Pm5lfYg2lm_n-2aG" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-            <br><br>
-            <iframe width="1000" height="600" src="https://www.youtube.com/embed/47IS8VtAM9E?si=7FIf0rbRTKL7yr3R" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-            <br><br> 
-            <iframe width="1000" height="600" src="https://www.youtube.com/embed/DplxIq0mc_Y?si=tJCQ49qhH7cPgG1k" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-            <br>
-
-        </h5>
-        <br>
-        
-      </div>
-      <br>
-
-<!--Section 2 Practice Problems-->
-      <div id= s2practice class="w3-container w3-card w3-light-grey w3-padding-large">
-        <h1 class="w3-text-blue w3-padding-16"><i class="fa fa-asterisk fa-fw w3-margin-right w3-xxlarge w3-text-blue"></i> SECTION 2: PRACTICE</h1>
-        <h5 class="w3-text-black w3-text-center w3-padding-0"> 
-            <b class="w3-text-blue w3-text-theme=bold">Question 1:</b>
-            Given the following code snippet what will be printed when this is executed?
-            <pre><code class="language c"> 
-                int main(){
-                    int datum = 300; 
-                    int* ptr = &datum; 
-                    int ptrval = *ptr; 
-
-                    printf("%d \n",datum); 
-                    printf("%p \n",ptr); 
-                    printf("%d \n",*ptr); 
-                    printf("%d \n",ptrval);
-                    return 0;
-                }
-                </code></pre>
-            
-            <details class="w3-text-blue">
-                <summary class="w3-text-black">Answer</summary>
-                <pre><code class="language-c">
-                    300 <br>
-                    0xAEC43532 #(the address of datum) <br>
-                    300 <br>
-                    00 <br>
-                </code></pre>
-                
-
-            </details>
-           
-            <details class="w3-text-black">
-                <summary>Explanation</summary>
-                Our first print statement here is quite straightforward. 
-                It simply prints the value associated with our variable datum. <br>
-                Our second print statement here will print the address that our pointer is pointing to. <br>
-                Our third print statement here requests the value that our pointer variable ptr is pointing to, so the value of datum, or 300. <br>
-                Our fourth print statement works similarly to our third, except instead of accessing the value we are pointing to using ptr, we have a new variable ptrval that has been set rqul to the value that ptr is pointing at.
-            </details>
-
-        </h5>
-        <br>
-      </div>
-      <br>
-
-<!--Section 3 Advanced Pointer Concepts-->
-      <div id="advanced" class="w3-container w3-card w3-light-grey w3-padding-large">
-        <h1 class="w3-text-blue w3-padding-16"><i class="fa fa-asterisk fa-fw w3-margin-right w3-xxlarge w3-text-blue"></i> SECTION 3: ADVANCED POINTER CONCEPTS</h1>
-        <h5 class="w3-text-black w3-text-center w3-padding-0">
-            In our last section we discussed the basic uses of pointers and references!
-            Now we're going to look at some more advanced uses of pointers. 
-            In the next section, we'll explore using these pointers for dynamic memory allocation. 
-            <br> <br>
-            This section will consider three specific concepts: double pointers, void pointers, and pointer math.
-            <br><br>
-            </h5>
-            <h2 class="w3-text-blue w3-text-center w3-padding-0">3.1: Double Pointers </h2>
-            <h5 class="w3-text-black w3-text-center w3-padding-0">
-            Consider the following section of code.
-            <pre><code class="language-c">
-              int main(){
-                int val = 5;
-                int *pval = &val;
-                int **d_pval = &pval;
-                printf("Value of val = %d\n", val);
-                printf("Value of val using single pointer = %d\n", *pval);
-                printf("Value of var using double pointer = %d\n", **d_pval);
-
-                return 0;
-              }
-
-              >Value of val = 5
-              >Value of val using a single pointer = 5
-              >Value of val using a double pointer = 5
-
-            </code></pre>
-            As we can see in this code we are defining three different variables. 
-            val is a simple integer with value 5. 
-            pval is a simple pointer much like what we've seen in section 2. 
-            d_pval is a pointer that we have defined to point to our first pointer.
-            This is a pointer to a pointer or a double pointer.
-            Let's consider another example, this time in terms of what's happening in memory.
-            As we can see in the image below we have var which is a variable with value 10.
-            ptr1 is a regular pointer. 
-            Its value is the memory address (location) of our variable var. 
-            ptr2 is a double pointer. 
-            Its value is the memory address (location) of our pointer ptr1. 
-            <br><br>
-            <img src="https://media.geeksforgeeks.org/wp-content/uploads/20230412184414/double-pointers-in-c.webp" alt="bit conversion table" style="width:800px;height:600px;"> 
-            <br><br>
-            </h5>
-
-            <h2 class="w3-text-blue w3-text-center w3-padding-0">3.2: Void Pointers </h2>
-
-            <h5 class="w3-text-black w3-text-center w3-padding-0">
-              So far with pointers we have defined pointers as having the same datatype as the data we are pointing to. 
-              Void pointers are a type of pointer that can point to any type of data and has no associated data type.
-              Consider the following block of code:
-              <pre><code class="language-c">
-                int main(){
-                  int a = 10;
-                  char b = 'x';
- 
-                  // void pointer holds address of int 'a'
-                  void *p = &a;
-                  // void pointer reassigned to hold address of char 'b'
-                  p = &b;
-                  }  
-              </code></pre>
-
-              In this code, we define two variables a and b, with a being an int and b being a char.
-              We also have defined our void pointer, named p. 
-              At first, we see that p has been assigned a reference to our variable a. 
-              However, we can seamlessly reassign p to a reference to our variable b, despite the fact that a and b are different types of data.
-              This is great because we can access and reassign our pointer any time we want to anything we want. 
-              Getting access to the address we are pointing to is easy.
-              However, getting access to the value that we are pointing at is tricky. 
-              If we were to run the code below we would receive an error from the C compiler.
-              Relevant Links:<br>
-              <pre><code>
-                printf("%d", *p);
-              </code></pre>
-              This is because C needs to know the type of the data we are referring to when we dereference the pointer to get the value we are pointing to.
-              Instead, when we need access to the value we are pointing to we need to use the following code wherein we specify the type we are referring to when we dereference the pointer. 
-              <pre><code>
-                printf("%d",*(int*)ptr);
-              </code></pre>
-              <br><br>
-            </h5>
-
-            <h2 class="w3-text-blue w3-text-center w3-padding-0">3.2: Pointer Arithmetic </h2>
-
-            <h5 class="w3-text-black w3-text-center w3-padding-0">
-              So far we have seen how to define double pointers and how to create void pointers. 
-              One other concept that we often need to do is what is known as pointer arithmetic.
-              Pointers simply reference a specific address in memory as we have established. 
-              Sometimes we want to reference a different address in memory than what we initially had referenced. 
-              Sometimes we can do this simply by reassigning the pointer to a new address manually. 
-              However, other times we cannot. 
-              Take for example the following code: 
-              <pre><code>
-                int main(){
-                  int arr[2] = {34,56};
-                  void* parr = &arr;
-
-                  printf("%d",*(int*)parr);
-
-                  parr = parr+sizeof(int);
-                  printf("%d",*(int*)parr);
-
-                  return 0;
-                }
-              </code></pre>
-              In this example, we see that inside of our function, we first define an array containing two integers, 34 and 56. 
-              When we define a pointer to this array, we use a void pointer once more. 
-              The void pointer starts out pointing to the 0th index of the array. 
-              We can see this when we run the code and receive the following outputs. 
-              <pre><code>
-                >34
-                >56
-              </code></pre>
-              The first print statement prints out 34 because our pointer initially references the address of the 0th index of our array. 
-              Then we modify our pointer by adding the size of an integer. 
-              This shifts the pointer to point to the next address in memory or the next element in the array. 
-              We can do this for arrays of any other type. We can also use this to shift by larger amounts or structs. 
-              We can even use this to iterate over arrays or other data structures. 
-              We will see some of this in section 4 where we explore Malloc and heap memory allocation. 
-              <br><br>
-            <a href="https://www.mycplus.com/tutorials/c-programming-tutorials/double-pointer-to-pointer-in-c/">Double Pointers Examples</a> <br>
-            <a href="https://dev.to/noah11012/double-pointers-in-cc-2n96">Double Pointers Examples</a>
-
-            <br><br>
-            
-            Relevant Videos: <br>
-        </h5>
-        <iframe width="1000" height="600" src="https://www.youtube.com/embed/k6ESk9zafHM?si=l6M-YebDlzmdcrI6" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        <br><br>
-        <iframe width="1000" height="600" src="https://www.youtube.com/embed/q24-QTbKQS8?si=bk4hurpk2GvTjpEk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        <br><br>
-        <iframe width="1000" height="600" src="https://www.youtube.com/embed/t7CUti_7d7c?si=K4V5HhdvqZEdyF50" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        <br><br>
-        <iframe width="1000" height="600" src="https://www.youtube.com/embed/Vd-4eGnBAK8?si=3DaoWLQEraVm2EuN" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        <br><br>
-        <iframe width="1000" height="600" src="https://www.youtube.com/embed/8T0WOABe7OY?si=SKofWfKLEr8dF4-_" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        <br>
- 
-      </div>
-      <br>
-
-<!--Section 4 Dynamic Memory Allocation-->
-      <div id="heap" class="w3-container w3-card w3-light-grey w3-padding-large">
-        <h1 class="w3-text-blue w3-padding-16"><i class="fa fa-asterisk fa-fw w3-margin-right w3-xxlarge w3-text-blue"></i> SECTION 4: DYNAMIC MEMORY ALLOCATION</h1>
-        <h5 class="w3-text-black w3-text-center w3-padding-0">
-          Previously, we have looked at pointers, references, how to use them, and how stack memory allocation works. 
-          Thus far, all of the memory we have allocated has been on the stack.  
-          This includes variables and larger elements such as arrays which we looked at in the previous section with pointer math.
-          The heap is our other area of memory in our computer. 
-          The heap can be considered to be a larger, unordered section of memory that needs to be managed manually. 
-          To store stuff on the heap we need to utilise a memory allocator. 
-          C happens to have an excellent built in memory allocator called Malloc which we will be considering today.
-          Malloc allows us to simply specify the size of memory on the heap we want to allocate and the memory will be allocated for us. 
-          We don't need to do anything else.
-          However, this means that we need to have some idea of how much memory we are going to need prior to allocating it. 
-          Malloc is a function within C that we can call that takes as a parameter the size in bytes that we want to allocate. 
-          Let us consider the following code involving integers and allocating an integer array for 100 integers to the heap.
-          <pre><code>
-            int main(){
-              int* p = (int*) malloc(400);
-
-              return 0;
-            }
-          </code></pre>
-          Here we have define a pointer utilising malloc to allocate some memory on our heap.
-          Specifically we have allocated 400 bytes. 
-          Since an integer is 4 bytes this is room for an array of 100 integers. 
-          If we wanted to allocate a different number of integers or just speficy the number of integers we could instead do:
-          <pre><code>
-            int main(){
-              int* p = (int*) malloc(200*sizeof(int));
-
-              return 0;
-            }
-          </code></pre> 
-          This code should work to allocate a section of memory.
-          However, sometimes it is possible we will have run out of memory on the heap that we can allocate. 
-          When this happens our pointer will fail to be allocated. 
-          We can check this with the following:
-          <pre><code>
-            int main(){
-              int* p = (int*) malloc(200*sizeof(int));
-              if (p == NULL) {
-                printf("memory failed to allocate. \n");
-              }
-
-              return 0;
-            }
-          </code></pre>
-          If our memory has been allocated correctly, we can now populate the array and access the array elements using our pointer and pointer arithmetic like we saw in the last section.
-          For example, lets set each of the elements in an array of size 200 to be equal to the numbers 1-200 in order. 
-          <pre><code>
-            int main(){
-              int i;
-              int* p = (int*) malloc(200*sizeof(int));
-              if (p == NULL) {
-                printf("memory failed to allocate. \n");
-              }
-              else{
-                for(i = 0; i < 200; i++){
-                  p[i]=i+1;
-                }
-              }
-              //print the elements
-              for(i=0; i< 200; i++){
-                printf("%d, ",p[i]);
-              }
-
-              return 0;
-            }
-          </code></pre>
-          In this code block we have allocated 800 bytes for 200 integers, populated the memory, and printed out the results to our terminal.
-          When we execute this code, we will receive the numbers 1 to 200 printed out. 
-          <br><br>
-          Just like how we need to allocate memory we need to also free that memory up. 
-          We need to do this before we finish our code. 
-          Else we experience what is known as a memory leak. 
-          A memory leak just means that we have allocated memory that we can no longer access.
-          Because of this the memory is taken up but we have no way of accessing it or freeing it. 
-          To avoid this happening, we need to use something called free(). 
-          free() simply allows us to dynamically de-allocate memory. 
-          Consider the following code, which is very similar to our code before but now contains a free() call. 
-          <pre><code>
-            int main(){
-              int i;
-              int* p = (int*) malloc(200*sizeof(int));
-              if (p == NULL) {
-                printf("memory failed to allocate. \n");
-              }
-              else{
-                for(i = 0; i < 200; i++){
-                  p[i]=i+1;
-                }
-              }
-              //print the elements
-              for(i=0; i< 200; i++){
-                printf("%d, ",p[i]);
-              }
-
-              //dynamically deallocate memory
-              free(p);
-              p=NULL;
-              return 0;
-            }
-          </code></pre>
-          Here the code is almost the same until the last two steps.
-          The first step is calling free() a function built into C. 
-          free() takes in our pointer and frees the memory that has been allocated using the pointer. 
-          Secondly, we set our pointer to be equal to NULL. 
-          This means that we cannot try and access the memory after it has been deallocated which can be done and should be avoided. 
-          This can cause severe issues including potential security issues. 
-          <br><br>
-          Congrats! We have reached the end of Module 1 for now! 
-          More content will be added in the future but this is the basics of memory allocation both static and dynamic. 
-          <br><br>
-
-            Below are video resources with a number of different explanations for how Pointers work in memory. 
-        </h5>
-        <h5 class="w3-text-black w3-text-center w3-padding-0"> 
-            The videos are listed in order similarly to how the written sections above are organized.  
-        </h5>
-        <iframe width="1000" height="600" src="https://www.youtube.com/embed/ryyCnpS3eOc?si=Jo0DhdImjNkSk6JF" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        <br><br>
-        <iframe width="1000" height="600" src="https://www.youtube.com/embed/wDUiDd3KmAA?si=8fTVq9S9aBe8ywJs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        <br><br>
-        <iframe width="1000" height="600" src="https://www.youtube.com/embed/udfbq4M2Kfc?si=fbWUci3iklelEZ0l" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        <br><br>
-        <iframe width="1000" height="600" src="https://www.youtube.com/embed/5OJRqkYbK-4?si=p8xBimzxw6S10SXw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        <br><br>
-        <iframe width="1000" height="600" src="https://www.youtube.com/embed/OiynRs3iKzI?si=5fbfkrGLaUXP738k" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-
-        <br>
- 
-      </div>
-      <br>
-        
-        <br><br>
- 
-    </div>
-
-    <!-- End Right Column -->
-    </div>
-
-  <!-- End Grid -->
-  </div>
-
-  <!-- End Page Container -->
-</div>
-
-<footer class="w3-container w3-blue w3-center w3-margin-top">
-  <p> </p>
-  <a href="./repository.html" class=" w3-btn w3-white w3-text-blue w3-round-large "><i class="fa fa-home"></i> BACK TO REPOSITORY</a>
-  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
-  <p>The code environment on this page is brought to you by <a href="onlinegdb.com">OnlineGDB.com</a></p>
-
+<footer>
+  <a href="/repository" class="home-btn"><i class="fa fa-arrow-left"></i> Back to Modules</a>
+  <p>Powered by hand-rolled CSS &amp; <a href="https://highlightjs.org/" target="_blank" rel="noopener noreferrer">highlight.js</a></p>
+  <p>Code environment provided by <a href="https://www.onlinegdb.com/" target="_blank" rel="noopener noreferrer">OnlineGDB.com</a></p>
 </footer>
 
 </body>
