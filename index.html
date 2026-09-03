@@ -378,11 +378,50 @@
     }
     .home-btn:hover { border-color: var(--blue); color: var(--paper); background: rgba(46,76,109,0.15); }
 
+    /* ---- Responsive: tablet (≤860px) ---- */
     @media (max-width: 860px) {
-      .layout { grid-template-columns: 1fr; }
+      .wrap { padding: 28px 16px 32px; }
+
+      .masthead { flex-direction: column; align-items: flex-start; gap: 8px; }
+      .masthead nav { display: flex; flex-wrap: wrap; gap: 0; }
+      .masthead nav a { margin-left: 0; margin-right: 18px; padding: 6px 0; }
+
+      .layout { grid-template-columns: 1fr; gap: 20px; }
       aside { position: static; }
-      .masthead { flex-direction: column; align-items: flex-start; gap: 10px; }
-      .masthead nav a { margin-left: 0; margin-right: 18px; }
+
+      .sheet { padding: 18px 18px 20px; }
+
+      .lede { max-width: 100%; }
+
+      .grant-facts { grid-template-columns: 1fr; }
+    }
+
+    /* ---- Responsive: small phones (≤480px) ---- */
+    @media (max-width: 480px) {
+      .wrap { padding: 16px 10px 24px; }
+
+      .sheet { padding: 14px 14px 16px; }
+
+      .masthead .kicker { font-size: 0.88rem; }
+
+      section.sheet h2.section-title { font-size: 1.1rem; }
+
+      .profile h1 { font-size: 1.2rem; }
+
+      /* Teaching table: smaller text so columns breathe */
+      table { font-size: 0.78rem; }
+      thead th { padding: 8px 8px; }
+      tbody td { padding: 7px 8px; }
+
+      /* Conferences: single column on small phones */
+      .conf-grid { grid-template-columns: 1fr; }
+
+      /* Publications: slightly smaller title */
+      .pub-title { font-size: 0.94rem; }
+
+      /* Timeline: tighten left gutter */
+      .timeline { padding-left: 20px; }
+      .tl-item::before { left: -20px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
