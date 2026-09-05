@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Module 5: Theory of Computation</title>
+  <meta name="description" content="Course materials for Module 5: Theory of Computation — automata, computability, and complexity.">
+
+  <!-- NOTE: Video IDs throughout this file are placeholders. Replace each with a real YouTube video ID. -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,500&family=Roboto:wght@300;400;500;700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+
+  <style>
+    :root {
+      --blue: #2e4c6d;
+      --blue-deep: #1b3350;
+      --bg: #171512;
+      --bg-soft: #201d19;
+      --paper: #f6f1e6;
+      --paper-stripe: #e6ebf0;
+      --ink: #241f1a;
+      --ink-soft: #6d6355;
+      --rule: #ddcfae;
+      --rule-soft: rgba(221, 207, 174, 0.18);
+      --radius: 8px;
+      --shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+      --max-width: 900px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      background-image:
+        radial-gradient(circle at 12% 8%, rgba(46, 76, 109, 0.10), transparent 45%),
+        radial-gradient(circle at 88% 92%, rgba(46, 76, 109, 0.08), transparent 40%);
+      color: var(--paper);
+      font-family: "Roboto", sans-serif;
+      font-weight: 300;
+      line-height: 1.65;
+    }
+
+    h1, h2, h3, h4, h5, h6 { font-family: "Lora", serif; font-weight: 600; margin: 0; color: var(--ink); }
+    a { color: var(--blue-deep); }
+    a:hover { color: var(--blue); }
+    :focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+
+    .wrap { max-width: var(--max-width); margin: 0 auto; padding: 56px 24px 40px; }
+
+    /* ---- Masthead ---- */
+    .masthead { padding-bottom: 28px; margin-bottom: 40px; border-bottom: 1px solid var(--rule-soft); }
+    .masthead-top { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 14px; }
+    .masthead .kicker { font-family: "Lora", serif; font-style: italic; font-size: 0.95rem; color: rgba(246,241,230,0.55); }
+    .masthead .back-link { color: rgba(246,241,230,0.7); text-decoration: none; font-size: 0.88rem; display: inline-flex; align-items: center; gap: 6px; }
+    .masthead .back-link:hover { color: var(--paper); }
+    .module-nav { display: flex; flex-wrap: wrap; gap: 4px 0; }
+    .module-nav a { color: rgba(246,241,230,0.70); text-decoration: none; font-size: 0.85rem; margin-right: 20px; border-bottom: 1px solid transparent; padding-bottom: 2px; white-space: nowrap; }
+    .module-nav a:hover { color: var(--paper); border-bottom-color: var(--blue); }
+
+    /* ---- Pillar divider (between the three main sections) ---- */
+    .pillar-divider {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 36px 0 8px;
+      color: rgba(246,241,230,0.45);
+      font-size: 0.78rem;
+      font-family: "Lora", serif;
+      font-style: italic;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .pillar-divider::before, .pillar-divider::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--rule-soft);
+    }
+
+    /* ---- Sheets ---- */
+    .sheet { background: var(--paper); color: var(--ink); border-radius: var(--radius); box-shadow: var(--shadow); padding: 30px 32px 34px; margin-bottom: 24px; }
+    .section-title { display: flex; align-items: center; gap: 12px; font-size: 1.3rem; padding-bottom: 14px; margin-bottom: 22px; border-bottom: 2px solid var(--blue); color: var(--ink); }
+    .section-title i { color: var(--blue); font-size: 1.05rem; }
+    .sub-title { font-size: 1.05rem; color: var(--blue-deep); margin: 28px 0 10px; font-family: "Lora", serif; font-weight: 600; }
+
+    /* ---- Body text ---- */
+    .body-text { font-size: 1rem; line-height: 1.75; color: var(--ink); margin: 0 0 1em; }
+    .body-text:last-child { margin-bottom: 0; }
+
+    /* ---- TOC ---- */
+    .toc-list { list-style: none; margin: 18px 0 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+    .toc-list li { display: flex; align-items: baseline; gap: 10px; font-size: 0.97rem; }
+    .toc-num { font-family: "Lora", serif; font-style: italic; font-size: 0.85rem; color: var(--ink-soft); min-width: 18px; }
+    .toc-list a { color: var(--blue-deep); text-decoration: none; border-bottom: 1px solid transparent; }
+    .toc-list a:hover { color: var(--blue); border-bottom-color: var(--blue); }
+
+    /* ---- Notation grid (like module 3 symbol table) ---- */
+    .notation-grid { display: grid; grid-template-columns: auto 1fr; gap: 0; margin: 20px 0; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; }
+    .notation-grid dt, .notation-grid dd { margin: 0; padding: 9px 14px; font-size: 0.93rem; border-bottom: 1px solid var(--rule); }
+    .notation-grid dt:last-of-type, .notation-grid dd:last-of-type { border-bottom: none; }
+    .notation-grid dt { font-family: "Lora", serif; font-weight: 600; font-size: 1.05rem; color: var(--blue-deep); background: var(--paper-stripe); white-space: nowrap; text-align: center; }
+    .notation-grid dd { color: var(--ink-soft); line-height: 1.5; }
+    .notation-section-label { grid-column: 1 / -1; padding: 7px 14px; font-size: 0.78rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; background: var(--blue-deep); color: rgba(246,241,230,0.75); }
+
+    /* ---- General tables ---- */
+    .mod-table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.92rem; }
+    .mod-table th { background: var(--blue-deep); color: rgba(246,241,230,0.9); font-family: "Lora", serif; font-weight: 600; padding: 10px 14px; text-align: left; }
+    .mod-table td { padding: 9px 14px; border-bottom: 1px solid var(--rule); color: var(--ink); vertical-align: top; }
+    .mod-table tr:last-child td { border-bottom: none; }
+    .mod-table tr:nth-child(even) td { background: var(--paper-stripe); }
+    .mod-table td:first-child { font-family: "Lora", serif; font-weight: 600; color: var(--blue-deep); white-space: nowrap; }
+
+    /* ---- DFA transition table (symmetric, state-styled) ---- */
+    .dfa-table { width: auto; border-collapse: collapse; margin: 20px auto; font-size: 0.92rem; }
+    .dfa-table th, .dfa-table td { padding: 9px 20px; border: 1px solid var(--rule); text-align: center; font-family: "Lora", serif; }
+    .dfa-table thead th { background: var(--blue-deep); color: rgba(246,241,230,0.9); }
+    .dfa-table tbody td:first-child { background: var(--paper-stripe); font-weight: 600; color: var(--blue-deep); }
+    .dfa-table tbody tr:hover td { background: rgba(46,76,109,0.06); }
+
+    /* ---- Code label + block ---- */
+    .code-label { display: inline-block; font-size: 0.75rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-soft); background: var(--paper-stripe); border: 1px solid var(--rule); border-bottom: none; padding: 3px 10px; border-radius: 4px 4px 0 0; margin-bottom: -2px; }
+    pre { margin: 4px 0 16px; border-radius: 0 6px 6px 6px; overflow-x: auto; }
+    pre code.hljs { font-size: 0.88rem; line-height: 1.6; border-radius: 0 6px 6px 6px; }
+    :not(pre) > code { font-family: "Courier New", Courier, monospace; font-size: 0.9em; background: rgba(46,76,109,0.12); color: var(--blue-deep); padding: 1px 5px; border-radius: 3px; }
+
+    /* ---- Callout (general insight) ---- */
+    .callout { border-left: 3px solid var(--blue); background: var(--paper-stripe); padding: 12px 16px; border-radius: 0 6px 6px 0; margin: 16px 0; font-size: 0.95rem; color: var(--ink-soft); }
+    .callout strong { color: var(--blue-deep); }
+
+    /* ---- Theorem block ---- */
+    .theorem {
+      border: 1px solid var(--blue);
+      border-left: 4px solid var(--blue-deep);
+      background: rgba(46, 76, 109, 0.06);
+      padding: 14px 18px;
+      border-radius: 0 6px 6px 0;
+      margin: 18px 0;
+    }
+    .theorem-label {
+      font-family: "Lora", serif;
+      font-weight: 700;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--blue-deep);
+      margin-bottom: 6px;
+    }
+    .theorem p { margin: 0; font-size: 0.97rem; color: var(--ink); line-height: 1.7; }
+    .theorem em { color: var(--blue-deep); font-style: italic; }
+
+    /* ---- Link groups ---- */
+    .link-group { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--rule); }
+    .link-group-label { font-size: 0.82rem; font-weight: 500; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 8px; }
+    .link-group a { display: inline-flex; align-items: center; gap: 6px; margin-right: 16px; margin-bottom: 6px; font-size: 0.92rem; }
+    .link-group a i { font-size: 0.8rem; color: var(--blue); }
+
+    /* ---- YouTube cards ---- */
+    .yt-link { display: block; text-decoration: none; border-radius: 6px; overflow: hidden; margin: 12px 0; border: 1px solid var(--rule); transition: box-shadow 0.15s, transform 0.15s; }
+    .yt-link:hover { box-shadow: 0 4px 18px rgba(0,0,0,0.18); transform: translateY(-2px); }
+    .yt-thumb { position: relative; padding-bottom: 56.25%; height: 0; background: #0a0a0a; overflow: hidden; }
+    .yt-thumb img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.82; transition: opacity 0.15s; }
+    .yt-link:hover .yt-thumb img { opacity: 1; }
+    .yt-play { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 56px; height: 56px; background: rgba(220,0,0,0.90); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: background 0.15s, transform 0.15s; pointer-events: none; }
+    .yt-link:hover .yt-play { background: rgb(220,0,0); transform: translate(-50%,-50%) scale(1.1); }
+    .yt-play i { color: #fff; font-size: 1rem; margin-left: 4px; }
+    .yt-caption { display: flex; align-items: center; gap: 8px; padding: 10px 14px; background: var(--paper-stripe); color: var(--ink-soft); font-size: 0.88rem; }
+    .yt-caption .fa-youtube-play { color: #dc0000; font-size: 1.1rem; }
+    .yt-ext { margin-left: auto; opacity: 0.4; font-size: 0.78rem; }
+
+    /* ---- Footer ---- */
+    footer { text-align: center; padding: 40px 24px 20px; color: rgba(246,241,230,0.45); font-size: 0.85rem; }
+    footer a { color: rgba(246,241,230,0.7); }
+    .home-btn { display: inline-flex; align-items: center; gap: 8px; color: var(--paper); text-decoration: none; border: 1px solid var(--rule-soft); padding: 8px 18px; border-radius: 20px; margin-bottom: 16px; font-size: 0.88rem; }
+    .home-btn:hover { border-color: var(--blue); color: var(--paper); background: rgba(46,76,109,0.15); }
+
+    /* ---- Responsive ---- */
+    @media (max-width: 860px) {
+      .wrap { padding: 28px 16px 32px; }
+      .sheet { padding: 20px 18px 24px; }
+      .masthead-top { flex-direction: column; gap: 6px; }
+      .mod-table { font-size: 0.84rem; }
+      .mod-table th, .mod-table td { padding: 8px 10px; }
+      .dfa-table { font-size: 0.84rem; }
+      .dfa-table th, .dfa-table td { padding: 8px 12px; }
+    }
+    @media (max-width: 480px) {
+      .wrap { padding: 16px 10px 24px; }
+      .sheet { padding: 14px 14px 18px; }
+      .section-title { font-size: 1.1rem; }
+      pre code.hljs { font-size: 0.8rem; }
+      .mod-table, .dfa-table { display: block; overflow-x: auto; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  </style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="masthead">
+    <div class="masthead-top">
+      <span class="kicker">Module 5: Theory of Computation</span>
+      <a href="/repository" class="back-link"><i class="fa fa-arrow-left"></i> All Modules</a>
+    </div>
+    <nav class="module-nav">
+      <a href="#home">Overview</a>
+      <a href="#automata">§1 Finite Automata</a>
+      <a href="#regular">§2 Regular Languages</a>
+      <a href="#cfg">§3 Context-Free Languages</a>
+      <a href="#turing">§4 Turing Machines</a>
+      <a href="#decidability">§5 Decidability</a>
+      <a href="#complexity">§6 Complexity</a>
+    </nav>
+  </div>
+
+  <main>
+
+    <!-- ========== OVERVIEW ========== -->
+    <section class="sheet" id="home">
+      <h2 class="section-title"><i class="fa fa-home"></i>Module 5: Overview</h2>
+      <p class="body-text">
+        Theory of Computation (ToC) is the branch of computer science that asks the most fundamental questions
+        about computing itself: <em>What problems can be solved by a computer at all? What problems can be
+        solved efficiently? And what formal models underlie every computation we perform?</em>
+        ToC provides the mathematical foundations that every other area of CS rests on.
+      </p>
+      <p class="body-text">
+        The field is traditionally divided into three pillars, each building on the last.
+        This module follows that progression.
+      </p>
+      <ul class="toc-list">
+        <li><span class="toc-num" style="color:var(--blue-deep);font-style:normal;">I</span>
+            <span style="color:var(--ink-soft);font-style:italic;">Automata Theory</span></li>
+        <li><span class="toc-num">1</span><a href="#automata">Section 1: Finite Automata — DFA and NFA</a></li>
+        <li><span class="toc-num">2</span><a href="#regular">Section 2: Regular Languages and Expressions</a></li>
+        <li><span class="toc-num">3</span><a href="#cfg">Section 3: Context-Free Languages and Pushdown Automata</a></li>
+        <li><span class="toc-num" style="color:var(--blue-deep);font-style:normal;">II</span>
+            <span style="color:var(--ink-soft);font-style:italic;">Computability Theory</span></li>
+        <li><span class="toc-num">4</span><a href="#turing">Section 4: Turing Machines</a></li>
+        <li><span class="toc-num">5</span><a href="#decidability">Section 5: Decidability and the Halting Problem</a></li>
+        <li><span class="toc-num" style="color:var(--blue-deep);font-style:normal;">III</span>
+            <span style="color:var(--ink-soft);font-style:italic;">Complexity Theory</span></li>
+        <li><span class="toc-num">6</span><a href="#complexity">Section 6: P, NP, and NP-Completeness</a></li>
+      </ul>
+
+      <h3 class="sub-title">Notation Reference</h3>
+      <p class="body-text">The following symbols appear throughout this module. Refer back here as needed.</p>
+      <dl class="notation-grid">
+        <div class="notation-section-label">Alphabet &amp; Strings</div>
+        <dt>&Sigma;</dt><dd>The <em>alphabet</em> — a finite, non-empty set of symbols (e.g. {0, 1})</dd>
+        <dt>&Sigma;*</dt><dd>The set of <em>all</em> strings over &Sigma;, including the empty string &epsilon;</dd>
+        <dt>&epsilon;</dt><dd>The <em>empty string</em> — a string of length zero</dd>
+        <dt>w</dt><dd>A generic string (word) over &Sigma;</dd>
+        <dt>|w|</dt><dd>The <em>length</em> of string w</dd>
+
+        <div class="notation-section-label">Languages &amp; Automata</div>
+        <dt>L</dt><dd>A <em>language</em> — any subset of &Sigma;*</dd>
+        <dt>Q</dt><dd>A finite set of <em>states</em></dd>
+        <dt>q&#8320;</dt><dd>The <em>start state</em> (initial state)</dd>
+        <dt>F</dt><dd>The set of <em>accept states</em> (final states)</dd>
+        <dt>&delta;</dt><dd>The <em>transition function</em></dd>
+        <dt>M</dt><dd>A generic machine (DFA, NFA, PDA, or TM)</dd>
+        <dt>L(M)</dt><dd>The language <em>recognised</em> by machine M</dd>
+
+        <div class="notation-section-label">Computability &amp; Complexity</div>
+        <dt>&#9014;</dt><dd>A Turing Machine <em>accepts</em> (halts in accept state)</dd>
+        <dt>&#x22A2;</dt><dd>A configuration <em>yields</em> the next configuration in one step</dd>
+        <dt>P</dt><dd>Problems solvable in <em>polynomial time</em></dd>
+        <dt>NP</dt><dd>Problems <em>verifiable</em> in polynomial time</dd>
+        <dt>&le;&#8199;&#7609;</dt><dd>Polynomial-time <em>many-one reduction</em></dd>
+      </dl>
+    </section>
+
+    <!-- ========== PILLAR I ========== -->
+    <div class="pillar-divider">Pillar I &mdash; Automata Theory</div>
+
+    <!-- ========== SECTION 1: FINITE AUTOMATA ========== -->
+    <section class="sheet" id="automata">
+      <h2 class="section-title"><i class="fa fa-circle-o-notch"></i>Section 1: Finite Automata — DFA and NFA</h2>
+      <p class="body-text">
+        A <em>finite automaton</em> is the simplest model of computation.
+        It reads an input string one symbol at a time, transitions between a finite set of states,
+        and either <em>accepts</em> or <em>rejects</em> the string when it reaches the end.
+        Despite their simplicity, finite automata model real systems — lexical analysers, network protocols,
+        regular expression engines, and digital circuits.
+      </p>
+
+      <h3 class="sub-title">1.1 Deterministic Finite Automata (DFA)</h3>
+      <p class="body-text">
+        A <strong>DFA</strong> is a 5-tuple <strong>M = (Q, &Sigma;, &delta;, q&#8320;, F)</strong> where:
+      </p>
+      <span class="code-label">Formal definition</span>
+      <pre><code class="language-plaintext">Q       — a finite set of states
+&Sigma;       — a finite alphabet
+&delta;       — the transition function:  Q &times; &Sigma; &rarr; Q
+q&#8320;      — the start state,           q&#8320; &isin; Q
+F       — the set of accept states,  F &sube; Q
+
+M accepts string w = w&#8321;w&#8322;...w&#8345; if there exists a sequence of states
+r&#8320;, r&#8321;, ..., r&#8345; such that:
+  (1) r&#8320; = q&#8320;                        (start in the start state)
+  (2) &delta;(r&#7522;, w&#7522;&#8330;&#8321;) = r&#7522;&#8330;&#8321;  for 0 &le; i &lt; n  (follow transitions)
+  (3) r&#8345; &isin; F                         (end in an accept state)</code></pre>
+
+      <p class="body-text">
+        A key property of DFAs is <strong>determinism</strong>: from every state, on every possible
+        input symbol, there is <em>exactly one</em> transition. There is never any ambiguity about
+        which state to move to next.
+      </p>
+
+      <p class="body-text">
+        <strong>Example:</strong> The following DFA recognises the language
+        L = { w &isin; {0,1}* | w ends in 1 } — all binary strings whose last symbol is 1.
+        It has two states: <em>q&#8320;</em> (last symbol was 0, or no input yet) and
+        <em>q&#8321;</em> (last symbol was 1). Only q&#8321; is an accept state.
+      </p>
+
+      <table class="dfa-table">
+        <thead>
+          <tr>
+            <th>State</th>
+            <th>On input 0</th>
+            <th>On input 1</th>
+            <th>Accept?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>&rarr; q&#8320;</td><td>q&#8320;</td><td>q&#8321;</td><td>No</td></tr>
+          <tr><td>q&#8321;</td><td>q&#8320;</td><td>q&#8321;</td><td><strong>Yes</strong></td></tr>
+        </tbody>
+      </table>
+
+      <p class="body-text">
+        Tracing the string <code>1011</code>: start in q&#8320; &rarr; read 1 &rarr; q&#8321; &rarr;
+        read 0 &rarr; q&#8320; &rarr; read 1 &rarr; q&#8321; &rarr; read 1 &rarr; q&#8321;.
+        We end in q&#8321; (an accept state), so <code>1011</code> is accepted. &#10003;
+        Tracing <code>10</code>: q&#8320; &rarr; q&#8321; &rarr; q&#8320; — end in q&#8320;, rejected. &#10007;
+      </p>
+
+      <h3 class="sub-title">1.2 Nondeterministic Finite Automata (NFA)</h3>
+      <p class="body-text">
+        A <strong>NFA</strong> relaxes the determinism requirement.
+        From a given state, on a given symbol, the transition function may produce
+        <em>zero, one, or many</em> possible next states.
+        NFAs also allow <strong>&epsilon;-transitions</strong> — transitions taken without consuming any input symbol.
+      </p>
+      <span class="code-label">NFA — 5-tuple</span>
+      <pre><code class="language-plaintext">N = (Q, &Sigma;, &delta;, q&#8320;, F)
+
+The only difference from a DFA:
+  &delta; : Q &times; (&Sigma; &cup; {&epsilon;}) &rarr; &Pscr;(Q)   (power set of Q — a *set* of states, possibly empty)</code></pre>
+
+      <p class="body-text">
+        An NFA accepts a string if <em>at least one</em> possible computation path leads to an accept state.
+        You can think of the NFA as exploring all paths simultaneously (or "guessing" the right one).
+        NFAs are often much easier to construct than equivalent DFAs.
+      </p>
+
+      <div class="theorem">
+        <div class="theorem-label">Theorem — DFA/NFA Equivalence (Subset Construction)</div>
+        <p>Every NFA has an equivalent DFA that recognises exactly the same language.
+        Given an NFA with <em>n</em> states, the equivalent DFA has at most <em>2<sup>n</sup></em> states
+        (one for each subset of the NFA's state set).
+        This is called the <em>subset construction</em> or <em>powerset construction</em>.</p>
+      </div>
+
+      <p class="body-text">
+        The subset construction works by making each state of the new DFA correspond to a <em>set</em> of
+        NFA states. The DFA starts in the &epsilon;-closure of the NFA's start state,
+        and transitions are computed by unioning the NFA transitions of every state in the current set,
+        then taking the &epsilon;-closure of the result.
+      </p>
+
+      <table class="mod-table">
+        <thead><tr><th>Property</th><th>DFA</th><th>NFA</th></tr></thead>
+        <tbody>
+          <tr><td>Transitions per state/symbol</td><td>Exactly 1</td><td>0, 1, or many</td></tr>
+          <tr><td>&epsilon;-transitions</td><td>Not allowed</td><td>Allowed</td></tr>
+          <tr><td>Acceptance</td><td>Unique path ends in accept state</td><td>Any path ends in accept state</td></tr>
+          <tr><td>Expressive power</td><td>Exactly the regular languages</td><td>Exactly the regular languages</td></tr>
+          <tr><td>Ease of construction</td><td>Often complex</td><td>Often simpler to design</td></tr>
+        </tbody>
+      </table>
+
+      <div class="link-group">
+        <div class="link-group-label">Useful Links</div>
+        <a href="https://www.cs.cornell.edu/courses/cs2800/2017fa/lectures/lec23-dfa.html"><i class="fa fa-external-link"></i>Cornell CS2800: DFAs</a>
+        <a href="https://www.geeksforgeeks.org/introduction-of-finite-automata/"><i class="fa fa-external-link"></i>GeeksForGeeks: Finite Automata</a>
+        <a href="https://www.cs.odu.edu/~toida/nerzic/390teched/regular/fa/nfa-definitions.html"><i class="fa fa-external-link"></i>ODU: NFA Definitions and Examples</a>
+        <a href="https://en.wikipedia.org/wiki/Powerset_construction"><i class="fa fa-external-link"></i>Wikipedia: Powerset Construction</a>
+      </div>
+      <div class="link-group">
+        <div class="link-group-label">Useful Videos</div>
+        <a href="https://www.youtube.com/watch?v=Qa6csfkKeyw" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/Qa6csfkKeyw/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=32bC33nJR3A" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/32bC33nJR3A/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=TpIBUeyOuv8" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/TpIBUeyOuv8/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=0XaGAkPxs18" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/0XaGAkPxs18/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a>
+      </div>
+    </section>
+
+    <!-- ========== SECTION 2: REGULAR LANGUAGES ========== -->
+    <section class="sheet" id="regular">
+      <h2 class="section-title"><i class="fa fa-asterisk"></i>Section 2: Regular Languages and Expressions</h2>
+      <p class="body-text">
+        The class of languages recognised by DFAs is called the <em>regular languages</em>.
+        Regular languages can also be described by <em>regular expressions</em> — a compact algebraic notation.
+        Kleene's theorem establishes that these two characterisations describe exactly the same class of languages.
+      </p>
+
+      <h3 class="sub-title">2.1 Regular Expressions</h3>
+      <p class="body-text">
+        A regular expression (regex) over alphabet &Sigma; is built from the following primitives and operations:
+      </p>
+      <span class="code-label">Regular expression syntax</span>
+      <pre><code class="language-plaintext">Base cases:
+  &epsilon;          matches the empty string
+  a          matches the single symbol a &isin; &Sigma;
+  &empty;          matches nothing (empty language)
+
+Operations (R and S are regular expressions):
+  R | S      union: matches strings in R or S
+  R &sdot; S      concatenation: matches a string in R followed by one in S
+  R*         Kleene star: matches zero or more concatenations of R
+  (R)        grouping</code></pre>
+
+      <p class="body-text">Examples over &Sigma; = {0, 1}:</p>
+      <span class="code-label">Regex examples</span>
+      <pre><code class="language-plaintext">(0 | 1)*           — all binary strings (including &epsilon;)
+(0 | 1)* 1         — all binary strings ending in 1
+0* 1 0*            — exactly one 1, any number of 0s
+(01)*              — strings that are repetitions of "01": &epsilon;, 01, 0101, 010101, ...
+0* (1 0* 1 0*)* 0* — strings with an even number of 1s</code></pre>
+
+      <div class="theorem">
+        <div class="theorem-label">Theorem — Kleene's Theorem</div>
+        <p>A language L is regular <em>if and only if</em> it is described by a regular expression.
+        More precisely: the class of languages recognised by DFAs = the class of languages recognised by NFAs
+        = the class of languages described by regular expressions.</p>
+      </div>
+
+      <h3 class="sub-title">2.2 Closure Properties</h3>
+      <p class="body-text">
+        The regular languages are <em>closed</em> under the following operations —
+        meaning the result of applying them to regular languages is always also regular:
+        union, concatenation, Kleene star, complementation, intersection, difference, and reversal.
+        Closure properties are powerful tools for proving a language is regular or for constructing DFAs
+        for complex languages by composing simpler ones.
+      </p>
+
+      <h3 class="sub-title">2.3 The Pumping Lemma — Proving Non-Regularity</h3>
+      <p class="body-text">
+        Not every language is regular. The <em>Pumping Lemma</em> gives us a tool to prove
+        that a language is <em>not</em> regular by contradiction.
+      </p>
+      <div class="theorem">
+        <div class="theorem-label">Theorem — Pumping Lemma for Regular Languages</div>
+        <p>If L is a regular language, then there exists a <em>pumping length</em> p &ge; 1 such that
+        for every string w &isin; L with |w| &ge; p, we can write w = xyz where:</p>
+        <p style="margin-top:8px;">
+          &nbsp;&nbsp;(1) xy<sup>i</sup>z &isin; L for all i &ge; 0 &nbsp;&nbsp;(<em>pumping condition</em>)<br>
+          &nbsp;&nbsp;(2) |y| &ge; 1 &nbsp;&nbsp;(y is non-empty)<br>
+          &nbsp;&nbsp;(3) |xy| &le; p &nbsp;&nbsp;(the pump is near the start)
+        </p>
+      </div>
+      <p class="body-text">
+        <strong>Example — proving L = {0<sup>n</sup>1<sup>n</sup> | n &ge; 0} is not regular:</strong>
+      </p>
+      <span class="code-label">Pumping Lemma proof sketch</span>
+      <pre><code class="language-plaintext">Assume for contradiction that L is regular with pumping length p.
+Choose w = 0&#7661; 1&#7661;  (p zeros followed by p ones).  |w| = 2p &ge; p.
+
+By the Pumping Lemma, w = xyz where |xy| &le; p and |y| &ge; 1.
+Since |xy| &le; p and w starts with p zeros,
+  x and y consist entirely of 0s.
+  Let y = 0&#7503; for some k &ge; 1.
+
+Now pump: consider xy&sup2;z = x y y z.
+  This string has p + k zeros but still p ones (y only added zeros).
+  So xy&sup2;z = 0&#7663;&#8330;&#7503; 1&#7661;  with k &ge; 1.
+  But 0&#7663;&#8330;&#7503; 1&#7661; &notin; L  because p + k &ne; p.
+
+Contradiction! &there4; L is not regular.  &marker;</code></pre>
+
+      <div class="link-group">
+        <div class="link-group-label">Useful Links</div>
+        <a href="https://www.cs.cornell.edu/courses/cs2800/2017fa/lectures/lec25-kleene.html"><i class="fa fa-external-link"></i>Cornell CS2800: Kleene&apos;s Theorem</a>
+        <a href="https://www.geeksforgeeks.org/pumping-lemma-in-theory-of-computation/"><i class="fa fa-external-link"></i>GeeksForGeeks: Pumping Lemma</a>
+        <a href="https://en.wikipedia.org/wiki/Regular_expression#Formal_language_theory"><i class="fa fa-external-link"></i>Wikipedia: Regular Expressions (formal theory)</a>
+      </div>
+      <div class="link-group">
+        <div class="link-group-label">Useful Videos</div>
+        <a href="https://www.youtube.com/watch?v=DKBB8HVfTSY" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/DKBB8HVfTSY/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=ZtiXKQlq5Lg" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/ZtiXKQlq5Lg/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=B3BKv_-MSYM" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/B3BKv_-MSYM/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=pEgHpFpVPKs" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/pEgHpFpVPKs/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a>
+      </div>
+    </section>
+
+    <!-- ========== SECTION 3: CFLs ========== -->
+    <section class="sheet" id="cfg">
+      <h2 class="section-title"><i class="fa fa-sitemap"></i>Section 3: Context-Free Languages and Pushdown Automata</h2>
+      <p class="body-text">
+        Regular languages cannot describe all languages we care about in computer science.
+        The language {0<sup>n</sup>1<sup>n</sup>} — which requires counting — is not regular,
+        yet it is very naturally described by a grammar.
+        <em>Context-free languages (CFLs)</em> are the next rung on the Chomsky hierarchy,
+        characterised by <em>context-free grammars (CFGs)</em> and equivalent to
+        <em>pushdown automata (PDAs)</em>. Most programming language syntax is context-free.
+      </p>
+
+      <h3 class="sub-title">3.1 Context-Free Grammars (CFGs)</h3>
+      <p class="body-text">
+        We met CFGs briefly in Module 4 (Section 2) in the context of defining programming language syntax.
+        Formally, a CFG is a 4-tuple <strong>G = (V, &Sigma;, R, S)</strong>:
+      </p>
+      <span class="code-label">Formal definition — CFG</span>
+      <pre><code class="language-plaintext">V       — a finite set of variables (non-terminals)
+&Sigma;       — a finite set of terminals  (V &cap; &Sigma; = &empty;)
+R       — a finite set of rules (productions): V &rarr; (V &cup; &Sigma;)*
+S       — the start variable,  S &isin; V</code></pre>
+
+      <p class="body-text">
+        A string w &isin; &Sigma;* is in L(G) if it can be <em>derived</em> from S by repeatedly
+        replacing a variable with the right-hand side of one of its rules.
+      </p>
+      <span class="code-label">CFG — language {0&#x207F;1&#x207F; | n &ge; 0}</span>
+      <pre><code class="language-plaintext">G = ({S}, {0, 1}, R, S)
+
+Rules R:
+  S &rarr; 0 S 1   (wrap the current string with one 0 and one 1)
+  S &rarr; &epsilon;        (base case: the empty string)
+
+Derivation of 000111:
+  S &rArr; 0S1 &rArr; 00S11 &rArr; 000S111 &rArr; 000&epsilon;111 = 000111  &#10003;</code></pre>
+
+      <h3 class="sub-title">3.2 Ambiguous Grammars</h3>
+      <p class="body-text">
+        A grammar is <em>ambiguous</em> if some string has more than one distinct <em>parse tree</em>
+        (or equivalently, more than one leftmost derivation).
+        Ambiguity is a problem for programming languages because it means a source string could be
+        interpreted in multiple ways.
+        The classic example is the dangling-else problem in C-like languages —
+        which <code>if</code> does an <code>else</code> belong to?
+        Disambiguating grammars (or handling ambiguity via precedence rules) is a major concern of
+        parser design.
+      </p>
+
+      <h3 class="sub-title">3.3 Pushdown Automata (PDAs)</h3>
+      <p class="body-text">
+        A <em>pushdown automaton</em> is an NFA augmented with an unbounded <strong>stack</strong>.
+        At each step, the PDA reads an input symbol (or &epsilon;), pops the top of the stack,
+        transitions to a new state, and pushes a string onto the stack.
+        The stack provides the memory needed to handle languages like {0<sup>n</sup>1<sup>n</sup>}
+        — push a symbol for each 0 read, pop for each 1.
+      </p>
+
+      <div class="theorem">
+        <div class="theorem-label">Theorem — CFG/PDA Equivalence</div>
+        <p>A language is context-free if and only if it is recognised by a pushdown automaton.
+        Every CFG can be converted to an equivalent PDA, and vice versa.</p>
+      </div>
+
+      <h3 class="sub-title">3.4 The Pumping Lemma for CFLs</h3>
+      <p class="body-text">
+        Just as regular languages have a pumping lemma, so do context-free languages.
+        The CFL version is more complex: sufficiently long strings can be split into five parts
+        <strong>uvxyz</strong> where the <em>middle</em> portions v and y can be pumped simultaneously.
+        The canonical non-CFL proven with this lemma is {a<sup>n</sup>b<sup>n</sup>c<sup>n</sup> | n &ge; 0} —
+        the stack can match two counts, but not three simultaneously.
+      </p>
+
+      <div class="callout">
+        <strong>Where CFLs appear in practice:</strong> The syntax of nearly every programming language is
+        defined by a CFG and parsed by a pushdown automaton (via an LL or LR parser).
+        However, some language features — such as checking that every variable is declared before use —
+        are context-<em>sensitive</em>, not context-free, and require additional passes beyond parsing.
+      </div>
+
+      <div class="link-group">
+        <div class="link-group-label">Useful Links</div>
+        <a href="https://www.geeksforgeeks.org/context-free-grammar-cgg-in-theory-of-computation/"><i class="fa fa-external-link"></i>GeeksForGeeks: Context-Free Grammars</a>
+        <a href="https://www.cs.rochester.edu/~nelson/courses/csc_173/grammars/cfg.html"><i class="fa fa-external-link"></i>University of Rochester: CFGs</a>
+        <a href="https://en.wikipedia.org/wiki/Pushdown_automaton"><i class="fa fa-external-link"></i>Wikipedia: Pushdown Automata</a>
+        <a href="https://en.wikipedia.org/wiki/Pumping_lemma_for_context-free_languages"><i class="fa fa-external-link"></i>Wikipedia: Pumping Lemma for CFLs</a>
+      </div>
+      <div class="link-group">
+        <div class="link-group-label">Useful Videos</div>
+        <a href="https://www.youtube.com/watch?v=FbMUBaEMoTY" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/FbMUBaEMoTY/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=hlkI4bHGGfU" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/hlkI4bHGGfU/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=rF8KlZxNTr0" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/rF8KlZxNTr0/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=eF5c9pSgm_c" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/eF5c9pSgm_c/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a>
+      </div>
+    </section>
+
+    <!-- ========== PILLAR II ========== -->
+    <div class="pillar-divider">Pillar II &mdash; Computability Theory</div>
+
+    <!-- ========== SECTION 4: TURING MACHINES ========== -->
+    <section class="sheet" id="turing">
+      <h2 class="section-title"><i class="fa fa-terminal"></i>Section 4: Turing Machines</h2>
+      <p class="body-text">
+        To study what computers can and cannot do, we need a model powerful enough to capture
+        everything any real computer can compute. Alan Turing introduced the <em>Turing Machine</em>
+        in 1936 — a simple abstract device that nevertheless matches the computational power
+        of any physical computer ever built or conceivable.
+      </p>
+
+      <h3 class="sub-title">4.1 Formal Definition</h3>
+      <p class="body-text">
+        A Turing Machine is a 7-tuple <strong>M = (Q, &Sigma;, &Gamma;, &delta;, q&#8320;, q<sub>acc</sub>, q<sub>rej</sub>)</strong>:
+      </p>
+      <span class="code-label">Formal definition — Turing Machine</span>
+      <pre><code class="language-plaintext">Q            — a finite set of states
+&Sigma;            — the input alphabet  (&sqcup; &notin; &Sigma;, where &sqcup; is the blank symbol)
+&Gamma;            — the tape alphabet   (&Sigma; &cup; {&sqcup;} &sube; &Gamma;)
+&delta;            — the transition function:
+                 Q\{q&#7488;&#7491;&#7501;, q&#7523;&#7497;&#696;} &times; &Gamma; &rarr; Q &times; &Gamma; &times; {L, R}
+                 (state, tape symbol) &rarr; (new state, write symbol, move L or R)
+q&#8320;           — the start state
+q&#7488;&#7491;&#7501;         — the accept state  (halts and accepts)
+q&#7523;&#7497;&#696;         — the reject state  (halts and rejects, q&#7523;&#7497;&#696; &ne; q&#7488;&#7491;&#7501;)</code></pre>
+
+      <p class="body-text">
+        The TM has an infinite tape divided into cells, each holding one symbol from &Gamma;.
+        A read/write <em>head</em> sits over one cell at a time.
+        At each step, the machine reads the current cell, writes a symbol, moves left (L) or right (R),
+        and transitions to a new state.
+        The tape is initialised with the input string followed by blank symbols (&sqcup;).
+      </p>
+
+      <h3 class="sub-title">4.2 Example — Recognising {0&#x207F;1&#x207F;0&#x207F;}</h3>
+      <p class="body-text">
+        Here is an informal description of a TM that recognises
+        { 0<sup>n</sup>1<sup>n</sup>0<sup>n</sup> | n &ge; 1 } — a language that is not context-free,
+        demonstrating the power beyond PDAs:
+      </p>
+      <span class="code-label">TM — high-level description</span>
+      <pre><code class="language-plaintext">Input: a string w over {0, 1}
+
+1. Scan left to right. If the tape is blank, ACCEPT (empty string not in language here).
+2. Mark the leftmost unmarked 0 (replace with X).
+3. Scan right past 0s to the first 1. If none, REJECT.
+   Mark it (replace with Y).
+4. Scan right past 1s to the first 0 in the trailing group. If none, REJECT.
+   Mark it (replace with Z).
+5. Scan left to the beginning (past Xs, Ys, Zs).
+6. Repeat steps 2-5 until all 0s in the first group are marked.
+7. Scan the tape: if all 1s are marked (Y) and all trailing 0s are marked (Z),
+   ACCEPT. Otherwise REJECT.</code></pre>
+
+      <h3 class="sub-title">4.3 The Church-Turing Thesis</h3>
+      <div class="theorem">
+        <div class="theorem-label">Church-Turing Thesis (informal)</div>
+        <p>Every effectively computable function — every function that can be computed by any algorithm,
+        any physical computer, any conceivable mechanical process — can be computed by a Turing Machine.</p>
+      </div>
+      <p class="body-text">
+        This is a <em>thesis</em>, not a theorem — it cannot be formally proved because "effectively
+        computable" is an informal notion. But it has been corroborated by every known model of
+        computation: &lambda;-calculus, recursive functions, register machines, RAM machines, and modern
+        computer architectures all turn out to be equivalent in power to Turing Machines.
+      </p>
+
+      <h3 class="sub-title">4.4 TM Variants</h3>
+      <p class="body-text">
+        Many extensions of the basic TM have been studied. All are equivalent in computational power,
+        which strengthens the Church-Turing thesis:
+      </p>
+      <table class="mod-table">
+        <thead><tr><th>Variant</th><th>Description</th><th>Equal in power?</th></tr></thead>
+        <tbody>
+          <tr><td>Multi-tape TM</td><td>Multiple tapes and heads operating in parallel</td><td>Yes</td></tr>
+          <tr><td>Nondeterministic TM</td><td>Transition function returns a set of possible next steps</td><td>Yes</td></tr>
+          <tr><td>Enumerator</td><td>Prints (enumerates) all strings of a language one by one</td><td>Yes</td></tr>
+          <tr><td>Random-access TM</td><td>Can access any tape cell in O(1) (like RAM)</td><td>Yes</td></tr>
+          <tr><td>Quantum TM</td><td>Uses quantum superposition; believed <em>not</em> equal to TM for some problems</td><td>Open question</td></tr>
+        </tbody>
+      </table>
+
+      <div class="link-group">
+        <div class="link-group-label">Useful Links</div>
+        <a href="https://www.geeksforgeeks.org/turing-machine-in-toc/"><i class="fa fa-external-link"></i>GeeksForGeeks: Turing Machines</a>
+        <a href="https://plato.stanford.edu/entries/turing-machine/"><i class="fa fa-external-link"></i>Stanford Encyclopedia of Philosophy: Turing Machines</a>
+        <a href="https://www.cs.odu.edu/~toida/nerzic/390teched/tm/tm-definitions.html"><i class="fa fa-external-link"></i>ODU: TM Definitions and Examples</a>
+      </div>
+      <div class="link-group">
+        <div class="link-group-label">Useful Videos</div>
+        <a href="https://www.youtube.com/watch?v=dNRDvLACg5Q" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/dNRDvLACg5Q/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=AqKqA9QTOMU" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/AqKqA9QTOMU/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=PLzdqQQKg5E" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/PLzdqQQKg5E/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=Vo8usGaHPkk" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/Vo8usGaHPkk/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a>
+      </div>
+    </section>
+
+    <!-- ========== SECTION 5: DECIDABILITY ========== -->
+    <section class="sheet" id="decidability">
+      <h2 class="section-title"><i class="fa fa-question-circle"></i>Section 5: Decidability and the Halting Problem</h2>
+      <p class="body-text">
+        We now ask: are there problems that <em>no</em> Turing Machine can solve?
+        The answer is yes — and the most famous example is the <em>Halting Problem</em>.
+        This section distinguishes problems by whether they can be solved at all, regardless of efficiency.
+      </p>
+
+      <h3 class="sub-title">5.1 Decidable and Turing-Recognisable Languages</h3>
+      <p class="body-text">
+        A language L is <strong>Turing-recognisable</strong> (recursively enumerable) if some TM M accepts
+        every w &isin; L. M may loop forever on strings not in L — it doesn&apos;t have to reject them explicitly.
+      </p>
+      <p class="body-text">
+        A language L is <strong>decidable</strong> (recursive) if some TM M accepts every w &isin; L
+        <em>and</em> rejects every w &notin; L — and crucially, <em>always halts</em>.
+        A decider never loops; it always gives a definitive yes or no.
+      </p>
+
+      <table class="mod-table">
+        <thead><tr><th>Class</th><th>TM behaviour on input w</th><th>Examples</th></tr></thead>
+        <tbody>
+          <tr><td>Decidable</td><td>Always halts; accepts if w &isin; L, rejects if w &notin; L</td><td>A&#7510;&#7511;&#7488;, regular languages, CFLs, primality testing</td></tr>
+          <tr><td>Turing-recognisable</td><td>Accepts if w &isin; L; may loop or reject if w &notin; L</td><td>A&#7511;&#7488;, the halting problem</td></tr>
+          <tr><td>Co-Turing-recognisable</td><td>Complement is Turing-recognisable</td><td>&Hbar;ALT&#772;</td></tr>
+          <tr><td>Undecidable</td><td>No TM correctly decides it</td><td>HALT&#7511;&#7488;, the Post Correspondence Problem</td></tr>
+        </tbody>
+      </table>
+
+      <h3 class="sub-title">5.2 The Halting Problem</h3>
+      <p class="body-text">
+        The <strong>Halting Problem</strong> HALT<sub>TM</sub> = { &langle;M, w&rangle; | M is a TM that halts on input w }
+        asks: given a description of a TM and an input, will the TM ever halt?
+        Alan Turing proved in 1936 that no TM can decide this problem.
+        The proof is a beautiful <em>diagonalisation argument</em>:
+      </p>
+      <span class="code-label">Halting Problem — diagonalisation proof sketch</span>
+      <pre><code class="language-plaintext">Assume for contradiction that a decider H exists for HALT&#7511;&#7488;.
+  H(&langle;M, w&rangle;) = ACCEPT  if M halts on w
+  H(&langle;M, w&rangle;) = REJECT  if M loops on w
+
+Construct a new TM D that uses H as a subroutine:
+  D(&langle;M&rangle;):
+    Run H(&langle;M, &langle;M&rangle;&rangle;)    // ask: does M halt on its own description?
+    If H accepts  &rarr; LOOP FOREVER (D does the opposite)
+    If H rejects  &rarr; ACCEPT
+
+Now ask: what does D do on input &langle;D&rangle;?
+
+  Case 1: D halts on &langle;D&rangle;.
+    &rArr; H(&langle;D, &langle;D&rangle;&rangle;) accepts
+    &rArr; D loops on &langle;D&rangle;.  Contradiction.
+
+  Case 2: D loops on &langle;D&rangle;.
+    &rArr; H(&langle;D, &langle;D&rangle;&rangle;) rejects
+    &rArr; D accepts &langle;D&rangle; (and therefore halts).  Contradiction.
+
+Either case is a contradiction. &there4; H cannot exist.
+The Halting Problem is undecidable.  &marker;</code></pre>
+
+      <h3 class="sub-title">5.3 Reductions and Rice&apos;s Theorem</h3>
+      <p class="body-text">
+        A <strong>reduction</strong> from problem A to problem B (written A &le;<sub>m</sub> B) is a
+        computable function f such that w &isin; A &hArr; f(w) &isin; B.
+        If B is decidable and A &le;<sub>m</sub> B, then A is decidable.
+        Contrapositively, if A is undecidable and A &le;<sub>m</sub> B, then B is undecidable.
+        Reductions are our primary tool for proving new problems undecidable.
+      </p>
+      <div class="theorem">
+        <div class="theorem-label">Rice&apos;s Theorem</div>
+        <p>Every non-trivial semantic property of Turing Machines is undecidable.
+        A property is <em>semantic</em> if it concerns the language a TM recognises (not its structure),
+        and <em>non-trivial</em> if some TMs have it and some do not.
+        Examples: "Does this TM accept the empty string?", "Does this TM recognise a regular language?",
+        "Does this TM halt on all inputs?" — all undecidable.</p>
+      </div>
+
+      <div class="link-group">
+        <div class="link-group-label">Useful Links</div>
+        <a href="https://www.geeksforgeeks.org/halting-problem-in-theory-of-computation/"><i class="fa fa-external-link"></i>GeeksForGeeks: The Halting Problem</a>
+        <a href="https://plato.stanford.edu/entries/turing/"><i class="fa fa-external-link"></i>Stanford Encyclopedia: Alan Turing</a>
+        <a href="https://en.wikipedia.org/wiki/Rice%27s_theorem"><i class="fa fa-external-link"></i>Wikipedia: Rice&apos;s Theorem</a>
+        <a href="https://www.cs.virginia.edu/~robins/Turing_Paper_1936.pdf"><i class="fa fa-external-link"></i>Turing&apos;s Original 1936 Paper (PDF)</a>
+      </div>
+      <div class="link-group">
+        <div class="link-group-label">Useful Videos</div>
+        <a href="https://www.youtube.com/watch?v=macye-f5an0" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/macye-f5an0/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=t37GQgUPa6k" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/t37GQgUPa6k/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=HeQX2HjkcNo" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/HeQX2HjkcNo/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=FK35RbFMxuU" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/FK35RbFMxuU/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a>
+      </div>
+    </section>
+
+    <!-- ========== PILLAR III ========== -->
+    <div class="pillar-divider">Pillar III &mdash; Complexity Theory</div>
+
+    <!-- ========== SECTION 6: COMPLEXITY ========== -->
+    <section class="sheet" id="complexity">
+      <h2 class="section-title"><i class="fa fa-bar-chart"></i>Section 6: Complexity Theory — P, NP, and NP-Completeness</h2>
+      <p class="body-text">
+        Decidability asks <em>whether</em> a problem can be solved. Complexity theory asks
+        <em>how efficiently</em> it can be solved — specifically, how the resource requirements
+        (time, space) scale with input size. The central question is one of the most famous
+        open problems in all of mathematics: <strong>Does P = NP?</strong>
+      </p>
+
+      <h3 class="sub-title">6.1 Time Complexity and Big-O</h3>
+      <p class="body-text">
+        The <em>time complexity</em> of a TM M on input w is the number of steps M takes before halting.
+        We measure worst-case complexity as a function of input length n.
+        Big-O notation captures the asymptotic growth rate, ignoring constants and lower-order terms.
+      </p>
+      <span class="code-label">Complexity classes by growth rate</span>
+      <pre><code class="language-plaintext">O(1)          constant     — independent of input size
+O(log n)      logarithmic  — binary search
+O(n)          linear       — single-pass scan
+O(n log n)    linearithmic — merge sort
+O(n&#178;)         quadratic    — naive matrix multiplication row
+O(n&#7503;)         polynomial   — general-case P problems
+O(2&#x207F;)         exponential  — brute-force satisfiability
+O(n!)         factorial    — brute-force travelling salesman</code></pre>
+
+      <h3 class="sub-title">6.2 The Class P</h3>
+      <p class="body-text">
+        <strong>P</strong> (polynomial time) is the class of decision problems solvable by a
+        deterministic TM in O(n<sup>k</sup>) time for some constant k.
+        P is considered the class of <em>efficiently solvable</em> problems.
+        Examples: shortest path (Dijkstra), primality testing (AKS), 2-SAT, bipartite matching.
+      </p>
+
+      <h3 class="sub-title">6.3 The Class NP</h3>
+      <p class="body-text">
+        <strong>NP</strong> (nondeterministic polynomial time) is the class of decision problems
+        where a <em>yes</em> answer can be <em>verified</em> in polynomial time given a
+        <em>certificate</em> (a proposed solution).
+        Equivalently, NP is the class of problems solvable in polynomial time by a
+        <em>nondeterministic</em> TM.
+      </p>
+      <span class="code-label">NP — the verifier definition</span>
+      <pre><code class="language-plaintext">A language L is in NP if there exists a polynomial-time TM V (a verifier) such that:
+
+  L = { w | &exist; certificate c with |c| = O(|w|&#7503;) and V(&langle;w, c&rangle;) accepts }
+
+For 3-SAT:
+  w = a Boolean formula in conjunctive normal form (CNF) with 3 literals per clause
+  c = a truth assignment to the variables
+  V = check that every clause has at least one true literal  (linear time)</code></pre>
+
+      <p class="body-text">
+        It is easy to see P &sube; NP — any problem solvable in polynomial time can also be verified
+        in polynomial time (just re-run the algorithm and ignore the certificate).
+        Whether NP &sube; P (and thus P = NP) is the open question.
+      </p>
+
+      <h3 class="sub-title">6.4 NP-Hardness and NP-Completeness</h3>
+      <p class="body-text">
+        A problem B is <strong>NP-hard</strong> if every problem in NP polynomial-time reduces to B.
+        Intuitively, B is "at least as hard" as every NP problem.
+        B is <strong>NP-complete</strong> if it is NP-hard <em>and</em> also in NP itself —
+        it is one of the hardest problems in NP.
+      </p>
+      <div class="theorem">
+        <div class="theorem-label">Theorem — Cook-Levin Theorem (1971)</div>
+        <p>SAT (Boolean satisfiability) is NP-complete.
+        It was the first problem proved NP-complete, establishing that NP-complete problems exist
+        and providing the base case for thousands of NP-completeness proofs by reduction.</p>
+      </div>
+
+      <h3 class="sub-title">6.5 Common NP-Complete Problems</h3>
+      <table class="mod-table">
+        <thead><tr><th>Problem</th><th>Input</th><th>Question</th></tr></thead>
+        <tbody>
+          <tr><td>SAT</td><td>Boolean formula &phi;</td><td>Is &phi; satisfiable?</td></tr>
+          <tr><td>3-SAT</td><td>CNF formula, 3 literals/clause</td><td>Is it satisfiable?</td></tr>
+          <tr><td>CLIQUE</td><td>Graph G, integer k</td><td>Does G contain a clique of size k?</td></tr>
+          <tr><td>VERTEX COVER</td><td>Graph G, integer k</td><td>Does G have a vertex cover of size &le; k?</td></tr>
+          <tr><td>HAMILTONIAN PATH</td><td>Graph G</td><td>Does G have a path visiting every vertex exactly once?</td></tr>
+          <tr><td>TSP (decision)</td><td>Graph G with edge weights, bound B</td><td>Is there a tour of cost &le; B?</td></tr>
+          <tr><td>SUBSET SUM</td><td>Set S of integers, target t</td><td>Is there a subset summing to t?</td></tr>
+          <tr><td>GRAPH COLOURING</td><td>Graph G, integer k</td><td>Can G be coloured with &le; k colours (no adjacent same)?</td></tr>
+        </tbody>
+      </table>
+
+      <h3 class="sub-title">6.6 The Complexity Landscape</h3>
+      <span class="code-label">Complexity class hierarchy (assuming P &ne; NP)</span>
+      <pre><code class="language-plaintext">                    EXPTIME
+               &boxdr;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&boxdl;
+               &boxv;         PSPACE                   &boxv;
+               &boxv;   &boxdr;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&boxdl;   &boxv;
+               &boxv;   &boxv;   NP-hard (outside NP)  &boxv;   &boxv;
+               &boxv;   &boxv;  &boxdr;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&boxdl;  &boxv;   &boxv;
+               &boxv;   &boxv;  &boxv;  NP               &boxv;  &boxv;   &boxv;
+               &boxv;   &boxv;  &boxv;  &boxdr;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&boxdl;  &boxv;  &boxv;   &boxv;
+               &boxv;   &boxv;  &boxv;  &boxv;  NP-complete  &boxv;  &boxv;  &boxv;   &boxv;
+               &boxv;   &boxv;  &boxv;  &boxv;  &boxdr;&mdash;&mdash;&mdash;&mdash;&boxdl;     &boxv;  &boxv;  &boxv;   &boxv;
+               &boxv;   &boxv;  &boxv;  &boxv;  &boxv;  P  &boxv;     &boxv;  &boxv;  &boxv;   &boxv;
+               &boxv;   &boxv;  &boxv;  &boxv;  &boxur;&mdash;&mdash;&mdash;&mdash;&boxul;     &boxv;  &boxv;  &boxv;   &boxv;
+               &boxv;   &boxv;  &boxv;  &boxur;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&boxul;  &boxv;  &boxv;   &boxv;
+               &boxv;   &boxv;  &boxur;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&boxul;  &boxv;   &boxv;
+               &boxv;   &boxur;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&boxul;   &boxv;
+               &boxur;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&boxul;
+
+  (If P = NP, the NP and NP-complete boxes collapse into P)</code></pre>
+
+      <div class="callout">
+        <strong>Why does P vs NP matter?</strong> If P = NP, then every problem whose solution can be
+        quickly <em>verified</em> could also be quickly <em>found</em>. This would break most modern
+        cryptography (which relies on the hardness of factoring, discrete log, etc.), but would also
+        mean optimal solutions to scheduling, drug design, protein folding, and logistics could be
+        found efficiently. Most computer scientists believe P &ne; NP, but no proof exists.
+        The Clay Mathematics Institute lists it as one of the seven Millennium Prize Problems,
+        with a $1 million prize for a solution.
+      </div>
+
+      <div class="link-group">
+        <div class="link-group-label">Useful Links</div>
+        <a href="https://www.cs.umd.edu/~gasarch/BLOGPAPERS/poll.pdf"><i class="fa fa-external-link"></i>Poll: What do researchers think about P vs NP?</a>
+        <a href="https://www.claymath.org/millennium-problems/p-vs-np-problem"><i class="fa fa-external-link"></i>Clay Mathematics Institute: P vs NP</a>
+        <a href="https://www.geeksforgeeks.org/np-completeness-set-1/"><i class="fa fa-external-link"></i>GeeksForGeeks: NP-Completeness</a>
+        <a href="https://complexityzoo.net/Complexity_Zoo"><i class="fa fa-external-link"></i>The Complexity Zoo — full class hierarchy</a>
+        <a href="https://introtcs.org/public/lec_15_probability.html"><i class="fa fa-external-link"></i>Boaz Barak: Introduction to TCS (free textbook)</a>
+      </div>
+      <div class="link-group">
+        <div class="link-group-label">Useful Videos</div>
+        <a href="https://www.youtube.com/watch?v=YX40hbAHx3s" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/YX40hbAHx3s/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=EHp4FPyajKQ" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/EHp4FPyajKQ/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=moPtwq_cVH8" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/moPtwq_cVH8/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=W9G_1xG77LE" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/W9G_1xG77LE/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=wr3p5GFqy30" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/wr3p5GFqy30/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  <a href="/repository" class="home-btn"><i class="fa fa-arrow-left"></i> Back to Modules</a>
+  <p>Powered by hand-rolled CSS &amp; <a href="https://highlightjs.org/" target="_blank" rel="noopener noreferrer">highlight.js</a></p>
+</footer>
+
+</body>
+</html>
