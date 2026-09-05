@@ -1,345 +1,608 @@
 <!DOCTYPE html>
-<html>
-<title>Module 3: Proofs</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Module 3: Proofs</title>
+  <meta name="description" content="Course materials for Module 3: Proofs of correctness and runtime proofs.">
 
-<!--Syntax highlighting import-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
 
-    <!-- and it's easy to individually load additional languages -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/c.min.js"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,500&family=Roboto:wght@300;400;500;700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
 
-    <script>hljs.highlightAll();</script>
+  <style>
+    :root {
+      --blue: #2e4c6d;
+      --blue-deep: #1b3350;
+      --bg: #171512;
+      --bg-soft: #201d19;
+      --paper: #f6f1e6;
+      --paper-stripe: #e6ebf0;
+      --ink: #241f1a;
+      --ink-soft: #6d6355;
+      --rule: #ddcfae;
+      --rule-soft: rgba(221, 207, 174, 0.18);
+      --radius: 8px;
+      --shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+      --max-width: 900px;
+    }
 
-<!--Style block-->
-    <style>
-    html,body,h1,h2,h3,h4,h5,h6 {font-family: "Lucida Console", "Courier New", monospace}
-    </style>
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
 
-    <style type="text/css">
-        .tab { margin-left: 40px; }
-    </style>
+    body {
+      margin: 0;
+      background: var(--bg);
+      background-image:
+        radial-gradient(circle at 12% 8%, rgba(46, 76, 109, 0.10), transparent 45%),
+        radial-gradient(circle at 88% 92%, rgba(46, 76, 109, 0.08), transparent 40%);
+      color: var(--paper);
+      font-family: "Roboto", sans-serif;
+      font-weight: 300;
+      line-height: 1.65;
+    }
 
-<!--Body -->
-<body class="w3-light-blue">
+    h1, h2, h3, h4, h5, h6 {
+      font-family: "Lora", serif;
+      font-weight: 600;
+      margin: 0;
+      color: var(--ink);
+    }
 
-<!-- Navbar (sit on top) -->
-<div class="w3-top">
-  <div class="w3-bar w3-grey w3-text-white" id="myNavbar">
-    <a href="/repository" class="w3-bar-item w3-btn w3-hover-blue w3-hide-small"><i class="fa fa-home"></i> MODULES</a>
-    <a href="#home" class="w3-bar-item w3-btn w3-hover-blue w3-hide-small"><i class="fa fa-home"></i> HOME</a>
-    <a href="#types" class="w3-bar-item w3-btn w3-hover-blue w3-hide-small"> PROOF TYPES</a>
-    <a href="#syntax" class="w3-bar-item w3-btn w3-hover-blue w3-hide-small"> PROOF SYNTAX</a>
-    <a href="#direct" class="w3-bar-item w3-btn w3-hover-blue w3-hide-small"> DIRECT PROOFS</a>
-    <a href="#contradiction" class="w3-bar-item w3-btn w3-hover-blue w3-hide-small"> PROOF BY CONTRADICTION</a>
-    <a href="#induction" class="w3-bar-item w3-btn w3-hover-blue w3-hide-small"> PROOF BY INDUCTION</a>
-    
+    a { color: var(--blue-deep); }
+    a:hover { color: var(--blue); }
+    :focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+
+    .wrap { max-width: var(--max-width); margin: 0 auto; padding: 56px 24px 40px; }
+
+    /* ---- Masthead ---- */
+    .masthead { padding-bottom: 28px; margin-bottom: 40px; border-bottom: 1px solid var(--rule-soft); }
+    .masthead-top { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 14px; }
+    .masthead .kicker { font-family: "Lora", serif; font-style: italic; font-size: 0.95rem; color: rgba(246,241,230,0.55); }
+    .masthead .back-link { color: rgba(246,241,230,0.7); text-decoration: none; font-size: 0.88rem; display: inline-flex; align-items: center; gap: 6px; }
+    .masthead .back-link:hover { color: var(--paper); }
+    .module-nav { display: flex; flex-wrap: wrap; gap: 4px 0; }
+    .module-nav a { color: rgba(246,241,230,0.70); text-decoration: none; font-size: 0.85rem; margin-right: 20px; border-bottom: 1px solid transparent; padding-bottom: 2px; white-space: nowrap; }
+    .module-nav a:hover { color: var(--paper); border-bottom-color: var(--blue); }
+
+    /* ---- Sheets ---- */
+    .sheet { background: var(--paper); color: var(--ink); border-radius: var(--radius); box-shadow: var(--shadow); padding: 30px 32px 34px; margin-bottom: 24px; }
+
+    .section-title { display: flex; align-items: center; gap: 12px; font-size: 1.3rem; padding-bottom: 14px; margin-bottom: 22px; border-bottom: 2px solid var(--blue); color: var(--ink); }
+    .section-title i { color: var(--blue); font-size: 1.05rem; }
+
+    .body-text { font-size: 1rem; line-height: 1.75; color: var(--ink); margin: 0 0 1em; }
+    .body-text:last-child { margin-bottom: 0; }
+
+    /* ---- TOC ---- */
+    .toc-list { list-style: none; margin: 18px 0 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+    .toc-list li { display: flex; align-items: baseline; gap: 10px; font-size: 0.97rem; }
+    .toc-num { font-family: "Lora", serif; font-style: italic; font-size: 0.85rem; color: var(--ink-soft); min-width: 18px; }
+    .toc-list a { color: var(--blue-deep); text-decoration: none; border-bottom: 1px solid transparent; }
+    .toc-list a:hover { color: var(--blue); border-bottom-color: var(--blue); }
+
+    /* ---- Symbol table ---- */
+    .symbol-grid {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0;
+      margin: 20px 0;
+      border: 1px solid var(--rule);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .symbol-grid dt, .symbol-grid dd {
+      margin: 0;
+      padding: 9px 14px;
+      font-size: 0.95rem;
+      border-bottom: 1px solid var(--rule);
+    }
+    .symbol-grid dt:last-of-type, .symbol-grid dd:last-of-type { border-bottom: none; }
+    .symbol-grid dt {
+      font-family: "Lora", serif;
+      font-weight: 600;
+      font-size: 1.05rem;
+      color: var(--blue-deep);
+      background: var(--paper-stripe);
+      white-space: nowrap;
+      text-align: center;
+    }
+    .symbol-grid dd { color: var(--ink-soft); line-height: 1.5; }
+    .symbol-section-label {
+      grid-column: 1 / -1;
+      padding: 7px 14px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--ink-soft);
+      background: var(--blue-deep);
+      color: rgba(246,241,230,0.75);
+    }
+
+    /* ---- Proof block ---- */
+    .proof-block {
+      background: #1e1e2e;
+      color: #cdd6f4;
+      border-radius: 6px;
+      padding: 18px 20px;
+      font-family: "Lora", serif;
+      font-size: 0.93rem;
+      line-height: 1.8;
+      margin: 16px 0;
+      overflow-x: auto;
+    }
+
+    /* ---- Link groups ---- */
+    .link-group { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--rule); }
+    .link-group-label { font-size: 0.82rem; font-weight: 500; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 8px; }
+    .link-group a { display: inline-flex; align-items: center; gap: 6px; margin-right: 16px; margin-bottom: 6px; font-size: 0.92rem; }
+    .link-group a i { font-size: 0.8rem; color: var(--blue); }
+
+    /* ---- YouTube link cards ---- */
+    .yt-link { display: block; text-decoration: none; border-radius: 6px; overflow: hidden; margin: 12px 0; border: 1px solid var(--rule); transition: box-shadow 0.15s, transform 0.15s; }
+    .yt-link:hover { box-shadow: 0 4px 18px rgba(0,0,0,0.18); transform: translateY(-2px); }
+    .yt-thumb { position: relative; padding-bottom: 56.25%; height: 0; background: #0a0a0a; overflow: hidden; }
+    .yt-thumb img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.82; transition: opacity 0.15s; }
+    .yt-link:hover .yt-thumb img { opacity: 1; }
+    .yt-play { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 56px; height: 56px; background: rgba(220,0,0,0.90); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: background 0.15s, transform 0.15s; pointer-events: none; }
+    .yt-link:hover .yt-play { background: rgb(220,0,0); transform: translate(-50%,-50%) scale(1.1); }
+    .yt-play i { color: #fff; font-size: 1rem; margin-left: 4px; }
+    .yt-caption { display: flex; align-items: center; gap: 8px; padding: 10px 14px; background: var(--paper-stripe); color: var(--ink-soft); font-size: 0.88rem; }
+    .yt-caption .fa-youtube-play { color: #dc0000; font-size: 1.1rem; }
+    .yt-ext { margin-left: auto; opacity: 0.4; font-size: 0.78rem; }
+
+    /* ---- Footer ---- */
+    footer { text-align: center; padding: 40px 24px 20px; color: rgba(246,241,230,0.45); font-size: 0.85rem; }
+    footer a { color: rgba(246,241,230,0.7); }
+    .home-btn { display: inline-flex; align-items: center; gap: 8px; color: var(--paper); text-decoration: none; border: 1px solid var(--rule-soft); padding: 8px 18px; border-radius: 20px; margin-bottom: 16px; font-size: 0.88rem; }
+    .home-btn:hover { border-color: var(--blue); color: var(--paper); background: rgba(46,76,109,0.15); }
+
+    /* ---- Responsive ---- */
+    @media (max-width: 860px) {
+      .wrap { padding: 28px 16px 32px; }
+      .sheet { padding: 20px 18px 24px; }
+      .masthead-top { flex-direction: column; gap: 6px; }
+    }
+    @media (max-width: 480px) {
+      .wrap { padding: 16px 10px 24px; }
+      .sheet { padding: 14px 14px 18px; }
+      .section-title { font-size: 1.1rem; }
+      .symbol-grid dt, .symbol-grid dd { padding: 8px 10px; font-size: 0.88rem; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  </style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="masthead">
+    <div class="masthead-top">
+      <span class="kicker">Module 3: Proofs</span>
+      <a href="/repository" class="back-link"><i class="fa fa-arrow-left"></i> All Modules</a>
+    </div>
+    <nav class="module-nav">
+      <a href="#home">Overview</a>
+      <a href="#types">§1 Proof Types</a>
+      <a href="#syntax">§2 Syntax &amp; Set Theory</a>
+      <a href="#direct">§3 Direct Proofs</a>
+      <a href="#contradiction">§4 Contradiction</a>
+      <a href="#induction">§5 Induction</a>
+    </nav>
   </div>
 
-<!-- Navbar on small screens -->
-  <div id="navDemo" class="w3-bar-block w3-blue w3-hide w3-hide-large w3-hide-medium">
-    <a href="/repository" class="w3-bar-item w3-button" onclick="toggleFunction()">MODULES</a>
-    <a href="#home" class="w3-bar-item w3-button" onclick="toggleFunction()">HOME</a>
-    
+  <main>
+
+    <!-- Overview -->
+    <section class="sheet" id="home">
+      <h2 class="section-title"><i class="fa fa-home"></i>Module 3: Overview</h2>
+      <p class="body-text">
+        This module contains resources for learning about proofs of correctness as well as runtime proofs.
+        The module contains multiple sections beginning with a discussion of proof styles and mathematical notation, then working through each proof type with examples and resources.
+        It is best to start with Section 1.
+      </p>
+      <ul class="toc-list">
+        <li><span class="toc-num">1</span><a href="#types">Section 1: Proof Types</a></li>
+        <li><span class="toc-num">2</span><a href="#syntax">Section 2: Syntax and Set Theory</a></li>
+        <li><span class="toc-num">3</span><a href="#direct">Section 3: Direct Proofs</a></li>
+        <li><span class="toc-num">4</span><a href="#contradiction">Section 4: Proof by Contradiction</a></li>
+        <li><span class="toc-num">5</span><a href="#induction">Section 5: Proof by Induction</a></li>
+      </ul>
+    </section>
+
+    <!-- Section 1: Proof Types -->
+    <section class="sheet" id="types">
+      <h2 class="section-title"><i class="fa fa-list-ol"></i>Section 1: Proof Types</h2>
+      <p class="body-text">
+        In this section we will discuss the three main forms of proofs most commonly used in computer science and mathematics, as well as why proofs are so useful.
+        These are:
+      </p>
+      <ul class="toc-list" style="margin-bottom: 1em;">
+        <li><span class="toc-num">1</span><span>Direct Proofs</span></li>
+        <li><span class="toc-num">2</span><span>Proof by Contradiction</span></li>
+        <li><span class="toc-num">3</span><span>Proof by Mathematical Induction</span></li>
+      </ul>
+      <p class="body-text">
+        Of these styles, the third is perhaps the most difficult to learn and is discussed in Section 5.
+        <strong>Direct proofs</strong> are perhaps the most straightforward — they involve making a series of logical statements that, taken in order, arrive at a logical proof of how something is correct. Covered in Section 3.
+      </p>
+      <p class="body-text">
+        <strong>Proof by contradiction</strong> is our second form of proof. It involves finding an example that proves a statement does not hold true.
+        This is particularly useful when proving an algorithm is incorrect for all inputs, though it is not typically useful for proving an algorithm correct. Covered in Section 4.
+      </p>
+      <p class="body-text">
+        <strong>Proof by induction</strong> represents our third and most commonly accepted form of mathematical proof.
+        It involves proving an algorithm holds true for three cases: a base case, an arbitrary <em>n</em> case, and an <em>n</em>+1 case.
+        This allows us to prove an algorithm correct for arbitrary inputs. Covered in Section 5.
+      </p>
+      <p class="body-text">
+        Proofs serve a range of purposes in computer science. One of the most common uses is proving the correctness of an algorithm.
+        Where conventional code is often verified using test cases, algorithms typically require a rigorous proof showing the solution is sound for all possible inputs.
+        For example, there exists an inductive proof that Depth First Search will work correctly for any graph — meaning we can trust it for any graph we need to traverse.
+      </p>
+    </section>
+
+    <!-- Section 2: Syntax and Set Theory -->
+    <section class="sheet" id="syntax">
+      <h2 class="section-title"><i class="fa fa-pencil"></i>Section 2: Syntax and Set Theory</h2>
+      <p class="body-text">
+        Proofs are less complex than they seem. What often confuses people is simply the language most commonly used when writing them.
+        The main thing to keep in mind is that the goal is to make our language very clear and precise — proofs must be written so their meaning is objective and cannot be misinterpreted.
+      </p>
+      <p class="body-text">
+        First, we need to define our proof system <em>S</em>. The first component is our language <em>L</em>, which can be in one of two styles.
+        The first is <em>propositional</em>, wherein the language is composed of logical statements that have a truth value (true or false).
+        The second is <em>predicate-based</em>, wherein the language is composed of informative statements that qualify or provide more information about the element being proved.
+        Our proof is then composed of a set of formulas <em>F</em> described in <em>L</em>, extended to include a set of expressions <em>E</em> built out of <em>L</em>, and governed by a set of rules <em>R</em>.
+      </p>
+      <p class="body-text">
+        Below are the mathematical symbols most commonly encountered in proofs. More can be found in the links at the end of this section.
+      </p>
+
+      <dl class="symbol-grid">
+        <div class="symbol-section-label">Equality &amp; Comparison</div>
+        <dt>=</dt><dd>Is the same as</dd>
+        <dt>&lt;</dt><dd>Is strictly less than</dd>
+        <dt>&gt;</dt><dd>Is strictly greater than</dd>
+        <dt>&#8804;</dt><dd>Is less than or equal to</dd>
+        <dt>&#8805;</dt><dd>Is greater than or equal to</dd>
+        <dt>&#8788;</dt><dd>Is equal by definition to</dd>
+
+        <div class="symbol-section-label">Logic &amp; Reasoning</div>
+        <dt>&there4;</dt><dd>Therefore</dd>
+        <dt>&ni;</dt><dd>Such that — under the condition that</dd>
+        <dt>&rArr;</dt><dd>Implies — logically implies that</dd>
+        <dt>&#8660;</dt><dd>If and only if (iff)</dd>
+        <dt>&forall;</dt><dd>For all (universal quantifier)</dd>
+        <dt>&exist;</dt><dd>There exists (existential quantifier)</dd>
+        <dt>&#8708;</dt><dd>There does not exist</dd>
+        <dt>&#8718;</dt><dd>QED — end of proof</dd>
+
+        <div class="symbol-section-label">Set Theory</div>
+        <dt>&sub;</dt><dd>Subset of</dd>
+        <dt>&isin;</dt><dd>Is included in (element of)</dd>
+        <dt>&cup;</dt><dd>Union — combination of two sets</dd>
+        <dt>&cap;</dt><dd>Intersection — elements common to two sets</dd>
+        <dt>&empty;</dt><dd>The empty set (null set)</dd>
+        <dt>&infin;</dt><dd>Infinity</dd>
+      </dl>
+
+      <div class="link-group">
+        <div class="link-group-label">Useful Links</div>
+        <a href="https://www.hamilton.edu/documents/Writing%20Mathematical%20Proofs1.pdf"><i class="fa fa-external-link"></i>How to Write a Proof</a>
+        <a href="https://www3.cs.stonybrook.edu/~cse371/4bch4.pdf"><i class="fa fa-external-link"></i>SUNY Stony Brook: Proof Semantics</a>
+        <a href="https://www.geeksforgeeks.org/difference-between-propositional-logic-and-predicate-logic/"><i class="fa fa-external-link"></i>Propositional vs. Predicate Logic</a>
+        <a href="https://www.math.ucdavis.edu/~anne/WQ2007/mat67-Common_Math_Symbols.pdf"><i class="fa fa-external-link"></i>Common Mathematical Symbols</a>
+        <a href="https://www.w3schools.com/charsets/ref_utf_math.asp"><i class="fa fa-external-link"></i>Mathematical Operators (UTF-8)</a>
+      </div>
+      <div class="link-group">
+        <div class="link-group-label">Useful Videos</div>
+        <a href="https://www.youtube.com/watch?v=s3JHH-41hAU" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/s3JHH-41hAU/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
   </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=YYgepDY3rHw" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/YYgepDY3rHw/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=FfxH-U3XF0U" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/FfxH-U3XF0U/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=JVjv0CCzHok" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/JVjv0CCzHok/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=4ca1t9noMlo" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/4ca1t9noMlo/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=GQfOWN76eTA" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/GQfOWN76eTA/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=XHapWWI_wJ8" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/XHapWWI_wJ8/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=h1milgIk4U8" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/h1milgIk4U8/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a>
+      </div>
+    </section>
+
+    <!-- Section 3: Direct Proofs -->
+    <section class="sheet" id="direct">
+      <h2 class="section-title"><i class="fa fa-arrow-right"></i>Section 3: Direct Proofs</h2>
+      <p class="body-text">
+        In Section 2 we discussed the symbolism and basics of how we set up proofs.
+        Now we will begin discussing proof types, starting with direct proofs — generally considered the simplest form.
+      </p>
+      <p class="body-text">
+        Direct proofs rely on a sequence of logical statements.
+        Starting from accepted facts or axioms, each statement follows logically from the last, until we arrive at the conclusion we set out to prove.
+        One of the best ways to learn how to write direct proofs is by working through a number of examples — the links and videos below provide a thorough collection.
+      </p>
+      <div class="link-group">
+        <div class="link-group-label">Useful Links</div>
+        <a href="https://www.mathcentre.ac.uk/resources/uploaded/mathcentre-direct.pdf"><i class="fa fa-external-link"></i>Direct Proofs — mathcentre.ac.uk</a>
+        <a href="https://www.whitman.edu/mathematics/higher_math_online/section02.01.html"><i class="fa fa-external-link"></i>Whitman.edu: Direct Proofs</a>
+        <a href="https://calcworkshop.com/proofs/direct-proof/"><i class="fa fa-external-link"></i>CalcWorkshop: Direct Proofs and Examples</a>
+        <a href="http://intrologic.stanford.edu/lectures/lecture_04.pdf"><i class="fa fa-external-link"></i>Stanford: Introduction to Logic — Direct Proofs</a>
+        <a href="https://www.cs.rpi.edu/~magdon/courses/FOCS-Slides/SlidesLect03.pdf"><i class="fa fa-external-link"></i>RPI: Introduction to Proofs</a>
+      </div>
+      <div class="link-group">
+        <div class="link-group-label">Useful Videos</div>
+        <a href="https://www.youtube.com/watch?v=YFZzLQN5qOU" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/YFZzLQN5qOU/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=1DnJZAChz08" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/1DnJZAChz08/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=01b3KjgPhfI" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/01b3KjgPhfI/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=ua-OJVY1id8" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/ua-OJVY1id8/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=bFDD4G8kB2k" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/bFDD4G8kB2k/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=k0VMSzpTF68" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/k0VMSzpTF68/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a>
+      </div>
+    </section>
+
+    <!-- Section 4: Proof by Contradiction -->
+    <section class="sheet" id="contradiction">
+      <h2 class="section-title"><i class="fa fa-times-circle"></i>Section 4: Proof by Contradiction</h2>
+      <p class="body-text">
+        In this section we will discuss the second common form of mathematical proof used in computer science: proof by contradiction.
+        The goal of proof by contradiction is generally to prove a statement as being false.
+      </p>
+      <p class="body-text">
+        For example, take the statement: <em>"All sorting algorithms have a runtime no lower than O(n²)."</em>
+        We can set up a proof by contradiction to disprove this relatively trivially.
+        Let us first restate this in mathematical terms:
+      </p>
+      <div class="proof-block">
+There exists the set of all well-defined known sorting algorithms,
+where &forall; algorithms in this set, the runtime is never lower asymptotically than O(n&sup2;).
+      </div>
+      <p class="body-text">
+        This statement is the subject of what we are trying to disprove.
+        Our goal is simple: find a sorting algorithm whose runtime is better than O(n²).
+        One example should come to mind quickly: Merge Sort, which has a runtime of O(n log n).
+        We can use existing well-formed proofs of Merge Sort's runtime as a <em>lemma</em> in our proof by contradiction.
+        The full proof can be structured as follows:
+      </p>
+      <div class="proof-block">
+1. There exists the set of all known well-defined sorting algorithms, where &forall; algorithms
+   in this set, the runtime is never lower asymptotically than O(n&sup2;). <em>[Our claim to disprove]</em>
+
+2. We accept that Merge Sort &isin; the set of all sorting algorithms.
+
+3. We accept that Merge Sort has been proven as a correct sorting algorithm.
+
+4. We accept that Merge Sort has been proven as having a runtime of O(n log n).
+
+5. O(n log n) is asymptotically faster than O(n&sup2;).
+
+&there4; Our original statement &mdash; that &forall; algorithms in the set of sorting algorithms
+   the runtime is never lower than O(n&sup2;) &mdash; is false. &nbsp;&#8718;
+      </div>
+      <p class="body-text">
+        It is worth noting that this is a relatively simple example.
+        For this proof to be fully complete, we would also need an inductive portion to formally show that n&nbsp;log&nbsp;n grows more slowly than n², which leads us into the next section.
+      </p>
+      <div class="link-group">
+        <div class="link-group-label">Useful Links</div>
+        <a href="https://www.math-cs.gordon.edu/courses/mat231/notes/proof-contradiction.pdf"><i class="fa fa-external-link"></i>Gordon.edu: Introduction to Proof by Contradiction</a>
+        <a href="https://www2.edc.org/makingmath/mathtools/contradiction/contradiction.asp"><i class="fa fa-external-link"></i>edc.org: Proof by Contradiction</a>
+        <a href="https://brilliant.org/wiki/contradiction/"><i class="fa fa-external-link"></i>Brilliant.org: Proof by Contradiction</a>
+      </div>
+      <div class="link-group">
+        <div class="link-group-label">Useful Videos</div>
+        <a href="https://www.youtube.com/watch?v=huGWXh4l1M0" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/huGWXh4l1M0/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=sRDwsfNDXak" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/sRDwsfNDXak/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=CpW0ZJ7i0oc" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/CpW0ZJ7i0oc/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=qZ736F8ljYU" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/qZ736F8ljYU/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=a4BlnDjeK4Y" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/a4BlnDjeK4Y/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=b-kFWP9a2tw" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/b-kFWP9a2tw/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a>
+      </div>
+    </section>
+
+    <!-- Section 5: Proof by Induction -->
+    <section class="sheet" id="induction">
+      <h2 class="section-title"><i class="fa fa-refresh"></i>Section 5: Proof by Induction</h2>
+      <p class="body-text">
+        In the two previous sections we discussed two of the simpler forms of proofs used in computer science.
+        Proof by induction is the third, and the most common form of proof used in computer science — and the subject of this section.
+      </p>
+      <p class="body-text">
+        Proof by induction can be thought of as very similar to recursion.
+        In recursion, we have a base case and a recursive case.
+        In induction, we similarly have three components:
+      </p>
+      <ul class="toc-list" style="margin-bottom: 1em;">
+        <li><span class="toc-num">1</span><span><strong>Base case</strong> — prove the claim holds when the input is 1 (or the smallest valid value).</span></li>
+        <li><span class="toc-num">2</span><span><strong>Inductive hypothesis</strong> — assume the claim holds for some arbitrary <em>n</em> &gt; 1.</span></li>
+        <li><span class="toc-num">3</span><span><strong>Inductive step</strong> — using the hypothesis, prove the claim holds for <em>n</em>+1, showing the pattern continues indefinitely.</span></li>
+      </ul>
+      <p class="body-text">
+        For example, when proving an algorithm's runtime is correct, we would first prove that the claimed runtime holds for an input of size 1.
+        Next, we assume it holds for an arbitrary input of size <em>n</em>.
+        Finally, the inductive step proves it holds for <em>n</em>+1, establishing the result for all inputs.
+      </p>
+      <p class="body-text">
+        As with the other proof sections, there are many different examples of inductive proofs.
+        The links and videos below provide a thorough set of resources.
+      </p>
+      <div class="link-group">
+        <div class="link-group-label">Useful Links</div>
+        <a href="https://www.mathcentre.ac.uk/resources/uploaded/mathcentre-proof.pdf"><i class="fa fa-external-link"></i>Mathcentre.ac.uk: Proof by Induction</a>
+        <a href="https://math.libretexts.org/Courses/Mount_Royal_University/Mathematical_Reasoning/3%3A_Number_Patterns/3.1%3A_Proof_by_Induction"><i class="fa fa-external-link"></i>LibreTexts: Proof by Induction</a>
+        <a href="https://calcworkshop.com/proofs/proof-by-induction/"><i class="fa fa-external-link"></i>CalcWorkshop: Proof by Induction</a>
+        <a href="https://everythingcomputerscience.com/discrete_mathematics/Proof_by_Induction.html"><i class="fa fa-external-link"></i>EverythingComputerScience.com: Proof by Induction</a>
+        <a href="https://www.cs.ucdavis.edu/~franklin/ecs20/2012/fall/induction_handout.pdf"><i class="fa fa-external-link"></i>UC Davis: Proof by Induction</a>
+      </div>
+      <div class="link-group">
+        <div class="link-group-label">Useful Videos</div>
+        <a href="https://www.youtube.com/watch?v=wblW_M_HVQ8" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/wblW_M_HVQ8/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=tHNVX3e9zd0" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/tHNVX3e9zd0/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=GdM_iA1Zek4" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/GdM_iA1Zek4/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=Tm2PJPvAULs" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/Tm2PJPvAULs/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=0VIIRBLH1WI" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/0VIIRBLH1WI/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=vmFQM5_cN84" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/vmFQM5_cN84/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=tgDBrAUW9QU" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/tgDBrAUW9QU/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=fSxRr_Q-DN8" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/fSxRr_Q-DN8/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a>
+      </div>
+    </section>
+
+  </main>
 </div>
 
-<!-- Page Container -->
-<div class="w3-content w3-margin-top" style="max-width:1500px;">
-
-  <!-- The Center Column -->
-  <div class="w3-row-padding">
-
-    
-<!-- Column -->
-    <div class="w3-threethird">
-    <br> <br> <!--to shift it all down-->
-    
-<!-- Opening Section -->
-      <div id="home" class="w3-container w3-card w3-light-grey">
-        <h1 class="w3-text-blue w3-padding-16"><i class="fa fa-home fa-fw w3-margin-right w3-xxlarge w3-text-blue"></i> MODULE 3: Proofs</h1>
-        <div class="w3-container">
-          <h5 class="w3-text-black w3-text-center w3-padding-0"> 
-            This module contains resources for learning about proofs of correctness as well as runtime proofs. 
-            
-            <br><br>
-            The module contains multiple sections beginning with a discussion of proof styles.
-            <br><br>
-            It is best to start with Section 1. 
-
-          </h5>
-          <br>
-          
-          
-        </div>
-      </div>
-      <br>
-
-
-
-
-<!--Section 1: Proof Types-->
-      <div id = "types" class="w3-container w3-card w3-light-grey">
-        <h1 class="w3-text-blue w3-padding-16"><i class="fa fa-desktop fa-fw w3-margin-right w3-xxlarge w3-text-blue"></i> Section 1: Proof Types</h1>
-        
-        <h5 class="w3-text-black w3-text-center w3-padding-0"> 
-            In this section we will discuss the three main forms of proofs most commonly used in computer science and mathematics as a whole, as well as why proofs are so useful.
-            These include the following: <br><br>
-            1: Direct Proofs <br>
-            2: Proof by Contradiction <br>
-            3: Proof by Mathematical Induction <br><br>
-            Of these styles of proofs, the third is perhaps the most difficult proof style to learn.
-            This proof style is discussed in section 5. 
-            Direct proofs are perhaps the most straight forward. 
-            A direct proof involves making a series of logical statements that taken in order arrive on a logical proof of how something is correct. 
-            We will discuss direct proofs more in section 3. 
-            Proof by contradiction is our second form of proof. 
-            Proof by contradiction involves finding an example that proves that a statement does not hold true. 
-            This is particularly useful when proving an algorithm is incorrect for all inputs. 
-            Proof by contradiction is not typically useful for proving an algorithm correct, however. 
-            We will discuss proof by contradiction in section 4. 
-            Finally proof by induction represents our third and typically most commonly accepted form of mathematical proof. 
-            Proof by induction involves proving an algorithm holds true for three cases: a base case, an arbitrary n case, and an n+1 case. 
-            This style of proof allows us to prove an algorithm correct for arbitrary inputs. 
-            We will discuss this style of proof more in section 5. 
-            <br><br>
-
-            Proofs serve a range of purposes in computer science. 
-            One of the most common uses for proofs is proving the correctness of an algorithm. 
-            When one develops an algorithm or a solution to a problem, it is generally important to prove that the solution is sound. 
-            Where with conventional code we often simply test the code using a range of test cases, with algorithms, we often need to go a step further. 
-            Algorithms development typically requires the development of a rigerous proof for why the algorithm is sound for all possible range of values that it needs to work with. 
-            Consider the Depth First Search algorithm. 
-            There exists an inductive proof that this algorithm will work correctly for any graph. 
-            This means that we can trust depth first search for any graph that we need to traverse and find an element on.
-
-        </h5>
-        
-      </div>
-      <br>
-      <br>
-      <!--Section 2: Proof Syntax-->
-      <div id = "syntax" class="w3-container w3-card w3-light-grey">
-        <h1 class="w3-text-blue w3-padding-16"><i class="fa fa-desktop fa-fw w3-margin-right w3-xxlarge w3-text-blue"></i> Section 2: Syntax and Set Theory</h1>
-        
-        <h5 class="w3-text-black w3-text-center w3-padding-0"> 
-          Proofs are less complex than they seem. 
-          What often confuses people when learning proofs is simply the language that is most commonly used when writing proofs.
-          The main thing to keep in mind when reading or writing a proof of any of the three types we'll discuss is that the goal is the make sure that our language is very clear and precise. 
-          The goal of proofs is to ensure that the language used cannot be misinterpreted and the meaning is objective. 
-          Firstly, we need to define what our proof system or language will be. 
-          Lets call this proof system <em>S</em>. 
-          The first component of our proof system is our language. 
-          This language <em>L</em> can be in one of two different styles. 
-          The first is propositional, wherein the language is composed of logical statements that have some sort of truth value (true or false).
-          The second is predicate based, wherein the language is composed of informative statements that qualify or provide more information about the element we are trying to prove. 
-          We also accept that we will make our proof out of a set of formulas <em>F</em> that are described in the language <em>L</em>.
-          We also accept that this will be extended to include a set of expressions <em>E</em> that will be built out of our language <em>L</em>.
-          <br><br>
-          What does all of this mean? 
-          The goal of a proof is to define with logical statements a sequence of statements that will prove something with certainty. 
-          Our goal with the above logic is to carefully spell out what goes into a proof. 
-          Our proofs have a specific system of logic, a set of logical statements that will compose the proof, and a set of rules <em>R</em> that will govern how we define the proof. 
-          This is just a brief introduction to our proof systems and how we specify and define them.
-          Linked at the end of this section are a number of examples for these systems and how we express them.
-          <br><br>
-          Let us now consider some basic symbols commonly used in proofs. <br>
-          = (the equals sign) means “is the same as” <br>
-          < (the less than sign) means “is strictly less than” <br>
-          > (the greater than sign) means "is strictly greater than" <br>
-          ≤ (the less than or equal sign) means "is less than or equal to" <br>
-          ≥ (“greater than or equals”) <br>
-          &#8788; means "is equal by definition to" <br><br>
-          &there4; means "therefore"<br>
-          &ni; (the such that sign) means "under the condition that" <br>
-          &rArr; (the implies sign) means "logically implies that" <br>
-          ⇐⇒ (the iff sign) means "if and only if" <br>
-          &forall; means "for all" (universal quantifier) <br>
-          &exist; means "there exists" (the existential quantifier) <br>
-          &#8708; means "there does not exist" <br>
-          &#8718; means "QED or end of proof"
-          <br><br>
-          &sub; means "subset of" <br>
-          &isin; means "is included in" <br>
-          &cup; means "union" or combination of two sets <br>
-          &cap; means "intersection" or difference of two sets<br>
-          &empty; means "the empty set" somtimes referred to as the null set.<br>
-          &infin; means infinity <br>
-          <br>
-          More symbols can be found discussed in the links included at the end of this section, though this represents many of the common ones you will work with. <br><br>
-
-          <a href="https://www.hamilton.edu/documents/Writing%20Mathematical%20Proofs1.pdf">How to write a proof</a><br>
-          <a href="https://www3.cs.stonybrook.edu/~cse371/4bch4.pdf">SUNY Stony Brook proof symantics</a><br>
-          <a href="https://www.geeksforgeeks.org/difference-between-propositional-logic-and-predicate-logic/">Difference between propositional and predicate logic.</a><br>
-          <a href="https://www.math.ucdavis.edu/~anne/WQ2007/mat67-Common_Math_Symbols.pdf">Common mathematical symbols and abbreviations</a> <br>
-          <a href="https://www.w3schools.com/charsets/ref_utf_math.asp">Mathematical operators (and their UTF-8 codes</a>
-          <br><br>
-          Videos: <br>
-          <iframe width="1000" height="600" src="https://www.youtube.com/embed/s3JHH-41hAU?si=raLte8oeCVvhgh2u" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><br>
-          <iframe width="1000" height="600" src="https://www.youtube.com/embed/YYgepDY3rHw?si=-1Ok3mHrOfZoRaW4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> <br>
-          <iframe width="1000" height="600" src="https://www.youtube.com/embed/FfxH-U3XF0U?si=SJOAgaJDY5D0pR_T" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> <br>
-          <iframe width="1000" height="600" src="https://www.youtube.com/embed/JVjv0CCzHok?si=Cr4MxfBXvtIHjVE1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> <br>
-          <iframe width="1000" height="600" src="https://www.youtube.com/embed/4ca1t9noMlo?si=SPicTFhg6umV7Wmu" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> <br>
-          <iframe width="1000" height="600" src="https://www.youtube.com/embed/GQfOWN76eTA?si=UNIwKFyw5vtI1lVq" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> <br>
-          <iframe width="1000" height="600" src="https://www.youtube.com/embed/XHapWWI_wJ8?si=Ppcr1XC6pNC4stSh" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> <br>
-          <iframe width="1000" height="600" src="https://www.youtube.com/embed/h1milgIk4U8?si=JRu-Y7-rLI9Sxr3j" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> <br>
-
-        </h5>
-        </div>
-        <br><br>
-
-      <!--Section 3: Direct Proofs-->
-      <div id = "direct" class="w3-container w3-card w3-light-grey">
-        <h1 class="w3-text-blue w3-padding-16"><i class="fa fa-desktop fa-fw w3-margin-right w3-xxlarge w3-text-blue"></i> Section 3: Direct Proofs</h1>
-        <h5 class="w3-text-black w3-text-center w3-padding-0"> 
-          In section 2, we discussed much of the symbolism and the basics of how we set up proofs. 
-          Now, in section 3, we will begin discussing types of proofs. 
-          Our first proof type is commonly considered the simplest proof type. 
-          This is known as a direct proof. 
-          Direct proofs rely on a sequence of logical statements.
-          For proofs, one of the best ways to learn how to write proofs is by considering a number of examples.
-          Thus for this section, please consider the linked videos and examples compiled below. 
-          <br><br>
-          Links: <br>
-          <a href="https://www.mathcentre.ac.uk/resources/uploaded/mathcentre-direct.pdf">Direct Proofs mathcentre.co.uk</a><br>
-          <a href="https://www.whitman.edu/mathematics/higher_math_online/section02.01.html">Whitman.edu Direct Proofs</a><br>
-          <a href="https://calcworkshop.com/proofs/direct-proof/">CalcWorkshop direct proofs and examples.</a><br>
-          <a href="http://intrologic.stanford.edu/lectures/lecture_04.pdf">Stanford Introduction to Logic Direct Proofs</a><br>
-          <a href="https://www.cs.rpi.edu/~magdon/courses/FOCS-Slides/SlidesLect03.pdf">RPI Introduction to Proofs</a>
-
-          <br><br>
-          Videos: <br>
-          <iframe width="1000" height="600" src="https://www.youtube.com/embed/YFZzLQN5qOU?si=1M1TRgv1DJkb6QhV" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><br>
-          <iframe width="1000" height="600" src="https://www.youtube.com/embed/1DnJZAChz08?si=x_54cTQg7Pjpc_Mt" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><br>
-          <iframe width="1000" height="600" src="https://www.youtube.com/embed/01b3KjgPhfI?si=Rhxfkha0QBc4svEA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><br>
-          <iframe width="1000" height="600" src="https://www.youtube.com/embed/ua-OJVY1id8?si=U8bmz9Q3YXeBk3DW" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><br>
-          <iframe width="1000" height="600" src="https://www.youtube.com/embed/bFDD4G8kB2k?si=aI-vHrP5N6PGb8gA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><br>
-          <iframe width="1000" height="600" src="https://www.youtube.com/embed/k0VMSzpTF68?si=01qOgUGfa-FxsdiA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><br>
-
-        </h5>
-        </div>
-        <br><br>
-        
-        <!--Section 4: Proof by Contradiction-->
-      <div id = "contradiction" class="w3-container w3-card w3-light-grey">
-        <h1 class="w3-text-blue w3-padding-16"><i class="fa fa-desktop fa-fw w3-margin-right w3-xxlarge w3-text-blue"></i> Section 4: Proof by Contradiction</h1>
-        <h5 class="w3-text-black w3-text-center w3-padding-0"> 
-          In this section, we will discuss the second common form of mathematical proof that is used in computer science. 
-          This is what is known as proof by contradiction. 
-          The goal behind proof by contradiction is generally to prove a statement as being false. 
-          <br><br>
-          For example, lets take the statement: "All sorting algorithms have a runtime no lower than O(n squared)".
-          We can set up a proof by contradiction to disprove this statement relatively trivially. 
-          Lets first restate this in mathematical terms:
-          <pre><code>There exists the set of all well-defined known sorting algorithms, 
-where &forall; algorithms in this set, the runtime is never lower asymptotically than O(n squared).</code></pre>
-          This statement, we take to be the subject of what we are trying to disprove. 
-          Our goal with this proof is simple: we need to find a sorting algorithm that has a runtime that is not O(n squared).
-          One example should come to mind relatively quickly: Merge sort. 
-          We know that merge sort has a runtime of O(n log(n)).
-          We also know that there exists well-formed proofs that we can refer to as justification for this runtime. 
-          We can use these existing proofs for the runtime of merge sort as a lemma in our proof by contradiction. 
-          Thus, we can say that there exists a sorting algorithm that has a runtime of O (n log(n)).
-          We now need to show that O(n log(n)) is less than O (n squared).
-          Once we have accomplished this, we have shown that there exists a sorting algorithm that disproves our original statement. 
-          Thus the statement we are trying to disprove is indeed incorrect and has been disproven.
-          We can set up the full proof as follows:
-          <br> <br>
-          - There exists the set of all known well-defined sorting algorithms, where &forall; algorithms in this set, the runtime is never lower asymptotically than O(n squared).<br>
-          - We accept that there exists a range of known and defined sorting algorithms, and that Merge Sort &isin; the set of all sorting algorithms.<br>
-          - We accept that Merge Sort has been proven as a correct sorting algorithm. <br>
-          - We also accept that Merge Sort has been proven as having a runtime of O(n log(n)). <br>
-          -O (n log(n)) is asymptotically faster than O (n squared). <br>
-          -Therefore we see that our statement that &forall; algorithms in the set of sorting algorithms the runtime is never lower than O (n squared) is false by proof by contradiction. <br><br>
-          
-          It is worth noting that this is a relatively simple example.
-          It is also worth noting that for this proof to be complete, we would need an inductive portion to this proof for it to be fully complete, as we need to show that n logn grows more slowly than n squared.
-          If you would like more examples, consider the videos and articles linked below. <br><br>
-
-          Links: <br>
-          <a href="https://www.math-cs.gordon.edu/courses/mat231/notes/proof-contradiction.pdf">Gordon.edu introduction to Proof by Contradiction.</a><br>
-          <a href="https://www2.edc.org/makingmath/mathtools/contradiction/contradiction.asp">Proof by Contradiction edc.org</a><br>
-          <a href="https://brilliant.org/wiki/contradiction/">Brilliant.org proof by contradiction.</a>
-          <br><br>
-
-          Videos: <br>
-          <iframe width="1000" height="600" src="https://www.youtube.com/embed/huGWXh4l1M0?si=1mOf-wg9z1jYXx3-" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><br>
-          <iframe width="1000" height="600" src="https://www.youtube.com/embed/sRDwsfNDXak?si=jdOzgY01_MmIoHrp" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><br>
-          <iframe width="1000" height="600" src="https://www.youtube.com/embed/CpW0ZJ7i0oc?si=rAVZElKGAi9-0Ozv" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><br>
-          <iframe width="1000" height="600" src="https://www.youtube.com/embed/qZ736F8ljYU?si=g3AUmXtA9W2kYyYc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><br>
-          <iframe width="1000" height="600" src="https://www.youtube.com/embed/a4BlnDjeK4Y?si=dCR-ajqdEu4CErEO" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><br>
-          <iframe width="1000" height="600" src="https://www.youtube.com/embed/b-kFWP9a2tw?si=BRxK2Ob0Y_64GN8x" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><br>
-
-
-          </h5>
-          </div>
-
-        <br><br>
-      <!--Section 5: Proof by Induction-->
-      <div id = "induction" class="w3-container w3-card w3-light-grey">
-        <h1 class="w3-text-blue w3-padding-16"><i class="fa fa-desktop fa-fw w3-margin-right w3-xxlarge w3-text-blue"></i> Section 5: Proof by Induction</h1>
-        <h5 class="w3-text-black w3-text-center w3-padding-0">
-          In the two previous sections we discussed two of the simpler forms of proofs utilized in computer science. 
-          Proof by induction is the third and the most common of the forms of proofs used in computer science, and is what we will be discussing in this section.
-          <br><br>
-          Proof by induction can be thought of as being very similar to recursion. 
-          In recursion, we accept that we have an base case and a recursive case. 
-          In induction, we have a base case, or a case we want to prove where our input is 1. 
-          For example, lets say we are proving an algorithm's runtime is correct.
-          We would first prove that what we claim our algorithm's runtime is holds true for a case where our input value is 1. 
-          Next, we want to prove that our algorithm is correct for the n case. 
-          In the n case, n represents an arbitrary input value. 
-          For example, if we are looking to prove the runtime of an algorithm, n would be our arbitrary n case where n is some value >1. 
-          Once we have proven that it holds true for any arbitrary n value, the inductive step aims to prove that this pattern will continue indefinitely. 
-          This is known as the inductive step or n+1 step. 
-          <br><br>
-          As with our other proof sections, there are a lot of different examples of inductive proofs. 
-          Thus, consider the links and videos that have been provided below. 
-          <br><br>
-          Links:<br>
-          <a href="https://www.mathcentre.ac.uk/resources/uploaded/mathcentre-proof.pdf">Mathcentre.ac.uk Proof by Induction</a><br>
-          <a href="https://math.libretexts.org/Courses/Mount_Royal_University/Mathematical_Reasoning/3%3A_Number_Patterns/3.1%3A_Proof_by_Induction">LibreTexts Proof by Induction</a><br>
-          <a href="https://calcworkshop.com/proofs/proof-by-induction/">CalcWorkshop Proof by Induction</a><br>
-          <a href="https://everythingcomputerscience.com/discrete_mathematics/Proof_by_Induction.html">Everythingcomputerscience.com proof by induction</a>
-          <a href="https://www.cs.ucdavis.edu/~franklin/ecs20/2012/fall/induction_handout.pdf">UC Davis Proof by Induction</a>
-
-          <br><br>
-          Videos: <br>
-          <iframe width="1000" height="600" src="https://www.youtube.com/embed/wblW_M_HVQ8?si=v9ofEvKe0uTm2jqU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><br>
-          <iframe width="1000" height="600" src="https://www.youtube.com/embed/tHNVX3e9zd0?si=1U8C19CEwdS9aMyy" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><br>
-          <iframe width="1000" height="600" src="https://www.youtube.com/embed/GdM_iA1Zek4?si=t0n43uI32FHHTFQG" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><br>
-          <iframe width="1000" height="600" src="https://www.youtube.com/embed/Tm2PJPvAULs?si=TOMw0x9OewaQ7wWa" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><br>
-          <iframe width="1000" height="600" src="https://www.youtube.com/embed/0VIIRBLH1WI?si=IEiwBqcOwTw7Wqdc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><br>
-          <iframe width="1000" height="600" src="https://www.youtube.com/embed/vmFQM5_cN84?si=sBdDJMkBg_hIOEZ0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><br>
-          <iframe width="1000" height="600" src="https://www.youtube.com/embed/tgDBrAUW9QU?si=q2KsYy5B4FUiv3Xd" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><br>
-          <iframe width="1000" height="600" src="https://www.youtube.com/embed/fSxRr_Q-DN8?si=Dh82UYoKQltp9hf2" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-
-          </h5>
-          </div> 
- 
-    </div>
-
-    <!-- End Right Column -->
-    </div>
-
-  <!-- End Grid -->
-  </div>
-
-  <!-- End Page Container -->
-</div>
-
-<footer class="w3-container w3-blue w3-center w3-margin-top">
-  <p> </p>
-  <a href="./repository.html" class=" w3-btn w3-white w3-text-blue w3-round-large "><i class="fa fa-home"></i> BACK TO REPOSITORY</a>
-  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
-  
-
+<footer>
+  <a href="/repository" class="home-btn"><i class="fa fa-arrow-left"></i> Back to Modules</a>
+  <p>Powered by hand-rolled CSS</p>
 </footer>
 
 </body>
