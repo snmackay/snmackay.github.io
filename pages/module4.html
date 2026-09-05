@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Module 4: Principles of Programming Languages</title>
+  <meta name="description" content="Course materials for Module 4: Principles of Programming Languages — paradigms, type systems, scoping, and more.">
+
+  <!-- NOTE: Video IDs throughout this file are placeholders. Replace each with a real YouTube video ID. -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,500&family=Roboto:wght@300;400;500;700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/c.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/python.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/javascript.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/haskell.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/prolog.min.js"></script>
+  <script>hljs.highlightAll();</script>
+
+  <style>
+    :root {
+      --blue: #2e4c6d;
+      --blue-deep: #1b3350;
+      --bg: #171512;
+      --bg-soft: #201d19;
+      --paper: #f6f1e6;
+      --paper-stripe: #e6ebf0;
+      --ink: #241f1a;
+      --ink-soft: #6d6355;
+      --rule: #ddcfae;
+      --rule-soft: rgba(221, 207, 174, 0.18);
+      --radius: 8px;
+      --shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+      --max-width: 900px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      background-image:
+        radial-gradient(circle at 12% 8%, rgba(46, 76, 109, 0.10), transparent 45%),
+        radial-gradient(circle at 88% 92%, rgba(46, 76, 109, 0.08), transparent 40%);
+      color: var(--paper);
+      font-family: "Roboto", sans-serif;
+      font-weight: 300;
+      line-height: 1.65;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: "Lora", serif;
+      font-weight: 600;
+      margin: 0;
+      color: var(--ink);
+    }
+
+    a { color: var(--blue-deep); }
+    a:hover { color: var(--blue); }
+    :focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+
+    .wrap { max-width: var(--max-width); margin: 0 auto; padding: 56px 24px 40px; }
+
+    /* ---- Masthead ---- */
+    .masthead { padding-bottom: 28px; margin-bottom: 40px; border-bottom: 1px solid var(--rule-soft); }
+    .masthead-top { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 14px; }
+    .masthead .kicker { font-family: "Lora", serif; font-style: italic; font-size: 0.95rem; color: rgba(246,241,230,0.55); }
+    .masthead .back-link { color: rgba(246,241,230,0.7); text-decoration: none; font-size: 0.88rem; display: inline-flex; align-items: center; gap: 6px; }
+    .masthead .back-link:hover { color: var(--paper); }
+    .module-nav { display: flex; flex-wrap: wrap; gap: 4px 0; }
+    .module-nav a { color: rgba(246,241,230,0.70); text-decoration: none; font-size: 0.85rem; margin-right: 20px; border-bottom: 1px solid transparent; padding-bottom: 2px; white-space: nowrap; }
+    .module-nav a:hover { color: var(--paper); border-bottom-color: var(--blue); }
+
+    /* ---- Sheets ---- */
+    .sheet { background: var(--paper); color: var(--ink); border-radius: var(--radius); box-shadow: var(--shadow); padding: 30px 32px 34px; margin-bottom: 24px; }
+    .section-title { display: flex; align-items: center; gap: 12px; font-size: 1.3rem; padding-bottom: 14px; margin-bottom: 22px; border-bottom: 2px solid var(--blue); color: var(--ink); }
+    .section-title i { color: var(--blue); font-size: 1.05rem; }
+    .sub-title { font-size: 1.05rem; color: var(--blue-deep); margin: 28px 0 10px; font-family: "Lora", serif; font-weight: 600; }
+
+    /* ---- Body text ---- */
+    .body-text { font-size: 1rem; line-height: 1.75; color: var(--ink); margin: 0 0 1em; }
+    .body-text:last-child { margin-bottom: 0; }
+
+    /* ---- TOC ---- */
+    .toc-list { list-style: none; margin: 18px 0 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+    .toc-list li { display: flex; align-items: baseline; gap: 10px; font-size: 0.97rem; }
+    .toc-num { font-family: "Lora", serif; font-style: italic; font-size: 0.85rem; color: var(--ink-soft); min-width: 18px; }
+    .toc-list a { color: var(--blue-deep); text-decoration: none; border-bottom: 1px solid transparent; }
+    .toc-list a:hover { color: var(--blue); border-bottom-color: var(--blue); }
+
+    /* ---- Paradigm comparison table ---- */
+    .paradigm-table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.92rem; }
+    .paradigm-table th {
+      background: var(--blue-deep); color: rgba(246,241,230,0.9);
+      font-family: "Lora", serif; font-weight: 600;
+      padding: 10px 14px; text-align: left;
+    }
+    .paradigm-table td { padding: 9px 14px; border-bottom: 1px solid var(--rule); color: var(--ink); vertical-align: top; }
+    .paradigm-table tr:last-child td { border-bottom: none; }
+    .paradigm-table tr:nth-child(even) td { background: var(--paper-stripe); }
+    .paradigm-table td:first-child { font-family: "Lora", serif; font-weight: 600; color: var(--blue-deep); white-space: nowrap; }
+
+    /* ---- Code language label ---- */
+    .code-label {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--ink-soft);
+      background: var(--paper-stripe);
+      border: 1px solid var(--rule);
+      border-bottom: none;
+      padding: 3px 10px;
+      border-radius: 4px 4px 0 0;
+      margin-bottom: -2px;
+    }
+
+    /* ---- Code blocks ---- */
+    pre { margin: 4px 0 16px; border-radius: 0 6px 6px 6px; overflow-x: auto; }
+    pre code.hljs { font-size: 0.88rem; line-height: 1.6; border-radius: 0 6px 6px 6px; }
+    :not(pre) > code { font-family: "Courier New", Courier, monospace; font-size: 0.9em; background: rgba(46,76,109,0.12); color: var(--blue-deep); padding: 1px 5px; border-radius: 3px; }
+
+    /* ---- Link groups ---- */
+    .link-group { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--rule); }
+    .link-group-label { font-size: 0.82rem; font-weight: 500; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 8px; }
+    .link-group a { display: inline-flex; align-items: center; gap: 6px; margin-right: 16px; margin-bottom: 6px; font-size: 0.92rem; }
+    .link-group a i { font-size: 0.8rem; color: var(--blue); }
+
+    /* ---- Callout box ---- */
+    .callout {
+      border-left: 3px solid var(--blue);
+      background: var(--paper-stripe);
+      padding: 12px 16px;
+      border-radius: 0 6px 6px 0;
+      margin: 16px 0;
+      font-size: 0.95rem;
+      color: var(--ink-soft);
+    }
+    .callout strong { color: var(--blue-deep); }
+
+    /* ---- YouTube link cards ---- */
+    .yt-link { display: block; text-decoration: none; border-radius: 6px; overflow: hidden; margin: 12px 0; border: 1px solid var(--rule); transition: box-shadow 0.15s, transform 0.15s; }
+    .yt-link:hover { box-shadow: 0 4px 18px rgba(0,0,0,0.18); transform: translateY(-2px); }
+    .yt-thumb { position: relative; padding-bottom: 56.25%; height: 0; background: #0a0a0a; overflow: hidden; }
+    .yt-thumb img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.82; transition: opacity 0.15s; }
+    .yt-link:hover .yt-thumb img { opacity: 1; }
+    .yt-play { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 56px; height: 56px; background: rgba(220,0,0,0.90); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: background 0.15s, transform 0.15s; pointer-events: none; }
+    .yt-link:hover .yt-play { background: rgb(220,0,0); transform: translate(-50%,-50%) scale(1.1); }
+    .yt-play i { color: #fff; font-size: 1rem; margin-left: 4px; }
+    .yt-caption { display: flex; align-items: center; gap: 8px; padding: 10px 14px; background: var(--paper-stripe); color: var(--ink-soft); font-size: 0.88rem; }
+    .yt-caption .fa-youtube-play { color: #dc0000; font-size: 1.1rem; }
+    .yt-ext { margin-left: auto; opacity: 0.4; font-size: 0.78rem; }
+
+    /* ---- Footer ---- */
+    footer { text-align: center; padding: 40px 24px 20px; color: rgba(246,241,230,0.45); font-size: 0.85rem; }
+    footer a { color: rgba(246,241,230,0.7); }
+    .home-btn { display: inline-flex; align-items: center; gap: 8px; color: var(--paper); text-decoration: none; border: 1px solid var(--rule-soft); padding: 8px 18px; border-radius: 20px; margin-bottom: 16px; font-size: 0.88rem; }
+    .home-btn:hover { border-color: var(--blue); color: var(--paper); background: rgba(46,76,109,0.15); }
+
+    /* ---- Responsive ---- */
+    @media (max-width: 860px) {
+      .wrap { padding: 28px 16px 32px; }
+      .sheet { padding: 20px 18px 24px; }
+      .masthead-top { flex-direction: column; gap: 6px; }
+      .paradigm-table { font-size: 0.82rem; }
+      .paradigm-table th, .paradigm-table td { padding: 8px 10px; }
+    }
+    @media (max-width: 480px) {
+      .wrap { padding: 16px 10px 24px; }
+      .sheet { padding: 14px 14px 18px; }
+      .section-title { font-size: 1.1rem; }
+      pre code.hljs { font-size: 0.8rem; }
+      .paradigm-table { display: block; overflow-x: auto; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  </style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="masthead">
+    <div class="masthead-top">
+      <span class="kicker">Module 4: Principles of Programming Languages</span>
+      <a href="/repository" class="back-link"><i class="fa fa-arrow-left"></i> All Modules</a>
+    </div>
+    <nav class="module-nav">
+      <a href="#home">Overview</a>
+      <a href="#paradigms">§1 Paradigms</a>
+      <a href="#syntax">§2 Syntax &amp; Grammars</a>
+      <a href="#types">§3 Type Systems</a>
+      <a href="#scoping">§4 Scoping &amp; Binding</a>
+      <a href="#functions">§5 Functions &amp; HOF</a>
+      <a href="#memory">§6 Memory Management</a>
+    </nav>
+  </div>
+
+  <main>
+
+    <!-- Overview -->
+    <section class="sheet" id="home">
+      <h2 class="section-title"><i class="fa fa-home"></i>Module 4: Overview</h2>
+      <p class="body-text">
+        This module introduces the foundational concepts studied in Principles of Programming Languages (PoPL) —
+        a field concerned with the design, analysis, and implementation of programming languages themselves.
+        Rather than focusing on how to write programs in a specific language, PoPL asks deeper questions:
+        <em>Why are languages designed the way they are? What trade-offs do different design choices introduce?
+        How do we reason formally about what a program does?</em>
+      </p>
+      <p class="body-text">
+        Understanding these concepts makes you a more adaptable programmer — one who can pick up new languages
+        quickly, reason about subtle bugs (especially around scoping, typing, and memory), and make informed
+        design decisions when building systems or DSLs.
+        Code examples throughout this module are written in multiple languages — C, Python, Haskell, and
+        JavaScript — to illustrate how the same concept appears differently across paradigms.
+      </p>
+      <ul class="toc-list">
+        <li><span class="toc-num">1</span><a href="#paradigms">Section 1: Programming Paradigms</a></li>
+        <li><span class="toc-num">2</span><a href="#syntax">Section 2: Syntax, Grammars, and Semantics</a></li>
+        <li><span class="toc-num">3</span><a href="#types">Section 3: Type Systems</a></li>
+        <li><span class="toc-num">4</span><a href="#scoping">Section 4: Scoping and Binding</a></li>
+        <li><span class="toc-num">5</span><a href="#functions">Section 5: Functions and Higher-Order Programming</a></li>
+        <li><span class="toc-num">6</span><a href="#memory">Section 6: Memory Management Strategies</a></li>
+      </ul>
+    </section>
+
+    <!-- Section 1: Paradigms -->
+    <section class="sheet" id="paradigms">
+      <h2 class="section-title"><i class="fa fa-th-large"></i>Section 1: Programming Paradigms</h2>
+      <p class="body-text">
+        A <em>programming paradigm</em> is a fundamental style or model of programming that shapes how a programmer
+        structures and thinks about solutions. Most modern languages support multiple paradigms, but they tend to
+        favor one strongly. Understanding the major paradigms helps you recognise which tool fits a given problem —
+        and why the designers of a language made the choices they did.
+      </p>
+
+      <h3 class="sub-title">1.1 Imperative Programming</h3>
+      <p class="body-text">
+        Imperative programming is the oldest and most directly machine-aligned paradigm.
+        Programs are written as a sequence of statements that explicitly change program state.
+        The programmer specifies <em>how</em> to compute a result, step by step.
+        C is the canonical imperative language.
+      </p>
+      <span class="code-label">C — Imperative</span>
+      <pre><code class="language-c">// Compute the sum of an array imperatively
+int sum_array(int* arr, int n) {
+    int total = 0;          // mutable state
+    for (int i = 0; i &lt; n; i++) {
+        total += arr[i];    // explicit step-by-step mutation
+    }
+    return total;
+}</code></pre>
+
+      <h3 class="sub-title">1.2 Object-Oriented Programming (OOP)</h3>
+      <p class="body-text">
+        OOP organises programs around <em>objects</em> — bundles of data (attributes) and the operations that act on
+        that data (methods). The four core principles are <strong>encapsulation</strong>, <strong>abstraction</strong>,
+        <strong>inheritance</strong>, and <strong>polymorphism</strong>.
+        Java, Python, and C++ are primary examples.
+      </p>
+      <span class="code-label">Python — Object-Oriented</span>
+      <pre><code class="language-python">class Animal:
+    def __init__(self, name):
+        self.name = name        # encapsulated state
+
+    def speak(self):            # overridden by subclasses (polymorphism)
+        raise NotImplementedError
+
+class Dog(Animal):              # inheritance
+    def speak(self):
+        return f"{self.name} says: Woof!"
+
+class Cat(Animal):
+    def speak(self):
+        return f"{self.name} says: Meow!"
+
+animals = [Dog("Rex"), Cat("Whiskers")]
+for a in animals:
+    print(a.speak())            # same interface, different behaviour</code></pre>
+
+      <h3 class="sub-title">1.3 Functional Programming</h3>
+      <p class="body-text">
+        Functional programming treats computation as the evaluation of mathematical functions.
+        The key ideas are <strong>immutability</strong> (data is never changed in place),
+        <strong>pure functions</strong> (no side effects — same input always gives same output),
+        and <strong>first-class functions</strong> (functions are values that can be passed and returned).
+        Haskell is the purest functional language; Python and JavaScript support a functional style.
+      </p>
+      <span class="code-label">Haskell — Functional</span>
+      <pre><code class="language-haskell">-- Pure function: no mutation, no side effects
+sumList :: [Int] -> Int
+sumList []     = 0
+sumList (x:xs) = x + sumList xs
+
+-- The same computation using a built-in fold
+sumList' :: [Int] -> Int
+sumList' = foldr (+) 0
+
+-- Functions are first-class values
+applyTwice :: (a -> a) -> a -> a
+applyTwice f x = f (f x)</code></pre>
+
+      <h3 class="sub-title">1.4 Logic / Declarative Programming</h3>
+      <p class="body-text">
+        In declarative programming the programmer specifies <em>what</em> the answer should satisfy, not
+        <em>how</em> to compute it. Logic programming (Prolog) takes this furthest — programs are sets of
+        logical facts and rules, and the runtime searches for solutions by inference.
+        SQL is the most widely-used declarative language.
+      </p>
+      <span class="code-label">Prolog — Logic</span>
+      <pre><code class="language-prolog">% Facts
+parent(tom, bob).
+parent(bob, ann).
+
+% Rule: X is an ancestor of Y if X is a parent of Y,
+%       or X is a parent of someone who is an ancestor of Y.
+ancestor(X, Y) :- parent(X, Y).
+ancestor(X, Y) :- parent(X, Z), ancestor(Z, Y).
+
+% Query: ?- ancestor(tom, ann).  => true</code></pre>
+
+      <h3 class="sub-title">Paradigm Comparison</h3>
+      <table class="paradigm-table">
+        <thead>
+          <tr>
+            <th>Paradigm</th>
+            <th>Core idea</th>
+            <th>State</th>
+            <th>Key languages</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Imperative</td>
+            <td>Step-by-step instructions that change state</td>
+            <td>Mutable</td>
+            <td>C, Assembly, Pascal</td>
+          </tr>
+          <tr>
+            <td>Object-Oriented</td>
+            <td>Objects bundle state and behaviour</td>
+            <td>Mutable (encapsulated)</td>
+            <td>Java, Python, C++, Ruby</td>
+          </tr>
+          <tr>
+            <td>Functional</td>
+            <td>Pure functions, immutability, function composition</td>
+            <td>Immutable</td>
+            <td>Haskell, Erlang, Clojure, F#</td>
+          </tr>
+          <tr>
+            <td>Logic / Declarative</td>
+            <td>Specify constraints; runtime finds solutions</td>
+            <td>Stateless</td>
+            <td>Prolog, SQL, Datalog</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="link-group">
+        <div class="link-group-label">Useful Links</div>
+        <a href="https://www.geeksforgeeks.org/introduction-of-programming-paradigms/"><i class="fa fa-external-link"></i>GeeksForGeeks: Programming Paradigms</a>
+        <a href="https://cs.lmu.edu/~ray/notes/paradigms/"><i class="fa fa-external-link"></i>LMU CS: Overview of Paradigms</a>
+        <a href="https://www.info.ucl.ac.be/~pvr/VanRoyChapter.pdf"><i class="fa fa-external-link"></i>Van Roy: Programming Paradigms for Dummies (PDF)</a>
+      </div>
+      <div class="link-group">
+        <div class="link-group-label">Useful Videos</div>
+        <a href="https://www.youtube.com/watch?v=cgVVZMfLjEI" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/cgVVZMfLjEI/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=eis11j_iZxc" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/eis11j_iZxc/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=4a9bMw5PVWY" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/4a9bMw5PVWY/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a>
+      </div>
+    </section>
+
+    <!-- Section 2: Syntax and Grammars -->
+    <section class="sheet" id="syntax">
+      <h2 class="section-title"><i class="fa fa-code"></i>Section 2: Syntax, Grammars, and Semantics</h2>
+      <p class="body-text">
+        Every programming language needs a precise, unambiguous definition of what constitutes a valid program.
+        This definition is split into two layers: <em>syntax</em> (what sequences of characters are legal)
+        and <em>semantics</em> (what those legal programs mean or do).
+      </p>
+
+      <h3 class="sub-title">2.1 Formal Grammars and BNF</h3>
+      <p class="body-text">
+        Language syntax is most commonly described using a <em>context-free grammar</em> (CFG).
+        The standard notation for writing these is <strong>Backus–Naur Form (BNF)</strong>,
+        introduced by John Backus and Peter Naur to define ALGOL 60.
+        In BNF, <code>&lt;name&gt;</code> denotes a non-terminal (something to be expanded),
+        <code>::=</code> means "is defined as", and <code>|</code> separates alternatives.
+      </p>
+      <span class="code-label">BNF — Simple Arithmetic Expression Grammar</span>
+      <pre><code class="language-plaintext">&lt;expr&gt;   ::= &lt;term&gt; | &lt;expr&gt; "+" &lt;term&gt; | &lt;expr&gt; "-" &lt;term&gt;
+&lt;term&gt;   ::= &lt;factor&gt; | &lt;term&gt; "*" &lt;factor&gt; | &lt;term&gt; "/" &lt;factor&gt;
+&lt;factor&gt; ::= &lt;number&gt; | "(" &lt;expr&gt; ")"
+&lt;number&gt; ::= &lt;digit&gt; | &lt;number&gt; &lt;digit&gt;
+&lt;digit&gt;  ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"</code></pre>
+      <p class="body-text">
+        This grammar encodes operator precedence: multiplication binds tighter than addition because
+        <code>&lt;term&gt;</code> is nested more deeply than <code>&lt;expr&gt;</code>.
+        Extended BNF (EBNF) adds shorthand for optional elements (<code>[ ]</code>),
+        repetition (<code>{ }</code>), and grouping, making grammars more concise.
+      </p>
+
+      <h3 class="sub-title">2.2 Parse Trees and ASTs</h3>
+      <p class="body-text">
+        A <em>parse tree</em> (or concrete syntax tree) is a tree that shows every step of the grammar derivation.
+        An <em>Abstract Syntax Tree (AST)</em> is a simplified version that strips away redundant structure
+        (parentheses, keywords) and retains only the semantic content.
+        Compilers and interpreters work almost exclusively with ASTs.
+      </p>
+      <p class="body-text">
+        For example, parsing <code>3 + 4 * 2</code> with the grammar above produces an AST where the
+        <code>*</code> node is a child of the <code>+</code> node, correctly reflecting that multiplication
+        has higher precedence.
+      </p>
+
+      <h3 class="sub-title">2.3 Semantics</h3>
+      <p class="body-text">
+        Syntax defines form; <em>semantics</em> defines meaning. There are three main approaches:
+      </p>
+      <ul class="toc-list" style="margin: 12px 0 16px;">
+        <li><span class="toc-num">1</span><span><strong>Operational semantics</strong> — defines meaning by specifying how a program executes on an abstract machine, step by step.</span></li>
+        <li><span class="toc-num">2</span><span><strong>Denotational semantics</strong> — maps programs to mathematical objects (usually functions). Meaning is compositional: the meaning of a compound phrase is built from the meanings of its parts.</span></li>
+        <li><span class="toc-num">3</span><span><strong>Axiomatic semantics</strong> — defines meaning using logical assertions (pre/post-conditions). The foundation of formal program verification (Hoare logic).</span></li>
+      </ul>
+      <div class="callout">
+        <strong>Why does this matter?</strong> When you write <code>x = x + 1</code>, you rely on the semantics
+        of your language to know whether this mutates <code>x</code> in place, returns a new binding, or is even
+        legal. Formal semantics is what lets language designers and compiler writers agree on the answer
+        unambiguously.
+      </div>
+
+      <div class="link-group">
+        <div class="link-group-label">Useful Links</div>
+        <a href="https://www.cs.cornell.edu/courses/cs3110/2019sp/textbook/interp/bnf.html"><i class="fa fa-external-link"></i>Cornell CS3110: BNF Grammars</a>
+        <a href="https://www.geeksforgeeks.org/introduction-to-syntax-analysis-in-compiler-design/"><i class="fa fa-external-link"></i>GeeksForGeeks: Syntax Analysis</a>
+        <a href="https://en.wikipedia.org/wiki/Operational_semantics"><i class="fa fa-external-link"></i>Wikipedia: Operational Semantics</a>
+        <a href="https://www.cs.cmu.edu/~rwh/pfpl.html"><i class="fa fa-external-link"></i>Harper: Practical Foundations of Programming Languages (free PDF)</a>
+      </div>
+      <div class="link-group">
+        <div class="link-group-label">Useful Videos</div>
+        <a href="https://www.youtube.com/watch?v=bxpc9Pp5pZM" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/bxpc9Pp5pZM/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=6phkK1Zk6PM" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/6phkK1Zk6PM/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=Nlpc4iHOFm0" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/Nlpc4iHOFm0/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a>
+      </div>
+    </section>
+
+    <!-- Section 3: Type Systems -->
+    <section class="sheet" id="types">
+      <h2 class="section-title"><i class="fa fa-tag"></i>Section 3: Type Systems</h2>
+      <p class="body-text">
+        A <em>type system</em> is a set of rules that assigns a property called a <em>type</em>
+        to every term in a program — variables, expressions, functions, etc.
+        Type systems exist to prevent a class of program errors at compile time or runtime,
+        and to communicate intent.
+        Understanding type systems is critical for understanding why languages behave the way they do.
+      </p>
+
+      <h3 class="sub-title">3.1 Static vs. Dynamic Typing</h3>
+      <p class="body-text">
+        In a <strong>statically typed</strong> language, types are checked at <em>compile time</em>.
+        Type errors are caught before the program runs. C, Java, Haskell, and Rust are statically typed.
+        In a <strong>dynamically typed</strong> language, types are checked at <em>runtime</em>.
+        Python, JavaScript, and Ruby are dynamically typed.
+      </p>
+      <span class="code-label">Python — Dynamic typing: error at runtime</span>
+      <pre><code class="language-python">x = "hello"
+y = 42
+print(x + y)   # TypeError raised only when this line executes</code></pre>
+      <span class="code-label">C — Static typing: error at compile time</span>
+      <pre><code class="language-c">char* x = "hello";
+int   y = 42;
+// x + y would be a pointer-arithmetic expression, not a type error,
+// but assigning it to a char* would warn or error at compile time.</code></pre>
+
+      <h3 class="sub-title">3.2 Strong vs. Weak Typing</h3>
+      <p class="body-text">
+        <em>Strong typing</em> means the language rarely performs implicit type coercions — you must
+        convert types explicitly. <em>Weak (loose) typing</em> means the runtime will silently coerce
+        values between types. Note that strong/weak is separate from static/dynamic:
+        Python is dynamically but strongly typed; C is statically but relatively weakly typed;
+        JavaScript is both dynamic and weakly typed.
+      </p>
+      <span class="code-label">JavaScript — Weakly typed: implicit coercion</span>
+      <pre><code class="language-javascript">console.log(1 + "2");    // "12" — number silently coerced to string
+console.log(true + 1);   // 2   — boolean silently coerced to number
+console.log([] + {});    // "[object Object]"</code></pre>
+
+      <h3 class="sub-title">3.3 Type Inference</h3>
+      <p class="body-text">
+        <em>Type inference</em> is the ability of a compiler to deduce the type of an expression
+        automatically, without requiring the programmer to write explicit annotations.
+        Haskell's Hindley–Milner type inference is the gold standard:
+        in most cases you never need to write a type annotation and yet the program is fully statically typed.
+      </p>
+      <span class="code-label">Haskell — Type inference</span>
+      <pre><code class="language-haskell">-- No type annotations needed; GHC infers these automatically:
+double x = x * 2
+-- GHC infers: double :: Num a => a -> a
+
+addPair (x, y) = x + y
+-- GHC infers: addPair :: Num a => (a, a) -> a</code></pre>
+
+      <h3 class="sub-title">3.4 Polymorphism</h3>
+      <p class="body-text">
+        <em>Polymorphism</em> allows a single piece of code to work with values of different types.
+        The three most important forms are:
+      </p>
+      <ul class="toc-list" style="margin: 12px 0 16px;">
+        <li><span class="toc-num">—</span><span><strong>Parametric polymorphism</strong> — a function works for <em>any</em> type (generics in Java/C#, type variables in Haskell). Example: <code>identity :: a -&gt; a</code>.</span></li>
+        <li><span class="toc-num">—</span><span><strong>Subtype polymorphism</strong> — a function that accepts a type also accepts any subtype (the basis of OOP inheritance and interface dispatch).</span></li>
+        <li><span class="toc-num">—</span><span><strong>Ad-hoc polymorphism</strong> — the same function name behaves differently for different types; achieved via function overloading or type classes.</span></li>
+      </ul>
+      <div class="callout">
+        <strong>Key insight:</strong> Every time you write a generic container (<code>List&lt;T&gt;</code> in Java,
+        <code>[a]</code> in Haskell, templates in C++) you are using parametric polymorphism. The type parameter
+        <code>T</code> or <code>a</code> ranges over all possible types.
+      </div>
+
+      <div class="link-group">
+        <div class="link-group-label">Useful Links</div>
+        <a href="https://www.cs.cornell.edu/courses/cs3110/2021sp/textbook/data/type_system.html"><i class="fa fa-external-link"></i>Cornell CS3110: Type Systems</a>
+        <a href="https://papl.cs.brown.edu/2020/Types.html"><i class="fa fa-external-link"></i>PAPL: Programming and Programming Languages — Types</a>
+        <a href="https://www.geeksforgeeks.org/type-inference/"><i class="fa fa-external-link"></i>GeeksForGeeks: Type Inference</a>
+        <a href="https://en.wikipedia.org/wiki/Hindley%E2%80%93Milner_type_system"><i class="fa fa-external-link"></i>Wikipedia: Hindley–Milner Type System</a>
+      </div>
+      <div class="link-group">
+        <div class="link-group-label">Useful Videos</div>
+        <a href="https://www.youtube.com/watch?v=SknxggwRPzU" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/SknxggwRPzU/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=E5K5S2iEO7g" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/E5K5S2iEO7g/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=kgMELjPVQTs" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/kgMELjPVQTs/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=IOiZatlZtGU" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/IOiZatlZtGU/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a>
+      </div>
+    </section>
+
+    <!-- Section 4: Scoping and Binding -->
+    <section class="sheet" id="scoping">
+      <h2 class="section-title"><i class="fa fa-search"></i>Section 4: Scoping and Binding</h2>
+      <p class="body-text">
+        <em>Name binding</em> is the association between a name (identifier) and the entity it refers to.
+        <em>Scope</em> is the region of a program where a binding is visible.
+        Scoping rules are one of the most consequential design decisions in any programming language,
+        because they determine what a name means at any given point in the code.
+      </p>
+
+      <h3 class="sub-title">4.1 Lexical (Static) Scope</h3>
+      <p class="body-text">
+        In <strong>lexical scoping</strong>, the scope of a name is determined by the <em>textual structure</em>
+        of the source code — specifically, by where the name is declared.
+        A function can access names from its own body and from the enclosing blocks where it was <em>defined</em>,
+        regardless of where it is called from. The vast majority of modern languages use lexical scoping.
+      </p>
+      <span class="code-label">Python — Lexical scope</span>
+      <pre><code class="language-python">x = "global"
+
+def outer():
+    x = "outer"          # new binding in outer's scope
+
+    def inner():
+        print(x)         # resolves to "outer" — where inner was *defined*
+
+    inner()
+
+outer()   # prints "outer", not "global"</code></pre>
+
+      <h3 class="sub-title">4.2 Dynamic Scope</h3>
+      <p class="body-text">
+        In <strong>dynamic scoping</strong>, the scope of a name is determined by the <em>call stack</em> at
+        runtime — specifically, by where the function is <em>called</em> from, not where it was defined.
+        Dynamic scope was common in early Lisps. Most modern languages avoid it because it makes programs
+        hard to reason about statically.
+      </p>
+      <span class="code-label">Pseudocode — Dynamic scope contrast</span>
+      <pre><code class="language-plaintext">x = "global"
+
+define show():
+    print(x)         # under dynamic scope, x resolves to the
+                     # *caller's* x, not the definition site's x
+
+define caller():
+    x = "caller's x"
+    show()           # dynamic scope: prints "caller's x"
+                     # lexical scope: prints "global"</code></pre>
+
+      <h3 class="sub-title">4.3 Closures</h3>
+      <p class="body-text">
+        A <em>closure</em> is a function that <em>captures</em> bindings from its enclosing lexical scope
+        and carries them with it, even after the enclosing scope has returned.
+        Closures are a direct consequence of lexical scoping combined with first-class functions.
+        They are fundamental to functional programming and are heavily used in JavaScript, Python, and Haskell.
+      </p>
+      <span class="code-label">JavaScript — Closure</span>
+      <pre><code class="language-javascript">function makeCounter(start) {
+    let count = start;          // captured by the closure
+
+    return function increment() {
+        count += 1;             // reads and writes the captured `count`
+        return count;
+    };
+}
+
+const counter = makeCounter(0);
+console.log(counter());   // 1
+console.log(counter());   // 2  — `count` persists between calls
+console.log(counter());   // 3</code></pre>
+      <p class="body-text">
+        After <code>makeCounter</code> returns, its local variable <code>count</code> would normally be
+        gone — but because <code>increment</code> closed over it, the binding lives on as long as
+        <code>counter</code> exists.
+      </p>
+      <div class="callout">
+        <strong>Closures vs objects:</strong> A common observation is that closures and objects are two
+        sides of the same coin. An object bundles data with methods; a closure bundles an environment
+        with a function. Many OOP patterns can be expressed elegantly with closures and vice versa.
+      </div>
+
+      <div class="link-group">
+        <div class="link-group-label">Useful Links</div>
+        <a href="https://www.cs.cornell.edu/courses/cs3110/2021sp/textbook/interp/scope.html"><i class="fa fa-external-link"></i>Cornell CS3110: Scope</a>
+        <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures"><i class="fa fa-external-link"></i>MDN: Closures (JavaScript)</a>
+        <a href="https://realpython.com/python-scope-legb-rule/"><i class="fa fa-external-link"></i>Real Python: Python Scope and the LEGB Rule</a>
+      </div>
+      <div class="link-group">
+        <div class="link-group-label">Useful Videos</div>
+        <a href="https://www.youtube.com/watch?v=aLmjiUEpSyY" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/aLmjiUEpSyY/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=0cFMsYdS5ns" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/0cFMsYdS5ns/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=swU3c34d2NQ" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/swU3c34d2NQ/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=jcRLgBFsqQk" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/jcRLgBFsqQk/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a>
+      </div>
+    </section>
+
+    <!-- Section 5: Functions and HOF -->
+    <section class="sheet" id="functions">
+      <h2 class="section-title"><i class="fa fa-random"></i>Section 5: Functions and Higher-Order Programming</h2>
+      <p class="body-text">
+        In most programming languages, functions are the primary unit of abstraction.
+        PoPL is particularly interested in how functions are defined, passed around, and called.
+        Two concepts are central: <em>first-class functions</em> (functions as values) and
+        <em>parameter passing strategies</em> (how arguments are evaluated and passed to functions).
+      </p>
+
+      <h3 class="sub-title">5.1 Parameter Passing Strategies</h3>
+      <p class="body-text">
+        When a function is called, how are the arguments evaluated and passed? The three most important strategies are:
+      </p>
+      <ul class="toc-list" style="margin: 12px 0 16px;">
+        <li><span class="toc-num">1</span><span><strong>Call by value</strong> — the argument expression is evaluated before the call; the function receives a copy of the value. Changes to the parameter do not affect the caller's variable. Used by C, Python (for immutable types), Java.</span></li>
+        <li><span class="toc-num">2</span><span><strong>Call by reference</strong> — the function receives a reference (alias) to the caller's variable. Mutations inside the function affect the caller. C achieves this explicitly with pointers.</span></li>
+        <li><span class="toc-num">3</span><span><strong>Call by name / call by need</strong> — the argument expression is not evaluated until it is actually used inside the function. Haskell uses call by need (lazy evaluation), which memoises the result after first evaluation.</span></li>
+      </ul>
+      <span class="code-label">C — Call by value vs. call by reference</span>
+      <pre><code class="language-c">// Call by value: caller's x is unchanged
+void double_val(int x) {
+    x = x * 2;
+}
+
+// Call by reference (via pointer): caller's x is mutated
+void double_ref(int* x) {
+    *x = *x * 2;
+}
+
+int main() {
+    int a = 5;
+    double_val(a);     // a is still 5
+    double_ref(&a);    // a is now 10
+}</code></pre>
+
+      <h3 class="sub-title">5.2 First-Class and Higher-Order Functions</h3>
+      <p class="body-text">
+        Functions are <em>first-class</em> when they can be stored in variables, passed as arguments,
+        and returned from other functions — just like any other value.
+        A <em>higher-order function (HOF)</em> is a function that takes a function as an argument
+        or returns one.
+        The three canonical HOFs are <code>map</code>, <code>filter</code>, and <code>fold</code> (reduce).
+      </p>
+      <span class="code-label">Python — map, filter, reduce</span>
+      <pre><code class="language-python">from functools import reduce
+
+numbers = [1, 2, 3, 4, 5, 6]
+
+# map: apply a function to every element
+squares   = list(map(lambda x: x ** 2, numbers))     # [1, 4, 9, 16, 25, 36]
+
+# filter: keep elements satisfying a predicate
+evens     = list(filter(lambda x: x % 2 == 0, numbers))  # [2, 4, 6]
+
+# reduce: fold the list into a single value
+total     = reduce(lambda acc, x: acc + x, numbers, 0)   # 21</code></pre>
+      <span class="code-label">Haskell — The same operations</span>
+      <pre><code class="language-haskell">numbers = [1..6]
+
+squares = map (^2) numbers           -- [1, 4, 9, 16, 25, 36]
+evens   = filter even numbers        -- [2, 4, 6]
+total   = foldr (+) 0 numbers        -- 21
+
+-- Composing functions with (.)
+squareThenSum = foldr (+) 0 . map (^2)
+-- squareThenSum [1..6] => 91</code></pre>
+
+      <h3 class="sub-title">5.3 Currying and Partial Application</h3>
+      <p class="body-text">
+        <em>Currying</em> is the transformation of a function that takes multiple arguments into a
+        chain of functions each taking a single argument.
+        Named after mathematician Haskell Curry, it is the default in Haskell — every function
+        technically takes exactly one argument.
+        <em>Partial application</em> means supplying fewer arguments than a function expects,
+        producing a new function awaiting the rest.
+      </p>
+      <span class="code-label">Haskell — Currying and partial application</span>
+      <pre><code class="language-haskell">add :: Int -> Int -> Int    -- a function returning a function
+add x y = x + y
+
+addFive :: Int -> Int
+addFive = add 5             -- partial application: fix the first argument
+
+-- addFive 3 => 8, addFive 10 => 15</code></pre>
+
+      <div class="link-group">
+        <div class="link-group-label">Useful Links</div>
+        <a href="https://www.cs.cornell.edu/courses/cs3110/2021sp/textbook/hop/intro.html"><i class="fa fa-external-link"></i>Cornell CS3110: Higher-Order Functions</a>
+        <a href="https://learnyouahaskell.com/higher-order-functions"><i class="fa fa-external-link"></i>Learn You a Haskell: Higher-Order Functions</a>
+        <a href="https://realpython.com/python-functional-programming/"><i class="fa fa-external-link"></i>Real Python: Functional Programming in Python</a>
+      </div>
+      <div class="link-group">
+        <div class="link-group-label">Useful Videos</div>
+        <a href="https://www.youtube.com/watch?v=3IYtezFh7sA" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/3IYtezFh7sA/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=e-5obm1G_FY" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/e-5obm1G_FY/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=psmu_VAuiag" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/psmu_VAuiag/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=yBRonhl2x7k" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/yBRonhl2x7k/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a>
+      </div>
+    </section>
+
+    <!-- Section 6: Memory Management -->
+    <section class="sheet" id="memory">
+      <h2 class="section-title"><i class="fa fa-hdd-o"></i>Section 6: Memory Management Strategies</h2>
+      <p class="body-text">
+        We covered the basics of stack and heap memory in Module 1, including manual allocation with
+        <code>malloc</code> and <code>free</code> in C.
+        This section focuses on the higher-level strategies that different languages use to manage memory
+        automatically — and the trade-offs each approach involves.
+      </p>
+      <div class="callout">
+        <strong>See also:</strong> Module 1, Section 4 (Dynamic Memory Allocation) covers <code>malloc</code>,
+        <code>free</code>, pointers, and memory leaks in depth. This section builds on those foundations.
+      </div>
+
+      <h3 class="sub-title">6.1 Manual Memory Management</h3>
+      <p class="body-text">
+        C and C++ give the programmer direct control over allocation (<code>malloc</code>/<code>new</code>)
+        and deallocation (<code>free</code>/<code>delete</code>).
+        This offers maximum performance and predictability, but puts the burden of correctness entirely on
+        the programmer. Common errors include <em>memory leaks</em> (forgetting to free),
+        <em>use-after-free</em> (accessing freed memory), and <em>double-free</em> (freeing twice).
+      </p>
+
+      <h3 class="sub-title">6.2 Garbage Collection (Tracing GC)</h3>
+      <p class="body-text">
+        Most managed languages — Python, Java, Go, JavaScript — use a <em>garbage collector</em> that
+        automatically reclaims memory that is no longer reachable.
+        The most common approach is <em>tracing garbage collection</em>:
+        the GC periodically identifies all reachable objects by tracing references from a set of
+        <em>roots</em> (global variables, stack variables), then reclaims everything not reached.
+      </p>
+      <p class="body-text">
+        Modern GCs use <em>generational collection</em> — splitting the heap into generations based on
+        object age, since most objects die young. Short-lived objects are collected cheaply from the
+        young generation; long-lived objects are promoted to older generations collected less frequently.
+      </p>
+      <span class="code-label">Python — GC is invisible to the programmer</span>
+      <pre><code class="language-python">def create_garbage():
+    data = [i ** 2 for i in range(1_000_000)]  # large allocation
+    return None                                  # data goes out of scope; GC reclaims it
+
+create_garbage()   # no manual free needed
+# Python's GC handles deallocation automatically</code></pre>
+
+      <h3 class="sub-title">6.3 Reference Counting</h3>
+      <p class="body-text">
+        <em>Reference counting</em> is an alternative to tracing GC where each object tracks how many
+        references point to it. When the count reaches zero, the object is immediately freed.
+        Python uses reference counting as its primary mechanism (supplemented by a cyclic GC to handle
+        reference cycles). Swift and Rust's <code>Rc&lt;T&gt;</code>/<code>Arc&lt;T&gt;</code> also use
+        reference counting.
+      </p>
+      <p class="body-text">
+        The main drawback of pure reference counting is that <em>cycles</em> can prevent objects from
+        ever being freed — if object A holds a reference to B and B holds a reference to A, their counts
+        never reach zero even if nothing else refers to them.
+      </p>
+      <span class="code-label">Python — Observing reference counting with sys.getrefcount</span>
+      <pre><code class="language-python">import sys
+
+x = []
+print(sys.getrefcount(x))   # 2 (x itself + the argument to getrefcount)
+
+y = x                        # another reference to the same list
+print(sys.getrefcount(x))   # 3
+
+del y                        # remove one reference
+print(sys.getrefcount(x))   # 2 again — object not freed yet
+
+del x                        # count reaches 0 (minus the getrefcount arg):
+                             # list is immediately freed</code></pre>
+
+      <h3 class="sub-title">6.4 Ownership and Borrowing (Rust)</h3>
+      <p class="body-text">
+        Rust takes a different approach entirely: no garbage collector, no reference counting by default,
+        and no manual <code>free</code>. Instead, the compiler enforces an <em>ownership system</em>
+        at compile time. Every value has exactly one owner; when the owner goes out of scope, the value
+        is freed. References (<em>borrows</em>) are tracked by the borrow checker, which prevents use-after-free
+        and data races statically.
+        This gives C-level performance with memory safety guaranteed at compile time.
+      </p>
+
+      <table class="paradigm-table">
+        <thead>
+          <tr><th>Strategy</th><th>Who frees memory</th><th>When</th><th>Trade-offs</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Manual (C/C++)</td><td>Programmer</td><td>Explicitly with free/delete</td><td>Max performance; error-prone</td></tr>
+          <tr><td>Tracing GC</td><td>Runtime collector</td><td>Periodically (pause)</td><td>Automatic; unpredictable pauses</td></tr>
+          <tr><td>Reference counting</td><td>Runtime (on last deref)</td><td>Immediately when count = 0</td><td>Predictable; struggles with cycles</td></tr>
+          <tr><td>Ownership (Rust)</td><td>Compiler-enforced</td><td>At end of owner scope</td><td>Safe + fast; steep learning curve</td></tr>
+        </tbody>
+      </table>
+
+      <div class="link-group">
+        <div class="link-group-label">Useful Links</div>
+        <a href="https://www.geeksforgeeks.org/garbage-collection-python/"><i class="fa fa-external-link"></i>GeeksForGeeks: Garbage Collection in Python</a>
+        <a href="https://doc.rust-lang.org/book/ch04-01-what-is-ownership.html"><i class="fa fa-external-link"></i>The Rust Book: Ownership</a>
+        <a href="https://www.geeksforgeeks.org/reference-counting-python/"><i class="fa fa-external-link"></i>GeeksForGeeks: Reference Counting in Python</a>
+        <a href="https://plumbr.io/handbook/garbage-collection-algorithms"><i class="fa fa-external-link"></i>Plumbr: GC Algorithms Handbook</a>
+      </div>
+      <div class="link-group">
+        <div class="link-group-label">Useful Videos</div>
+        <a href="https://www.youtube.com/watch?v=JtE19IQLMkU" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/JtE19IQLMkU/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=7EN-1eoBkU8" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/7EN-1eoBkU8/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=5BFSU5AoRRY" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/5BFSU5AoRRY/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a><a href="https://www.youtube.com/watch?v=6GE5bCTU0ns" class="yt-link" target="_blank" rel="noopener noreferrer">
+  <div class="yt-thumb">
+    <img src="https://img.youtube.com/vi/6GE5bCTU0ns/hqdefault.jpg" alt="YouTube video thumbnail" loading="lazy">
+    <div class="yt-play"><i class="fa fa-play"></i></div>
+  </div>
+  <div class="yt-caption"><i class="fa fa-youtube-play"></i> Watch on YouTube<i class="fa fa-external-link yt-ext"></i></div>
+</a>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  <a href="/repository" class="home-btn"><i class="fa fa-arrow-left"></i> Back to Modules</a>
+  <p>Powered by hand-rolled CSS &amp; <a href="https://highlightjs.org/" target="_blank" rel="noopener noreferrer">highlight.js</a></p>
+</footer>
+
+</body>
+</html>
